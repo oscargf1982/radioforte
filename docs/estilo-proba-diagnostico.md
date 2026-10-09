@@ -19,6 +19,19 @@ partes de comprensión oral e escrita. Só se tomou **o estilo**; ningunha pregu
 4. **Só con base na transcrición real.** Nunca se inventa contido; a evidencia é unha frase do audio.
 5. **Distractores verosímiles**: cambian un dato por outro que tamén aparece ou é próximo; sen opcións graciosas.
 
+## Preguntas de inferir información en la proba (modelo para C2, C3 y C6)
+La proba **si** pide inferir; aproximadamente un tercio das preguntas non se resolve copiando unha frase. Patróns observados:
+1. **Emoción ou actitude por indicios:** «Que sentía a mosca ao principio?», «Como se sente o astronauta ante…?», «Que pensa Sancho de don Quixote?» (a resposta non se di: dedúcese do que fai ou di).
+2. **Causa, consecuencia ou vantaxe:** «Que vantaxe ten que o rocódromo se instale no patio?», «Que vantaxes ten anunciar por blog ou por folleto?», «Por que elixiron este personaxe?».
+3. **Sentido figurado ou frase parafraseada:** «Que quere dicir «o corazón sorriu»?», «Que quere dicir que as estrelas «se comen» a outras?», «Que quere dicir que «todas as persoas están convidadas»?».
+4. **Verdadeiro/falso que esixe deducir:** afirmacións que non aparecen literais (por exemplo, que alguén tiña outro oficio antes porque se di que era «antigo labrego»).
+5. **Valorar:** se un título é adecuado, se unha comparación está ben escollida, que fonte é máis fiable.
+6. **Finalidade e intención:** «Para que informa X…?», «Para que van repartir folletos?», «Para que se escribiu o texto?».
+7. **Integrar información** de varias partes ou fontes (detectar o que non coincide, comparar).
+As opcións incorrectas inclúen sempre unha ou dúas **lecturas tentadoras pero non xustificadas polo texto** (a que repite unha palabra do audio, a que esaxera, a contraria).
+
+Regra para En Antena: unha pregunta inferencial só é válida se un adulto pode **sinalar no audio os indicios** que levan á resposta (campo «evidencia»), e o distractor tentador debe estar anotado.
+
 ## O caderniño en PDF (botón «📄 Caderniño PDF»)
 - Xérase no navegador (jsPDF) para calquera podcast, tamén os creados polo profesorado, e baixa como PDF A4 **monocromo**.
 - Portada con recadro de **nome, curso e data** → instrucións con exemplos → páxina de tarefa (esquema de escoita + «Antes de escoitar») → preguntas en recadros con A–D → fin.
