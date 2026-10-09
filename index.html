@@ -389,6 +389,49 @@
 .mode-btn.active{background:var(--navy); color:#fff;}
 .who-line{font-size:.85rem; margin:8px 0 0; text-align:center; opacity:.85;}
 .who-line a{color:inherit; font-weight:800; cursor:pointer; text-decoration:underline;}
+
+.comp-chips{display:flex; flex-wrap:wrap; gap:6px; margin:8px 0;}
+.comp-chip{border:1.5px solid var(--navy); border-radius:999px; padding:3px 10px; font-size:.78rem; font-weight:800; background:#fff; color:var(--navy);}
+.comp-chip.zero{opacity:.55; font-weight:600;}
+.notice{border-radius:12px; padding:10px 14px; margin:8px 0; font-size:.88rem; border-left:6px solid var(--gold); background:#FFF6EE; color:var(--ink);}
+.notice.warn{border-left-color:var(--danger);}
+.notice.info{border-left-color:var(--teal); background:#F1F6F3;}
+.q-msgs{font-size:.8rem; margin-top:8px;}
+.q-msgs .err{color:var(--danger); font-weight:800;}
+.q-msgs .wrn{color:#9A5B00;}
+.q-tools{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;}
+.q-sec{display:flex; flex-wrap:wrap; gap:6px 12px; font-size:.82rem; margin:4px 0 10px;}
+.q-sec label{display:flex; align-items:center; gap:4px; font-weight:600;}
+.q-comp-desc{font-size:.8rem; color:var(--muted); margin-top:4px;}
+.opt-row.with-d{flex-wrap:wrap;}
+.opt-row .q-distractor{flex-basis:100%; margin-left:30px; font-size:.82rem;}
+.cfg-grid{display:grid; gap:10px;}
+.cfg-checks{display:flex; flex-direction:column; gap:6px; font-size:.9rem; margin-top:6px;}
+.cfg-checks label{display:flex; gap:8px; align-items:flex-start; font-weight:600;}
+.bar{background:#ECE8F0; border-radius:8px; height:14px; position:relative; overflow:hidden; min-width:90px;}
+.bar > i{display:block; height:100%; background:var(--teal);}
+.bar.low > i{background:repeating-linear-gradient(45deg,var(--danger),var(--danger) 6px,#F29AA8 6px,#F29AA8 12px);}
+.bar.mid > i{background:var(--gold);}
+.tag{display:inline-block; font-size:.72rem; font-weight:800; padding:2px 8px; border-radius:999px; border:1.5px solid currentColor; margin-right:4px; white-space:nowrap;}
+.tag.t-consolidada{color:#2F7D57;} .tag.t-progreso{color:#9A5B00;} .tag.t-practica{color:var(--danger);} .tag.t-insuficiente,.tag.t-sin_evidencia{color:var(--muted);}
+table.rep{width:100%; border-collapse:collapse; font-size:.86rem;}
+table.rep th,table.rep td{padding:8px 10px; text-align:left; border-bottom:1px solid #EEE9E0; vertical-align:top;}
+table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted);}
+.rep-filters{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:12px;}
+.rep-filters label{font-size:.74rem; font-weight:800; color:var(--muted); display:block; margin-bottom:3px;}
+.mini-player{display:flex; align-items:center; gap:8px; flex-wrap:wrap; background:#fff; border-radius:14px; box-shadow:var(--shadow); padding:10px 14px; margin-bottom:14px;}
+.mini-player .mp-time{font-weight:800; min-width:90px;}
+.pre-panel{background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:18px 22px; margin-bottom:16px; border-left:8px solid var(--gold);}
+.pre-panel h4{margin-bottom:6px; color:var(--navy);}
+.hint-btn{font:inherit; font-size:.82rem; font-weight:800; background:#FFF6EE; border:1.5px solid var(--gold); color:var(--ink); border-radius:999px; padding:6px 12px; cursor:pointer; margin-top:10px;}
+.hint-box{margin-top:8px; padding:8px 12px; border-radius:10px; background:#F1F6F3; font-size:.9rem;}
+.comp-pill{display:inline-block; font-size:.74rem; font-weight:800; color:var(--navy); border:1.5px solid var(--navy); border-radius:999px; padding:2px 10px; margin-left:6px;}
+.diff-pill.avanzada{background:#FBE6DF; color:#C0502F;}
+.save-warn{background:#FDECEF; border:2px solid var(--danger); border-radius:14px; padding:12px 16px; margin:10px 0; font-weight:700;}
+:focus-visible{outline:3px solid #2B6CB0; outline-offset:2px;}
+.opt-btn.selected::before{content:"✔ ";}
+.opt-btn.correct{border-width:3px;}
+.opt-btn.incorrect{text-decoration:underline wavy;}
 </style>
 </head>
 <body>
@@ -427,6 +470,7 @@
     <div class="section-head">
       <h2>Os teus podcasts</h2>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn btn-teal btn-sm" onclick="goReportView()">📈 Informes por competencia</button>
         <button class="btn btn-ghost btn-sm" onclick="goStudentSearchView()">👤 Por alumno/a</button>
         <button class="btn btn-ghost btn-sm" onclick="goTrashView()">🗑️ Papeleira</button>
         <button class="btn btn-coral" onclick="goTeacherEditor()">+ Novo podcast</button>
@@ -465,16 +509,58 @@
         <div class="hint" id="audioHint">Ningún ficheiro cargado aínda.</div>
       </div>
       <div class="field" style="margin-bottom:0;">
-        <label>Transcrición para subtítulos (opcional)</label>
+        <label for="pTranscript">Transcrición para subtítulos (opcional)</label>
         <textarea id="pTranscript" style="min-height:120px;" placeholder="Pega aquí a transcrición, unha frase ou intervención por liña. Os subtítulos irán avanzando de forma aproximada segundo a duración do audio."></textarea>
-        <div class="hint">Se a engades, o alumnado poderá ver o texto mentres escoita (útil para diversidade e comprensión lectora).</div>
+        <div class="hint">Só se mostra ao alumnado na modalidade "con apoio textual". Se a transcrición revela as respostas, non uses esa modalidade para avaliar.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:1.1rem; margin-bottom:6px;">Configuración da actividade</h3>
+      <div class="cfg-grid">
+        <div class="field" style="margin-bottom:0;">
+          <label for="pModality">Modalidade de escoita</label>
+          <select id="pModality" onchange="updateModalityHint()">
+            <option value="global">Escoita global: escoita e responde sen consultar a transcrición</option>
+            <option value="revision">Escoita con revisión: pode volver escoitar fragmentos mentres responde</option>
+            <option value="apoyo">Escoita con apoio textual: pode consultar a transcrición</option>
+          </select>
+          <div class="hint" id="modalityHint"></div>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label for="pContext">Contexto antes de escoitar (opcional)</label>
+          <textarea id="pContext" placeholder="Breve presentación do podcast. Non debe revelar respostas do cuestionario."></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label for="pAnticipation">Pregunta de anticipación (opcional)</label>
+          <input type="text" id="pAnticipation" placeholder="Ex.: Que cres que che van contar sobre Cuba?">
+        </div>
+        <div class="cfg-checks">
+          <label><input type="checkbox" id="pShowPre" checked> Mostrar a fase "Antes de escoitar" (contexto e pregunta de anticipación, se existen)</label>
+          <label><input type="checkbox" id="pShowReview" checked> Ofrecer a fase "Revisar e volver escoitar" despois de responder</label>
+          <label><input type="checkbox" id="pShowCompLabels"> Modo estratexias: amosar ao alumnado o nome do proceso de comprensión de cada pregunta</label>
+        </div>
       </div>
     </div>
 
     <div class="card">
       <div class="section-head" style="margin-bottom:6px;">
         <h3 style="font-size:1.1rem;">Preguntas de opción múltiple</h3>
-        <button class="btn btn-ghost btn-sm" onclick="addQuestionBlock()">+ Engadir pregunta</button>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-ghost btn-sm" onclick="previewQuiz()">👁️ Vista previa</button>
+          <button class="btn btn-ghost btn-sm" onclick="confirmAllProposals()">✔ Confirmar clasificacións propostas</button>
+          <button class="btn btn-ghost btn-sm" onclick="addQuestionBlock()">+ Engadir pregunta</button>
+        </div>
+      </div>
+      <div id="compDistribution"></div>
+      <div class="field" style="max-width:320px;">
+        <label for="compFilter">Filtrar por competencia</label>
+        <select id="compFilter" onchange="applyCompFilter()">
+          <option value="all">Todas as preguntas</option>
+          <option value="pending">Pendentes / sen clasificar</option>
+          <option value="unreviewed">Clasificación sen revisar</option>
+          <option value="C1">C1</option><option value="C2">C2</option><option value="C3">C3</option><option value="C4">C4</option><option value="C5">C5</option><option value="C6">C6</option>
+        </select>
       </div>
       <div id="questionsContainer"></div>
     </div>
@@ -485,12 +571,37 @@
     </div>
   </div>
 
+  <!-- TEACHER: INFORMES POR COMPETENCIA -->
+  <div class="view" id="view-teacher-report">
+    <div class="section-head">
+      <h2>📈 Informes por competencia</h2>
+      <button class="btn btn-teal btn-sm" onclick="exportReportToExcel()">📥 Exportar a Excel</button>
+    </div>
+    <div class="card">
+      <div class="rep-filters">
+        <div><label for="repPodcast">Podcast</label><select id="repPodcast"></select></div>
+        <div><label for="repClass">Clase / grupo</label><select id="repClass"></select></div>
+        <div><label for="repStudent">Alumno/a</label><select id="repStudent"></select></div>
+        <div><label for="repKind">Tipo</label><select id="repKind"></select></div>
+        <div><label for="repModality">Modalidade de escoita</label><select id="repModality"></select></div>
+        <div><label for="repComp">Competencia</label><select id="repComp"></select></div>
+        <div><label for="repFrom">Desde</label><input type="date" id="repFrom"></div>
+        <div><label for="repTo">Ata</label><input type="date" id="repTo"></div>
+      </div>
+    </div>
+    <div id="repNotices"></div>
+    <div class="card" id="repByComp"></div>
+    <div class="card" id="repStudents"></div>
+    <div class="card" id="repStudentCard" style="display:none;"></div>
+  </div>
+
   <!-- TEACHER: RESULTS -->
   <div class="view" id="view-teacher-results">
     <div class="section-head">
       <h2>Resultados</h2>
       <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
         <select id="resultsPodcastFilter" onchange="renderResults()"></select>
+        <button class="btn btn-ghost btn-sm" onclick="goReportView(document.getElementById('resultsPodcastFilter').value !== 'all' ? document.getElementById('resultsPodcastFilter').value : undefined)">📈 Por competencia</button>
         <button class="btn btn-teal btn-sm" onclick="exportResultsToExcel()">📥 Exportar a Excel</button>
       </div>
     </div>
@@ -524,12 +635,15 @@
 
   <!-- STUDENT: PLAYER -->
   <div class="view" id="view-student-player">
+    <div id="prePanel"></div>
     <div class="player-card">
       <div class="meta mono" id="playerCycle">2º CICLO</div>
       <h3 id="playerTitle">Título do podcast</h3>
       <canvas id="visualizer"></canvas>
       <div class="transport">
-        <button class="play-btn" id="playBtn">▶</button>
+        <button class="btn btn-ghost btn-sm" onclick="skipAudio(-10)" aria-label="Repetir os últimos 10 segundos">⏪ 10 s</button>
+        <button class="play-btn" id="playBtn" aria-label="Reproducir ou pausar">▶</button>
+        <button class="btn btn-ghost btn-sm" onclick="skipAudio(10)" aria-label="Adiantar 10 segundos">10 s ⏩</button>
       </div>
       <div style="display:flex; align-items:center; gap:10px; margin-top:14px;">
         <span class="time mono" id="timeCurrent">0:00</span>
@@ -551,6 +665,7 @@
       <h2 id="qHeaderTitle">Preguntas</h2>
       <div class="quiz-timer mono" id="quizTimer">⏱ 0:00</div>
     </div>
+    <div id="quizSupport"></div>
     <div id="questionsRunner"></div>
     <button class="btn btn-coral btn-block" id="submitAnswersBtn" onclick="submitAnswers()">Comprobar respostas</button>
   </div>
@@ -566,6 +681,9 @@
       <div class="time-pill mono" id="summaryTime">⏱ 0:00</div>
       <div id="streakBadge"></div>
     </div>
+    <div id="saveStatus"></div>
+    <div id="reviewPanel"></div>
+    <div id="competencyFeedback"></div>
     <div id="summaryDetail"></div>
     <div style="display:flex; gap:12px; justify-content:center; margin-top:20px; flex-wrap:wrap;">
       <button class="btn btn-gold" id="retryBtn" style="display:none;" onclick="retryQuiz()">🔁 Intentar de novo (preguntas baralladas)</button>
@@ -614,6 +732,16 @@
 
 </div>
 
+
+<div class="modal-backdrop" id="previewModal">
+  <div class="modal" style="max-width:640px; max-height:86vh; overflow:auto;">
+    <h3>Vista previa para o alumnado</h3>
+    <p class="hint" id="previewInfo"></p>
+    <div id="previewBody"></div>
+    <div class="row"><button class="btn btn-navy" onclick="document.getElementById('previewModal').classList.remove('show')">Pechar</button></div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="loginModal">
   <div class="modal">
     <h3>Acceso profesorado</h3>
@@ -659,6 +787,257 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script id="pureLogic">
+/*PURE-START*/
+/* =========================================================
+   Marco de competencias de comprensión oral (lóxica pura, sen DOM)
+   Esta sección está probada con tests automáticos (ver tests/).
+========================================================= */
+const COMP_IDS = ['C1','C2','C3','C4','C5','C6'];
+const COMPETENCIES = {
+  C1:{ short:'Información explícita', kid:'Atopar datos que se din no audio',
+       name:'Recuperación de información explícita',
+       desc:'Identificar datos, feitos, nomes, lugares, datas, instrucións ou acontecementos mencionados expresamente no audio.',
+       practice:'Actividades para localizar datos concretos, nomes, lugares e acontecementos.' },
+  C2:{ short:'Inferencia e interpretación', kid:'Pensar o que non se di directamente',
+       name:'Inferencia e interpretación',
+       desc:'Deducir información que non aparece formulada literalmente, relacionar indicios, identificar causas e consecuencias implícitas e extraer conclusións xustificadas polo que se escoitou.',
+       practice:'Preguntas que esixan relacionar pistas e xustificar conclusións.' },
+  C3:{ short:'Idea principal e síntese', kid:'Entender de que trata e o máis importante',
+       name:'Identificación da idea principal e síntese',
+       desc:'Recoñecer o tema central, distinguir a información principal dos detalles secundarios, resumir o contido e identificar o que pretende transmitir globalmente a mensaxe.',
+       practice:'Actividades de selección de títulos, síntese e diferenciación entre información principal e secundaria.' },
+  C4:{ short:'Organización e estrutura', kid:'Ordenar o que pasa e como se organiza',
+       name:'Organización e estrutura do discurso',
+       desc:'Comprender a secuencia temporal, ordenar acontecementos, recoñecer relacións entre partes do discurso, identificar introdución, desenvolvemento e conclusión e comprender conectores e relacións lóxicas.',
+       practice:'Actividades de ordenar acontecementos e reconstruír secuencias.' },
+  C5:{ short:'Léxico e contexto', kid:'Entender o significado das palabras polo contexto',
+       name:'Comprensión léxica e contextual',
+       desc:'Deducir o significado de palabras ou expresións polo contexto, interpretar expresións figuradas adecuadas á idade e recoñecer o significado dunha palabra nunha situación comunicativa concreta.',
+       practice:'Actividades de deducir significados a partir do contexto.' },
+  C6:{ short:'Intención comunicativa', kid:'Entender para que se di algo',
+       name:'Intención comunicativa e comprensión pragmática',
+       desc:'Identificar para que se comunica unha mensaxe (informar, explicar, narrar, convencer, advertir ou pedir algo), recoñecer emocións ou actitudes cando hai indicios suficientes e comprender o sentido segundo o contexto.',
+       practice:'Actividades sobre a intención comunicativa e os indicios que a sustentan.' }
+};
+const LEVEL_IDS = ['inicial','intermedia','avanzada'];
+const LEVEL_LABELS = { inicial:'Inicial', intermedia:'Intermedio', avanzada:'Avanzado' };
+const MODALITY_IDS = ['global','revision','apoyo'];
+const MODALITY_LABELS = {
+  global:'Escoita global (sen texto)',
+  revision:'Escoita con revisión (pode volver escoitar)',
+  apoyo:'Escoita con apoio textual (pode ler a transcrición)',
+  sin_dato:'Sen dato (intento anterior á modalidade)'
+};
+const MODALITY_SHORT = { global:'Global', revision:'Con revisión', apoyo:'Con apoio textual', sin_dato:'Sen dato' };
+const MIN_N_PERCENT = 3;   // por debaixo, "datos insuficientes"
+const MIN_N_SOLID = 6;     // a partir de aquí, indicador máis fiable
+const CONCENTRATION_LIMIT = 0.7;
+
+function legacyLevel(d){
+  if(d === 'facil') return 'inicial';
+  if(d === 'inferencia') return 'intermedia';
+  return null;
+}
+function normalizeQuestion(q){
+  const n = { ...q };
+  n.options = Array.isArray(q.options) ? q.options.slice() : [];
+  n.competency = COMP_IDS.includes(q.competency) ? q.competency : null;
+  n.secondary = Array.isArray(q.secondary) ? q.secondary.filter(c=>COMP_IDS.includes(c) && c !== n.competency) : [];
+  n.levelDerived = false;
+  if(LEVEL_IDS.includes(q.level)){
+    n.level = q.level;
+  } else {
+    n.level = legacyLevel(q.difficulty);
+    n.levelDerived = !!n.level;
+  }
+  n.classReviewed = !!q.classReviewed && !!n.competency;
+  // Solo unha SUXESTIÓN para o editor; nunca se contabiliza nos informes
+  n.suggestedCompetency = (!n.competency && q.difficulty === 'inferencia') ? 'C2' : null;
+  n.explanation = q.explanation || '';
+  n.evidence = q.evidence || '';
+  n.hint = q.hint || '';
+  n.distractors = Array.isArray(q.distractors) ? q.distractors.slice(0,4) : [];
+  while(n.distractors.length < n.options.length) n.distractors.push('');
+  n.format = 'multiple_choice';
+  return n;
+}
+function defaultConfig(p){
+  const hasTranscript = Array.isArray(p.transcript) && p.transcript.length > 0;
+  return { modality: hasTranscript ? 'apoyo' : 'global', showPre:true, showReview:true, showCompetencyLabels:false, context:'', anticipation:'' };
+}
+function normalizePodcast(p){
+  if(!p) return p;
+  const out = { ...p };
+  const base = defaultConfig(p);
+  const c = p.config || {};
+  out.config = { ...base, ...c };
+  out.config.modalityDerived = !(c && MODALITY_IDS.includes(c.modality));
+  if(!MODALITY_IDS.includes(out.config.modality)) out.config.modality = base.modality;
+  out.questions = (p.questions || []).map(normalizeQuestion);
+  return out;
+}
+
+/* ---- Validación de preguntas (editor docente) ---- */
+function validateQuestion(q){
+  const errors = [], warnings = [];
+  const text = (q.text || '').trim();
+  const opts = (q.options || []).map(o=>(o || '').trim());
+  const filled = opts.filter(Boolean);
+  if(!text) errors.push('Falta o enunciado.');
+  if(filled.length < 3) errors.push('Fan falta polo menos 3 opcións.');
+  if(q.correct === null || q.correct === undefined || Number.isNaN(q.correct) || !opts[q.correct]) errors.push('Marca unha resposta correcta que non estea baleira.');
+  if(new Set(filled.map(o=>o.toLowerCase())).size !== filled.length) errors.push('Hai opcións repetidas.');
+  if(!q.competency && !q.pending) errors.push('Escolle a competencia principal ou marca a pregunta como pendente de revisión.');
+  if(q.competency && q.secondary && q.secondary.includes(q.competency)) errors.push('A competencia principal non pode repetirse como secundaria.');
+  if(q.competency && !q.reviewed) warnings.push('Clasificación sen revisar polo docente.');
+  if(!q.level) warnings.push('Sen dificultade asignada.');
+  if(!(q.explanation || '').trim()) warnings.push('Sen xustificación da resposta correcta (que parte do audio a apoia).');
+  if(opts[q.correct] && filled.length >= 3){
+    const others = opts.filter((o,i)=>o && i !== q.correct).map(o=>o.length);
+    const maxOther = Math.max(...others);
+    if(opts[q.correct].length > 1.6 * maxOther && opts[q.correct].length > 25) warnings.push('A opción correcta é moito máis longa ca as demais: pode resolverse só pola lonxitude.');
+  }
+  if(filled.some(o=>/(todas as anteriores|ningunha das anteriores|todas las anteriores|ninguna de las anteriores)/i.test(o))) warnings.push('Evita "todas/ningunha das anteriores": adoita dar pistas por patrón.');
+  if(opts[q.correct] && text && text.toLowerCase().includes(opts[q.correct].toLowerCase()) && opts[q.correct].length > 6) warnings.push('O enunciado contén a resposta correcta.');
+  if(q.hint && opts[q.correct] && q.hint.toLowerCase().includes(opts[q.correct].toLowerCase()) && opts[q.correct].length > 4) warnings.push('A pista revela directamente a resposta.');
+  return { errors, warnings };
+}
+function competencyDistribution(questions){
+  const counts = {}; COMP_IDS.forEach(c=>counts[c]=0);
+  let classified = 0, pending = 0, unreviewed = 0;
+  questions.forEach(q=>{
+    if(q.competency && COMP_IDS.includes(q.competency)){
+      counts[q.competency]++; classified++;
+      if(!(q.classReviewed || q.reviewed)) unreviewed++;
+    } else pending++;
+  });
+  let warning = null;
+  if(classified >= 4){
+    const max = Math.max(...COMP_IDS.map(c=>counts[c]));
+    if(max / classified > CONCENTRATION_LIMIT){
+      const c = COMP_IDS.find(k=>counts[k] === max);
+      warning = `${Math.round(100*max/classified)} % das preguntas clasificadas son de ${c} (${COMPETENCIES[c].short}). Considera diversificar segundo o obxectivo didáctico.`;
+    }
+  }
+  return { counts, classified, pending, unreviewed, total: questions.length, warning };
+}
+
+/* ---- Resolución de metadatos dun intento (novos e antigos) ---- */
+function resolveDetailMeta(detail, podcast){
+  // Intento novo: a clasificación quedou gardada no propio intento (pode ser null = sen clasificar)
+  if(detail && detail.competency !== undefined){
+    return { competency: COMP_IDS.includes(detail.competency) ? detail.competency : null,
+             level: LEVEL_IDS.includes(detail.level) ? detail.level : null };
+  }
+  // Intento antigo: busca a pregunta polo id ou, se non, polo enunciado exacto.
+  // Só se usa se a clasificación foi revisada polo docente.
+  const qs = (podcast && podcast.questions) || [];
+  const q = qs.find(x=>detail && detail.qid && x.id === detail.qid) || qs.find(x=>detail && x.text === detail.text);
+  if(q && q.competency && q.classReviewed) return { competency:q.competency, level:q.level || null };
+  return { competency:null, level: q ? (q.level || null) : null };
+}
+function studentKey(a){ return `${(a.studentName||'').trim().toLowerCase()}__${(a.className||'').trim().toLowerCase()}`; }
+function attemptModality(a){ return MODALITY_IDS.includes(a.modality) ? a.modality : 'sin_dato'; }
+function attemptKind(a){ return a.mode === 'grupo' ? 'grupo' : (a.mode === 'alumno' ? 'alumno' : 'sin_dato'); }
+
+/* Un alumno pode repetir o mesmo cuestionario: para non inflar os datos, os
+   cálculos por competencia usan só o PRIMEIRO intento de cada alumno, podcast e modalidade. */
+function firstAttempts(attempts){
+  const best = new Map();
+  attempts.forEach(a=>{
+    const key = `${studentKey(a)}__${a.podcastId}__${attemptModality(a)}`;
+    const prev = best.get(key);
+    if(!prev || (a.date||0) < (prev.date||0)) best.set(key, a);
+  });
+  return [...best.values()];
+}
+function emptyBucket(){ return { n:0, correct:0, levels:{ inicial:0, intermedia:0, avanzada:0, sin_nivel:0 } }; }
+function computeCompetencyStats(attempts, podcastsById){
+  const by = {}; COMP_IDS.forEach(c=>by[c]=emptyBucket());
+  const none = emptyBucket();
+  const total = emptyBucket();
+  attempts.forEach(a=>{
+    const pod = podcastsById ? podcastsById[a.podcastId] : null;
+    (a.details || []).forEach(d=>{
+      const m = resolveDetailMeta(d, pod);
+      const b = m.competency ? by[m.competency] : none;
+      b.n++; total.n++;
+      if(d.isCorrect){ b.correct++; total.correct++; }
+      b.levels[m.level || 'sin_nivel']++;
+    });
+  });
+  return { byComp: by, unclassified: none, total };
+}
+function reliabilityOf(n){
+  if(n === 0) return 'sin_evidencia';
+  if(n < MIN_N_PERCENT) return 'insuficiente';
+  if(n < MIN_N_SOLID) return 'orientativo';
+  return 'fiable';
+}
+const RELIABILITY_LABELS = {
+  sin_evidencia:'Sen evidencia (non se preguntou)',
+  insuficiente:'Datos insuficientes',
+  orientativo:'Orientativo (poucas preguntas)',
+  fiable:'Máis fiable'
+};
+function competencyStatus(b){
+  const rel = reliabilityOf(b.n);
+  if(rel === 'sin_evidencia' || rel === 'insuficiente') return { rel, key:rel, label:RELIABILITY_LABELS[rel], pct:null };
+  const pct = Math.round(100 * b.correct / b.n);
+  let key = pct >= 80 ? 'consolidada' : (pct >= 60 ? 'progreso' : 'practica');
+  let label = key === 'consolidada' ? 'Parece máis consolidada' : (key === 'progreso' ? 'En progreso' : 'Precisa máis práctica');
+  return { rel, key, label, pct };
+}
+function levelMixText(levels){
+  const parts = [];
+  if(levels.inicial) parts.push(`${levels.inicial} ini.`);
+  if(levels.intermedia) parts.push(`${levels.intermedia} int.`);
+  if(levels.avanzada) parts.push(`${levels.avanzada} ava.`);
+  if(levels.sin_nivel) parts.push(`${levels.sin_nivel} s/n`);
+  return parts.join(' · ') || '—';
+}
+function levelsAreMixed(levels){
+  return LEVEL_IDS.filter(l=>levels[l] > 0).length > 1;
+}
+
+/* ---- Recomendacións transparentes ---- */
+function recommendPractice(statsByComp, podcasts, completedPodcastIds){
+  const recs = [];
+  const done = new Set(completedPodcastIds || []);
+  COMP_IDS.forEach(c=>{
+    const b = statsByComp[c];
+    const st = competencyStatus(b);
+    if(st.key !== 'practica') return;
+    const candidates = (podcasts || []).filter(p=>!p.deleted && (p.questions || []).filter(q=>q.competency === c && q.classReviewed).length >= 2);
+    const fresh = candidates.filter(p=>!done.has(p.id));
+    const list = (fresh.length ? fresh : candidates);
+    recs.push({
+      comp:c,
+      reason:`${b.correct} acertos en ${b.n} preguntas de "${COMPETENCIES[c].short}" (${st.pct} %). Mostra orientativa, non un diagnóstico.`,
+      practice: COMPETENCIES[c].practice,
+      podcasts: list.slice(0,3).map(p=>({ id:p.id, title:p.title, repeated: done.has(p.id) })),
+      catalogGap: list.length === 0
+    });
+  });
+  return recs;
+}
+
+/* ---- Utilidades de exportación (por competencia) ---- */
+function attemptCompetencyRows(a, podcastsById){
+  const pod = podcastsById ? podcastsById[a.podcastId] : null;
+  const rows = {};
+  (a.details || []).forEach(d=>{
+    const m = resolveDetailMeta(d, pod);
+    const k = m.competency || 'SEN_CLASIFICAR';
+    rows[k] = rows[k] || { n:0, correct:0 };
+    rows[k].n++; if(d.isCorrect) rows[k].correct++;
+  });
+  return rows;
+}
+/*PURE-END*/
+</script>
+
 <script>
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyCyjRuhQWLLQgo1rqcCFJ7B_X3aoNvzWSo",
@@ -683,18 +1062,30 @@ function initFirebase(){
 async function cloudGetAllPodcasts(includeDeleted){
   initFirebase();
   const snap = await _fbDb.collection('podcasts').orderBy('createdAt','desc').get();
-  const all = snap.docs.map(d=>({ id:d.id, ...d.data() }));
+  const all = snap.docs.map(d=>normalizePodcast({ id:d.id, ...d.data() }));
   return includeDeleted ? all : all.filter(p=>!p.deleted);
 }
 async function cloudGetPodcast(id){
   initFirebase();
   const doc = await _fbDb.collection('podcasts').doc(id).get();
-  return doc.exists ? { id:doc.id, ...doc.data() } : null;
+  return doc.exists ? normalizePodcast({ id:doc.id, ...doc.data() }) : null;
+}
+function cleanQuestionForSave(q){
+  const c = { ...q };
+  if(c.levelDerived) delete c.level;
+  delete c.levelDerived; delete c.suggestedCompetency;
+  return c;
+}
+function cleanPodcastForSave(data){
+  const d = { ...data };
+  if(Array.isArray(d.questions)) d.questions = d.questions.map(cleanQuestionForSave);
+  if(d.config){ d.config = { ...d.config }; delete d.config.modalityDerived; }
+  return d;
 }
 async function cloudSavePodcast(record){
   initFirebase();
   const { id, ...data } = record;
-  await _fbDb.collection('podcasts').doc(id).set(data);
+  await _fbDb.collection('podcasts').doc(id).set(cleanPodcastForSave(data));
 }
 async function cloudSoftDeletePodcast(id){
   initFirebase();
@@ -1343,6 +1734,7 @@ document.getElementById('backBtn').addEventListener('click', ()=>{
     'view-teacher-list':'view-home',
     'view-teacher-editor':'view-teacher-list',
     'view-teacher-results':'view-teacher-list',
+    'view-teacher-report':'view-teacher-list',
     'view-teacher-trash':'view-teacher-list',
     'view-student-search':'view-teacher-list',
     'view-student-name':'view-student-player',
@@ -1352,8 +1744,10 @@ document.getElementById('backBtn').addEventListener('click', ()=>{
     'view-classification':'view-home'
   };
   stopAudioTeardown();
-  showView(map[current] || 'view-home');
-  if((map[current] || 'view-home') === 'view-home') renderStudentList();
+  const target = map[current] || 'view-home';
+  showView(target);
+  if(target === 'view-home') renderStudentList();
+  if(target === 'view-student-player' && currentPodcast){ setupAudioElement(); syncPlayLabels(); }
 });
 
 
@@ -1494,6 +1888,24 @@ document.getElementById('confirmHardDeleteBtn').addEventListener('click', async 
 ========================================================= */
 let editingId = null;
 let pendingAudio = null; // {blob, mime, name}
+const MODALITY_HINTS = {
+  global:'El alumno escucha y responde sin ver la transcripción ni volver a escuchar durante el cuestionario. Es la modalidad más cercana a una medida de comprensión oral.',
+  revision:'Puede volver a escuchar (repetir 10 s, avanzar, reiniciar) mientras responde. No ve la transcripción.',
+  apoyo:'Puede leer la transcripción. No es una medida pura de comprensión oral: úsala para trabajar estrategias con apoyo escrito.'
+};
+function updateModalityHint(){
+  const v = document.getElementById('pModality').value;
+  document.getElementById('modalityHint').textContent = MODALITY_HINTS[v] || '';
+}
+function fillConfigForm(cfg){
+  document.getElementById('pModality').value = cfg.modality;
+  document.getElementById('pContext').value = cfg.context || '';
+  document.getElementById('pAnticipation').value = cfg.anticipation || '';
+  document.getElementById('pShowPre').checked = cfg.showPre !== false;
+  document.getElementById('pShowReview').checked = cfg.showReview !== false;
+  document.getElementById('pShowCompLabels').checked = !!cfg.showCompetencyLabels;
+  updateModalityHint();
+}
 function goTeacherEditor(){
   editingId = null;
   pendingAudio = null;
@@ -1505,7 +1917,10 @@ function goTeacherEditor(){
   document.getElementById('pTranscript').value = '';
   document.getElementById('audioHint').textContent = 'Ningún ficheiro cargado aínda.';
   document.getElementById('questionsContainer').innerHTML = '';
+  fillConfigForm(defaultConfig({}));
+  document.getElementById('compFilter').value = 'all';
   addQuestionBlock();
+  refreshEditorSummary();
   showView('view-teacher-editor');
 }
 async function editPodcast(id){
@@ -1521,7 +1936,10 @@ async function editPodcast(id){
   document.getElementById('pTranscript').value = (p.transcript || []).join('\n');
   document.getElementById('audioHint').textContent = `Ficheiro actual: ${p.fileName || 'audio gardado'} (sube outro só se queres substituílo)`;
   document.getElementById('questionsContainer').innerHTML = '';
+  fillConfigForm(p.config);
+  document.getElementById('compFilter').value = 'all';
   p.questions.forEach(q=>addQuestionBlock(q));
+  refreshEditorSummary();
   showView('view-teacher-editor');
 }
 document.getElementById('pAudio').addEventListener('change', (e)=>{
@@ -1531,48 +1949,213 @@ document.getElementById('pAudio').addEventListener('change', (e)=>{
   document.getElementById('audioHint').textContent = `Seleccionado: ${file.name}`;
 });
 
-function addQuestionBlock(existing){
+function compOptionsHtml(selected, isNew){
+  const opts = [];
+  if(isNew) opts.push(`<option value="__none" ${selected==='__none'?'selected':''}>— Escolle a competencia —</option>`);
+  opts.push(`<option value="PEND" ${selected==='PEND'?'selected':''}>⏳ Pendente de revisión (sen clasificar)</option>`);
+  COMP_IDS.forEach(c=>opts.push(`<option value="${c}" ${selected===c?'selected':''}>${c} · ${escapeHtml(COMPETENCIES[c].name)}</option>`));
+  return opts.join('');
+}
+function addQuestionBlock(existing, insertAfter){
   const container = document.getElementById('questionsContainer');
   const qid = existing?.id || uid();
+  const isNew = !existing;
   const div = document.createElement('div');
   div.className = 'question-block';
   div.dataset.qid = qid;
+  div.dataset.difficulty = existing?.difficulty || '';
+  div.dataset.levelDerived = existing?.levelDerived ? '1' : '';
   const n = container.children.length + 1;
-  const diff = existing?.difficulty || 'facil';
+  const compSel = isNew ? '__none' : (existing.competency || 'PEND');
+  const sec = existing?.secondary || [];
+  const level = existing?.level || '';
+  const opts = existing?.options || [];
   div.innerHTML = `
     <span class="qnum">Pregunta ${n}</span>
-    <button type="button" class="remove-q" onclick="this.parentElement.remove(); renumberQuestions();">×</button>
-    <div class="row-2" style="margin-bottom:12px;">
+    <button type="button" class="remove-q" aria-label="Eliminar pregunta" onclick="removeQuestionBlock(this)">×</button>
+    <div class="field">
+      <label>Enunciado</label>
+      <input type="text" class="q-text" placeholder="Ex.: Onde ten lugar a historia?" value="${existing ? escapeHtml(existing.text) : ''}">
+    </div>
+    <div class="row-2" style="margin-bottom:10px;">
       <div class="field" style="margin-bottom:0;">
-        <label>Enunciado</label>
-        <input type="text" class="q-text" placeholder="Ex.: Onde ten lugar a historia?" value="${existing ? escapeHtml(existing.text) : ''}">
+        <label>Competencia principal</label>
+        <select class="q-competency">${compOptionsHtml(compSel, isNew)}</select>
+        <div class="q-comp-desc"></div>
+        ${existing && existing.suggestedCompetency ? `<div class="hint">A etiqueta antiga era "inferencia": suxírese C2, pero non se aplica sen que a confirmes.</div>` : ''}
       </div>
       <div class="field" style="margin-bottom:0;">
         <label>Dificultade</label>
-        <select class="q-difficulty">
-          <option value="facil" ${diff==='facil'?'selected':''}>🟢 Doado (dato explícito)</option>
-          <option value="inferencia" ${diff==='inferencia'?'selected':''}>🟣 Inferencia (hai que pensalo)</option>
+        <select class="q-level">
+          <option value="" ${level===''?'selected':''}>Sen asignar</option>
+          ${LEVEL_IDS.map(l=>`<option value="${l}" ${level===l?'selected':''}>${LEVEL_LABELS[l]}</option>`).join('')}
         </select>
+        ${existing?.levelDerived ? `<div class="hint">Valor derivado da etiqueta antiga (${existing.difficulty === 'facil' ? 'Doado' : 'Inferencia'}). Revísao.</div>` : ''}
       </div>
     </div>
+    <div class="q-sec" role="group" aria-label="Competencias secundarias (opcional)">
+      <span style="font-weight:800;">Secundarias (só se traballa realmente máis dun proceso):</span>
+      ${COMP_IDS.map(c=>`<label><input type="checkbox" class="q-secondary" value="${c}" ${sec.includes(c)?'checked':''}> ${c}</label>`).join('')}
+    </div>
+    <label class="reviewed-label" style="display:flex; gap:8px; align-items:center; font-weight:700; font-size:.88rem; margin-bottom:12px;">
+      <input type="checkbox" class="q-reviewed" ${existing?.classReviewed ? 'checked' : ''}> Clasificación revisada e confirmada polo docente
+    </label>
     ${[0,1,2,3].map(i=>`
-      <div class="opt-row">
-        <input type="radio" name="correct-${qid}" class="q-correct" value="${i}" ${existing && existing.correct===i ? 'checked' : ''}>
-        <input type="text" class="q-opt" placeholder="Opción ${i+1}" value="${existing ? escapeHtml(existing.options[i] || '') : ''}">
+      <div class="opt-row with-d">
+        <input type="radio" name="correct-${qid}" class="q-correct" aria-label="Opción ${i+1} correcta" value="${i}" ${existing && existing.correct===i ? 'checked' : ''}>
+        <input type="text" class="q-opt" aria-label="Opción ${i+1}" placeholder="Opción ${i+1}" value="${escapeHtml(opts[i] || '')}">
+        <input type="text" class="q-distractor" aria-label="Por que a opción ${i+1} pode confundir" placeholder="Se é incorrecta: por que pode confundir ao alumnado? (opcional)" value="${escapeHtml((existing?.distractors || [])[i] || '')}">
       </div>
     `).join('')}
-    <div class="hint" style="margin-bottom:10px;">Marca co selector cal é a opción correcta.</div>
+    <div class="hint" style="margin-bottom:10px;">Marca co selector cal é a opción correcta. Pídense polo menos 3 opcións.</div>
+    <div class="field">
+      <label>Evidencia de aprendizaxe (opcional)</label>
+      <input type="text" class="q-evidence" placeholder="Que debe comprender o alumno para responder ben?" value="${existing ? escapeHtml(existing.evidence || '') : ''}">
+    </div>
+    <div class="field">
+      <label>Xustificación da resposta correcta</label>
+      <textarea class="q-explanation" placeholder="Por que é correcta e que parte do audio o apoia? Amosarase despois de responder.">${existing ? escapeHtml(existing.explanation || '') : ''}</textarea>
+    </div>
     <div class="field" style="margin-bottom:0;">
-      <label>Explicación (opcional)</label>
-      <textarea class="q-explanation" placeholder="Por que é esta a resposta correcta? Amosarase despois de responder.">${existing ? escapeHtml(existing.explanation || '') : ''}</textarea>
+      <label>Pista (opcional)</label>
+      <input type="text" class="q-hint-input" placeholder="Orienta sen dicir a resposta. O alumno só a ve se a pide." value="${existing ? escapeHtml(existing.hint || '') : ''}">
+    </div>
+    <div class="q-msgs" aria-live="polite"></div>
+    <div class="q-tools">
+      <button type="button" class="btn btn-ghost btn-sm" onclick="duplicateQuestionBlock(this)">⧉ Duplicar pregunta</button>
     </div>
   `;
-  container.appendChild(div);
+  if(insertAfter && insertAfter.parentElement === container) insertAfter.after(div); else container.appendChild(div);
+  refreshBlock(div);
+  renumberQuestions();
+  refreshEditorSummary();
+  return div;
+}
+function removeQuestionBlock(btn){
+  btn.parentElement.remove();
+  renumberQuestions();
+  refreshEditorSummary();
+}
+function duplicateQuestionBlock(btn){
+  const block = btn.closest('.question-block');
+  const data = readBlock(block);
+  const copy = { ...data, id: uid(), text: data.text, correct: data.correct, classReviewed: data.reviewed, competency: data.competency, levelDerived: false };
+  addQuestionBlock(copy, block);
+  toast('Pregunta duplicada con todos os seus metadatos');
 }
 function renumberQuestions(){
   document.querySelectorAll('#questionsContainer .question-block').forEach((el,i)=>{
     el.querySelector('.qnum').textContent = `Pregunta ${i+1}`;
   });
+}
+/* Le un bloque do formulario sen validar. */
+function readBlock(b){
+  const selVal = b.querySelector('.q-competency').value;
+  const competency = COMP_IDS.includes(selVal) ? selVal : null;
+  const correctRadio = b.querySelector('.q-correct:checked');
+  const options = [...b.querySelectorAll('.q-opt')].map(i=>i.value.trim());
+  const correct = correctRadio ? parseInt(correctRadio.value,10) : null;
+  const distractors = [...b.querySelectorAll('.q-distractor')].map((i,idx)=> idx === correct ? '' : i.value.trim());
+  return {
+    id: b.dataset.qid,
+    text: b.querySelector('.q-text').value.trim(),
+    options, correct, distractors,
+    competency,
+    pending: selVal === 'PEND',
+    unchosen: selVal === '__none',
+    secondary: [...b.querySelectorAll('.q-secondary:checked')].map(i=>i.value).filter(c=>c !== competency),
+    level: b.querySelector('.q-level').value || null,
+    reviewed: !!competency && b.querySelector('.q-reviewed').checked,
+    evidence: b.querySelector('.q-evidence').value.trim(),
+    explanation: b.querySelector('.q-explanation').value.trim(),
+    hint: b.querySelector('.q-hint-input').value.trim(),
+    difficulty: b.dataset.difficulty || ''
+  };
+}
+function validateBlockData(d){
+  const v = validateQuestion({ ...d, pending: d.pending });
+  if(d.unchosen && !v.errors.some(e=>e.includes('competencia'))) v.errors.push('Escolle a competencia principal ou marca a pregunta como pendente de revisión.');
+  return v;
+}
+function refreshBlock(b){
+  const d = readBlock(b);
+  const desc = b.querySelector('.q-comp-desc');
+  desc.textContent = d.competency ? COMPETENCIES[d.competency].desc : (d.pending ? 'Pendente: non contará nos informes por competencia ata que a clasifiques.' : '');
+  const v = validateBlockData(d);
+  b.querySelector('.q-msgs').innerHTML =
+    v.errors.map(e=>`<div class="err">❌ ${escapeHtml(e)}</div>`).join('') +
+    v.warnings.map(w=>`<div class="wrn">⚠️ ${escapeHtml(w)}</div>`).join('');
+  b.dataset.state = d.competency || (d.pending ? 'PEND' : 'NONE');
+  b.dataset.reviewed = d.reviewed ? '1' : '';
+}
+function currentFormQuestions(){
+  return [...document.querySelectorAll('#questionsContainer .question-block')].map(readBlock);
+}
+function refreshEditorSummary(){
+  const qs = currentFormQuestions().map(q=>({ ...q, classReviewed: q.reviewed }));
+  const dist = competencyDistribution(qs);
+  const chips = COMP_IDS.map(c=>`<span class="comp-chip ${dist.counts[c]?'':'zero'}" title="${escapeHtml(COMPETENCIES[c].name)}">${c} · ${escapeHtml(COMPETENCIES[c].short)}: ${dist.counts[c]}</span>`).join('');
+  let html = `<div class="comp-chips" role="list">${chips}<span class="comp-chip ${dist.pending?'':'zero'}">Pendentes: ${dist.pending}</span></div>`;
+  if(dist.unreviewed) html += `<div class="notice info">${dist.unreviewed} pregunta(s) con clasificación proposta sen revisar. Non contan nos informes ata que as confirmes.</div>`;
+  if(dist.warning) html += `<div class="notice warn">⚠️ ${escapeHtml(dist.warning)}</div>`;
+  document.getElementById('compDistribution').innerHTML = html;
+  applyCompFilter();
+}
+function applyCompFilter(){
+  const f = document.getElementById('compFilter').value;
+  document.querySelectorAll('#questionsContainer .question-block').forEach(b=>{
+    const st = b.dataset.state, rev = b.dataset.reviewed === '1';
+    let show = true;
+    if(f === 'pending') show = (st === 'PEND' || st === 'NONE');
+    else if(f === 'unreviewed') show = COMP_IDS.includes(st) && !rev;
+    else if(COMP_IDS.includes(f)) show = (st === f);
+    b.style.display = show ? '' : 'none';
+  });
+}
+document.getElementById('questionsContainer').addEventListener('input', (e)=>{
+  const b = e.target.closest('.question-block'); if(!b) return;
+  refreshBlock(b); refreshEditorSummary();
+});
+document.getElementById('questionsContainer').addEventListener('change', (e)=>{
+  const b = e.target.closest('.question-block'); if(!b) return;
+  if(e.target.classList.contains('q-competency') && COMP_IDS.includes(e.target.value)){
+    // Elixir unha competencia de forma activa equivale a confirmala
+    b.querySelector('.q-reviewed').checked = true;
+  }
+  if(e.target.classList.contains('q-competency') && !COMP_IDS.includes(e.target.value)){
+    b.querySelector('.q-reviewed').checked = false;
+  }
+  refreshBlock(b); refreshEditorSummary();
+});
+function confirmAllProposals(){
+  let n = 0;
+  document.querySelectorAll('#questionsContainer .question-block').forEach(b=>{
+    const cb = b.querySelector('.q-reviewed');
+    if(COMP_IDS.includes(b.querySelector('.q-competency').value) && !cb.checked){ cb.checked = true; n++; refreshBlock(b); }
+  });
+  refreshEditorSummary();
+  toast(n ? `${n} clasificación(s) confirmada(s). Lembra gardar o podcast.` : 'Non había clasificacións propostas por confirmar');
+}
+
+/* Vista previa tal e como a verá o alumnado */
+function previewQuiz(){
+  const qs = currentFormQuestions().filter(q=>q.text).map(q=>normalizeQuestion({
+    ...q, classReviewed:q.reviewed,
+    options: q.options.filter(Boolean),
+    correct: q.options.slice(0,q.correct).filter(Boolean).length
+  }));
+  if(!qs.length){ toast('Aínda non hai preguntas para previsualizar'); return; }
+  const cfg = { showCompetencyLabels: document.getElementById('pShowCompLabels').checked };
+  document.getElementById('previewInfo').textContent = 'Así ve o alumnado o cuestionario (as respostas non se gardan). A pista aparece só se a pide.';
+  document.getElementById('previewBody').innerHTML = questionCardsHtml(qs, cfg, 'previewSelect', 'previewHint');
+  document.getElementById('previewModal').classList.add('show');
+}
+function previewSelect(qi, oi){
+  document.querySelectorAll('#previewBody .opts[data-qi="'+qi+'"] .opt-btn').forEach(btn=>btn.classList.toggle('selected', parseInt(btn.dataset.oi,10) === oi));
+}
+function previewHint(qi){
+  const el = document.querySelector('#previewBody [data-hint="'+qi+'"]');
+  if(el) el.style.display = 'block';
 }
 
 async function savePodcast(){
@@ -1585,31 +2168,62 @@ async function savePodcast(){
 
   const blocks = [...document.querySelectorAll('#questionsContainer .question-block')];
   if(blocks.length === 0){ toast('Engade polo menos unha pregunta'); return; }
+  const modality = document.getElementById('pModality').value;
+  if(modality === 'apoyo' && transcript.length === 0){
+    toast('A modalidade con apoio textual necesita unha transcrición');
+    return;
+  }
   const questions = [];
   for(const b of blocks){
-    const text = b.querySelector('.q-text').value.trim();
-    const opts = [...b.querySelectorAll('.q-opt')].map(i=>i.value.trim());
-    const correctRadio = b.querySelector('.q-correct:checked');
-    const difficulty = b.querySelector('.q-difficulty').value;
-    const explanation = b.querySelector('.q-explanation').value.trim();
-    if(!text || opts.some(o=>!o) || !correctRadio){
-      toast('Completa todas as preguntas e marca a resposta correcta');
+    const d = readBlock(b);
+    const v = validateBlockData(d);
+    if(v.errors.length){
+      b.style.display = '';
+      b.scrollIntoView({ behavior:'smooth', block:'center' });
+      toast('Revisa a pregunta: ' + v.errors[0]);
+      refreshBlock(b);
       return;
     }
-    questions.push({ id: b.dataset.qid, text, options: opts, correct: parseInt(correctRadio.value,10), difficulty, explanation });
+    const legacy = d.difficulty || (d.level === 'inicial' || !d.level ? 'facil' : 'inferencia');
+    questions.push({
+      id: d.id, text: d.text, options: d.options, correct: d.correct,
+      difficulty: legacy,
+      explanation: d.explanation,
+      competency: d.competency, secondary: d.secondary,
+      level: d.level || null,
+      classReviewed: d.reviewed,
+      format: 'multiple_choice',
+      evidence: d.evidence, hint: d.hint, distractors: d.distractors
+    });
   }
 
   let record;
-  if(editingId){
-    record = await cloudGetPodcast(editingId);
-  } else {
-    record = { id: uid(), createdAt: Date.now() };
+  try{
+    if(editingId){
+      record = await cloudGetPodcast(editingId);
+      if(!record) throw new Error('NO_ENCONTRADO');
+    } else {
+      record = { id: uid(), createdAt: Date.now() };
+    }
+  }catch(err){
+    console.error(err);
+    toast('Non se puido cargar o podcast para gardalo. Non se gardou nada: comproba a conexión e proba de novo.');
+    return;
   }
   record.title = title;
   record.cycle = cycle;
   record.desc = desc;
   record.questions = questions;
   record.transcript = transcript;
+  record.schemaVersion = 2;
+  record.config = {
+    modality,
+    context: document.getElementById('pContext').value.trim(),
+    anticipation: document.getElementById('pAnticipation').value.trim(),
+    showPre: document.getElementById('pShowPre').checked,
+    showReview: document.getElementById('pShowReview').checked,
+    showCompetencyLabels: document.getElementById('pShowCompLabels').checked
+  };
 
   if(pendingAudio){
     toast('Subindo audio...');
@@ -1625,7 +2239,13 @@ async function savePodcast(){
     }
   }
 
-  await cloudSavePodcast(record);
+  try{
+    await cloudSavePodcast(record);
+  }catch(err){
+    console.error(err);
+    toast('⚠️ NON se gardou o podcast (erro de conexión ou permisos). Os cambios seguen no formulario: proba de novo.');
+    return;
+  }
   toast('Podcast gardado');
   goTeacherList();
 }
@@ -1658,13 +2278,15 @@ async function renderResults(){
   }
   wrap.innerHTML = `
     <table class="results">
-      <thead><tr><th>Alumno/a</th><th>Clase</th><th>Podcast</th><th>Acertos</th><th>Intento</th><th>Tempo</th><th>Data</th></tr></thead>
+      <thead><tr><th>Alumno/a</th><th>Tipo</th><th>Clase</th><th>Podcast</th><th>Modalidade</th><th>Acertos</th><th>Intento</th><th>Tempo</th><th>Data</th></tr></thead>
       <tbody>
         ${filtered.map(a=>`
           <tr>
             <td>${escapeHtml(a.studentName)}</td>
+            <td>${attemptKind(a)==='grupo' ? 'Grupo' : (attemptKind(a)==='alumno' ? 'Alumno/a' : '—')}</td>
             <td>${escapeHtml(a.className)}</td>
             <td>${escapeHtml(a.podcastTitle)}</td>
+            <td>${MODALITY_SHORT[attemptModality(a)]}</td>
             <td>${a.score}/${a.total}</td>
             <td>${a.attemptNumber || 1}</td>
             <td>${fmtDuration(a.timeSeconds || 0)}</td>
@@ -1677,26 +2299,205 @@ async function renderResults(){
 }
 document.getElementById('resultsPodcastFilter').addEventListener('change', renderResults);
 
-function exportResultsToExcel(){
+async function exportResultsToExcel(){
   if(!lastRenderedResults || lastRenderedResults.length === 0){
     toast('Non hai resultados para exportar');
     return;
   }
-  const rows = lastRenderedResults.map(a=>({
+  let pods = {};
+  try{ (await cloudGetAllPodcasts(true)).forEach(p=>pods[p.id] = p); }catch(e){ console.error(e); }
+  const { results, comps } = buildAttemptExportRows(lastRenderedResults, pods);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(results), 'Resultados');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(comps.length ? comps : [{ 'Aviso':'Sen respostas clasificadas' }]), 'Por competencia');
+  const stamp = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, `resultados-en-antena-${stamp}.xlsx`);
+}
+
+/* =========================================================
+   TEACHER: informes por competencia
+   (todo se calcula a partir dos intentos e podcasts realmente gardados)
+========================================================= */
+let repAttempts = [], repPodcasts = [], repById = {}, repFiltered = [];
+async function goReportView(podcastId){
+  showView('view-teacher-report');
+  document.getElementById('repByComp').innerHTML = '<div class="empty">Cargando datos…</div>';
+  document.getElementById('repStudents').innerHTML = '';
+  document.getElementById('repStudentCard').style.display = 'none';
+  try{
+    repPodcasts = await cloudGetAllPodcasts(true);
+    repAttempts = await cloudGetAllAttempts();
+  }catch(err){
+    console.error(err);
+    document.getElementById('repByComp').innerHTML = '<div class="empty"><span class="emoji">⚠️</span>Non se puideron cargar os datos. Non se amosa ningún informe para non dar cifras falsas.</div>';
+    return;
+  }
+  repById = {}; repPodcasts.forEach(p=>repById[p.id] = p);
+  const uniq = arr=>[...new Set(arr.filter(Boolean))].sort((a,b)=>a.localeCompare(b,'gl'));
+  const fill = (id, first, items)=>{ document.getElementById(id).innerHTML = `<option value="all">${first}</option>` + items.map(([v,l])=>`<option value="${escapeHtml(v)}">${escapeHtml(l)}</option>`).join(''); };
+  fill('repPodcast','Todos os podcasts', repPodcasts.filter(p=>!p.deleted).map(p=>[p.id,p.title]));
+  fill('repClass','Todas as clases', uniq(repAttempts.map(a=>a.className)).map(c=>[c,c]));
+  fill('repStudent','Todo o alumnado', uniq(repAttempts.map(a=>a.studentName)).map(c=>[c,c]));
+  fill('repKind','Alumnado e grupos', [['alumno','Só alumnado individual'],['grupo','Só grupos clase']]);
+  fill('repModality','Todas as modalidades', [...MODALITY_IDS,'sin_dato'].map(m=>[m, MODALITY_SHORT[m]]));
+  fill('repComp','Todas as competencias', COMP_IDS.map(c=>[c, `${c} · ${COMPETENCIES[c].short}`]));
+  document.getElementById('repFrom').value = ''; document.getElementById('repTo').value = '';
+  if(podcastId) document.getElementById('repPodcast').value = podcastId;
+  renderReport();
+}
+function repFilters(){
+  const v = id=>document.getElementById(id).value;
+  return { podcast:v('repPodcast'), cls:v('repClass'), student:v('repStudent'), kind:v('repKind'), modality:v('repModality'), comp:v('repComp'), from:v('repFrom'), to:v('repTo') };
+}
+function filterAttempts(all, f){
+  const from = f.from ? new Date(f.from+'T00:00:00').getTime() : null;
+  const to = f.to ? new Date(f.to+'T23:59:59').getTime() : null;
+  return all.filter(a=>
+    (f.podcast==='all' || a.podcastId===f.podcast) &&
+    (f.cls==='all' || a.className===f.cls) &&
+    (f.student==='all' || a.studentName===f.student) &&
+    (f.kind==='all' || attemptKind(a)===f.kind) &&
+    (f.modality==='all' || attemptModality(a)===f.modality) &&
+    (from===null || (a.date||0)>=from) && (to===null || (a.date||0)<=to));
+}
+function pctBar(st, b){
+  if(st.pct === null) return `<span class="hint">—</span>`;
+  const cls = st.pct >= 80 ? '' : (st.pct >= 60 ? 'mid' : 'low');
+  return `<div class="bar ${cls}" role="img" aria-label="${st.pct} por cento"><i style="width:${st.pct}%"></i></div>`;
+}
+function statCell(b){
+  const st = competencyStatus(b);
+  const num = `${b.correct}/${b.n}`;
+  if(st.pct === null) return `${b.n ? num + ' · ' : ''}<span class="tag t-${st.key}">${st.label}</span>`;
+  return `<b>${st.pct} %</b> (${num}) <span class="tag t-${st.key}">${st.label}</span>${st.rel==='orientativo' ? ' <span class="hint">orientativo</span>' : ''}`;
+}
+function renderReport(){
+  const f = repFilters();
+  repFiltered = filterAttempts(repAttempts, f);
+  const comps = f.comp==='all' ? COMP_IDS : [f.comp];
+  const notices = [];
+  if(!repFiltered.length){
+    document.getElementById('repNotices').innerHTML = '';
+    document.getElementById('repByComp').innerHTML = '<div class="empty"><span class="emoji">📊</span>Non hai intentos gardados con eses filtros.</div>';
+    document.getElementById('repStudents').innerHTML = '';
+    document.getElementById('repStudentCard').style.display = 'none';
+    return;
+  }
+  const mods = new Set(repFiltered.map(attemptModality));
+  if(mods.size > 1) notices.push(`Hai intentos de modalidades distintas (${[...mods].map(m=>MODALITY_SHORT[m]).join(', ')}). <b>Non son directamente equivalentes</b>: filtra por modalidade para interpretar os datos.`);
+  if(mods.has('sin_dato')) notices.push('Hai intentos anteriores á modalidade de escoita: descoñécese se se puido ler a transcrición.');
+  const kinds = new Set(repFiltered.map(attemptKind));
+  if(kinds.has('grupo') && kinds.size > 1) notices.push('Mestúranse intentos de grupos clase e de alumnado individual: os de grupo non reflicten o rendemento dunha persoa.');
+  notices.push('Para non inflar os datos, os cálculos por competencia usan só o <b>primeiro intento</b> de cada alumno/grupo en cada podcast e modalidade. Os intentos repetidos vense na evolución.');
+  const first = firstAttempts(repFiltered);
+  const stats = computeCompetencyStats(first, repById);
+  const allLevels = { inicial:0, intermedia:0, avanzada:0, sin_nivel:0 };
+  comps.forEach(c=>LEVEL_IDS.concat('sin_nivel').forEach(l=>allLevels[l]+=stats.byComp[c].levels[l]));
+  if(levelsAreMixed(allLevels)) notices.push('A mostra mestura preguntas de dificultade inicial, intermedia e/ou avanzada: compara as porcentaxes con cautela.');
+  if(stats.unclassified.n) notices.push(`${stats.unclassified.n} resposta(s) corresponden a preguntas <b>sen clasificar ou con clasificación sen revisar</b>: non se contan en ningunha competencia.`);
+  document.getElementById('repNotices').innerHTML = notices.map(n=>`<div class="notice info">${n}</div>`).join('');
+
+  document.getElementById('repByComp').innerHTML = `
+    <h3 style="font-size:1.05rem; margin-bottom:8px;">Resultados por competencia · ${first.length} intento(s) base, ${repFiltered.length} intento(s) no filtro</h3>
+    <div style="overflow:auto;"><table class="rep">
+      <thead><tr><th>Competencia</th><th>Preguntas (n)</th><th>Acertos</th><th>Erros</th><th>% de acertos</th><th>Dificultade das preguntas</th><th>Indicador</th></tr></thead>
+      <tbody>
+      ${comps.map(c=>{ const b = stats.byComp[c]; const st = competencyStatus(b); return `<tr>
+        <td><b>${c}</b> · ${escapeHtml(COMPETENCIES[c].short)}</td><td>${b.n}</td><td>${b.correct}</td><td>${b.n-b.correct}</td>
+        <td>${st.pct===null ? '<span class="tag t-'+st.key+'">'+st.label+'</span>' : '<b>'+st.pct+' %</b> <span class="hint">sobre '+b.n+'</span>'}</td>
+        <td>${levelMixText(b.levels)}</td><td>${pctBar(st,b)}${st.pct!==null ? '<span class="tag t-'+st.key+'">'+st.label+'</span>' : ''}</td></tr>`; }).join('')}
+      <tr><td><b>Sen clasificar / pendente</b></td><td>${stats.unclassified.n}</td><td>${stats.unclassified.correct}</td><td>${stats.unclassified.n-stats.unclassified.correct}</td><td colspan="3"><span class="hint">Non se asigna a ningunha competencia.</span></td></tr>
+      </tbody></table></div>
+    <p class="hint" style="margin-top:8px;">Menos de ${MIN_N_PERCENT} preguntas: "datos insuficientes". ${MIN_N_PERCENT}–${MIN_N_SOLID-1}: orientativo. ${MIN_N_SOLID} ou máis: indicador máis fiable. Un 100 % con poucas preguntas non proba dominio.</p>`;
+
+  // Táboa por alumno/grupo
+  const groups = new Map();
+  repFiltered.forEach(a=>{ const k = studentKey(a); if(!groups.has(k)) groups.set(k, []); groups.get(k).push(a); });
+  const rows = [...groups.entries()].map(([k, list])=>({ key:k, name:list[0].studentName, cls:list[0].className, kind:attemptKind(list[0]), list,
+    stats: computeCompetencyStats(firstAttempts(list), repById) })).sort((a,b)=>a.name.localeCompare(b.name,'gl'));
+  document.getElementById('repStudents').innerHTML = `
+    <h3 style="font-size:1.05rem; margin-bottom:8px;">Seguimento por alumno/a ou grupo</h3>
+    <div style="overflow:auto;"><table class="rep"><thead><tr><th>Alumno/a ou grupo</th><th>Clase</th><th>Intentos</th>${comps.map(c=>`<th title="${escapeHtml(COMPETENCIES[c].name)}">${c}</th>`).join('')}</tr></thead><tbody>
+    ${rows.map((r,i)=>`<tr><td><button class="btn btn-ghost btn-sm" onclick="openStudentCard(${i})">${escapeHtml(r.name)}</button></td><td>${escapeHtml(r.cls)}</td><td>${r.list.length}</td>
+      ${comps.map(c=>`<td>${statCell(r.stats.byComp[c])}</td>`).join('')}</tr>`).join('')}
+    </tbody></table></div>`;
+  window._repRows = rows;
+  document.getElementById('repStudentCard').style.display = 'none';
+}
+function openStudentCard(i){
+  const r = window._repRows[i];
+  const card = document.getElementById('repStudentCard');
+  const comps = COMP_IDS;
+  const strong = comps.filter(c=>competencyStatus(r.stats.byComp[c]).key==='consolidada');
+  const weak = comps.filter(c=>competencyStatus(r.stats.byComp[c]).key==='practica');
+  const noData = comps.filter(c=>['sin_evidencia','insuficiente'].includes(competencyStatus(r.stats.byComp[c]).key));
+  const list = r.list.slice().sort((a,b)=>(a.date||0)-(b.date||0));
+  const completed = list.map(a=>a.podcastId);
+  const recs = recommendPractice(r.stats.byComp, repPodcasts, completed);
+  const listNames = arr=>arr.length ? arr.map(c=>`${c} ${COMPETENCIES[c].short}`).join(', ') : 'ninguna';
+  card.style.display = 'block';
+  card.innerHTML = `
+    <div class="section-head"><h3 style="font-size:1.1rem;">Ficha de seguimento: ${escapeHtml(r.name)} · ${escapeHtml(r.cls)} ${r.kind==='grupo' ? '(grupo clase)' : ''}</h3>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('repStudentCard').style.display='none'">Pechar</button></div>
+    <div class="notice info">Orientacións para o docente, non diagnósticos definitivos. Baséanse só nas preguntas respondidas e confirmadas; hai que contrastalas coa observación en clase.</div>
+    <table class="rep"><thead><tr><th>Competencia</th><th>Resultado</th><th>Nivel das preguntas</th><th></th></tr></thead><tbody>
+      ${comps.map(c=>{ const b = r.stats.byComp[c]; const st = competencyStatus(b); return `<tr><td><b>${c}</b> ${escapeHtml(COMPETENCIES[c].short)}</td><td>${statCell(b)}</td><td>${levelMixText(b.levels)}</td><td>${pctBar(st,b)}</td></tr>`; }).join('')}
+    </tbody></table>
+    <p style="margin-top:10px;"><b>Parecen máis consolidadas:</b> ${escapeHtml(listNames(strong))}.<br>
+    <b>Precisan máis práctica:</b> ${escapeHtml(listNames(weak))}.<br>
+    <b>Sen datos suficientes (ausencia de evidencia, non baixo rendemento):</b> ${escapeHtml(listNames(noData))}.</p>
+    <h4 style="margin-top:14px;">Evolución entre intentos</h4>
+    <div style="overflow:auto;"><table class="rep"><thead><tr><th>Data</th><th>Podcast</th><th>Modalidade</th><th>Intento</th><th>Acertos</th>${comps.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>
+    ${list.map(a=>{ const rowsC = attemptCompetencyRows(a, repById); return `<tr><td>${new Date(a.date).toLocaleDateString('gl-ES')}</td><td>${escapeHtml(a.podcastTitle)}</td><td>${MODALITY_SHORT[attemptModality(a)]}</td><td>${a.attemptNumber||1}</td><td>${a.score}/${a.total}</td>
+      ${comps.map(c=>`<td>${rowsC[c] ? rowsC[c].correct+'/'+rowsC[c].n : '—'}</td>`).join('')}</tr>`; }).join('')}
+    </tbody></table></div>
+    <h4 style="margin-top:14px;">Recomendacións de práctica</h4>
+    ${recs.length ? recs.map(x=>`<div class="notice"><b>${x.comp} · ${escapeHtml(COMPETENCIES[x.comp].short)}</b><br>Por que: ${escapeHtml(x.reason)}<br>${escapeHtml(x.practice)}<br>${x.catalogGap ? '<b>O catálogo precisa ampliarse:</b> non hai podcasts con preguntas desta competencia revisadas.' : 'Podcasts existentes: ' + x.podcasts.map(p=>escapeHtml(p.title)+(p.repeated?' (xa feito)':'')).join(' · ')}</div>`).join('') :
+      '<div class="notice info">Non hai recomendacións automáticas: ou non hai dificultades claras, ou non hai datos suficientes (mínimo '+MIN_N_PERCENT+' preguntas por competencia).</div>'}
+  `;
+  card.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+['repPodcast','repClass','repStudent','repKind','repModality','repComp','repFrom','repTo'].forEach(id=>document.getElementById(id).addEventListener('change', renderReport));
+
+/* ---- Exportación (resultados + competencias) ---- */
+function buildAttemptExportRows(attempts, podcastsById){
+  const results = attempts.map(a=>({
     'Alumno/a': a.studentName || '',
+    'Tipo': attemptKind(a) === 'grupo' ? 'Grupo clase' : (attemptKind(a) === 'alumno' ? 'Alumno/a' : 'Sen dato'),
     'Clase': a.className || '',
     'Podcast': a.podcastTitle || '',
+    'Modalidade de escoita': MODALITY_SHORT[attemptModality(a)],
     'Acertos': a.score,
     'Total preguntas': a.total,
     'Intento nº': a.attemptNumber || 1,
+    'Pistas usadas': a.hintsUsed === undefined ? '' : a.hintsUsed,
     'Tempo (mm:ss)': fmtDuration(a.timeSeconds || 0),
     'Data': new Date(a.date).toLocaleString('gl-ES')
   }));
-  const ws = XLSX.utils.json_to_sheet(rows);
+  const comps = [];
+  attempts.forEach(a=>{
+    const rows = attemptCompetencyRows(a, podcastsById);
+    Object.keys(rows).sort().forEach(k=>{
+      const b = rows[k];
+      comps.push({
+        'Alumno/a': a.studentName || '', 'Clase': a.className || '', 'Podcast': a.podcastTitle || '',
+        'Modalidade de escoita': MODALITY_SHORT[attemptModality(a)], 'Intento nº': a.attemptNumber || 1,
+        'Data': new Date(a.date).toLocaleString('gl-ES'),
+        'Competencia': k === 'SEN_CLASIFICAR' ? 'Sen clasificar' : `${k} ${COMPETENCIES[k].short}`,
+        'Preguntas': b.n, 'Acertos': b.correct, 'Erros': b.n - b.correct,
+        '% acertos': b.n >= MIN_N_PERCENT ? Math.round(100*b.correct/b.n) : 'datos insuficientes'
+      });
+    });
+  });
+  return { results, comps };
+}
+async function exportReportToExcel(){
+  if(!repFiltered.length){ toast('Non hai datos para exportar'); return; }
+  const { results, comps } = buildAttemptExportRows(repFiltered, repById);
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Resultados');
-  const stamp = new Date().toISOString().slice(0,10);
-  XLSX.writeFile(wb, `resultados-en-antena-${stamp}.xlsx`);
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(results), 'Resultados');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(comps.length ? comps : [{ 'Aviso':'Sen respostas clasificadas' }]), 'Por competencia');
+  XLSX.writeFile(wb, `informe-competencias-en-antena-${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 
 /* ---- Ficha imprimible en PDF (vía impresión do navegador) ---- */
@@ -1891,7 +2692,13 @@ async function openPlayer(id){
   document.getElementById('playerTitle').textContent = currentPodcast.title;
   setupAudioElement();
   setupSubtitles(currentPodcast);
+  const c = currentPodcast.config;
+  const pre = document.getElementById('prePanel');
+  pre.innerHTML = (c.showPre && (c.context || c.anticipation))
+    ? `<div class="pre-panel"><h4>Antes de escoitar</h4>${c.context ? `<p>${escapeHtml(c.context)}</p>` : ''}${c.anticipation ? `<p style="margin-top:8px;"><b>🤔 Pensa:</b> ${escapeHtml(c.anticipation)}</p>` : ''}</div>`
+    : '';
   updateWhoLine();
+  syncPlayLabels();
   showView('view-student-player');
 }
 
@@ -1902,7 +2709,7 @@ let lastActiveSubIndex = -1;
 function setupSubtitles(podcast){
   const panel = document.getElementById('subtitlePanel');
   const toggleBtn = document.getElementById('subtitleToggleBtn');
-  const lines = podcast.transcript || [];
+  const lines = (podcast.config && podcast.config.modality === 'apoyo') ? (podcast.transcript || []) : [];
   lastActiveSubIndex = -1;
   if(lines.length === 0){
     subtitleSegments = [];
@@ -1970,17 +2777,23 @@ function setupAudioElement(){
   }
   audioEl.preload = 'metadata';
 
-  audioEl.addEventListener('loadedmetadata', ()=>{
-    document.getElementById('timeTotal').textContent = fmtTime(audioEl.duration);
-    document.getElementById('seekBar').max = audioEl.duration || 0;
+  const el = audioEl;   // referencia local: tras teardownAudio() la global pasa a null
+  el.addEventListener('loadedmetadata', ()=>{
+    if(el !== audioEl) return;
+    document.getElementById('timeTotal').textContent = fmtTime(el.duration);
+    document.getElementById('seekBar').max = el.duration || 0;
+    syncMiniTime();
   });
-  audioEl.addEventListener('timeupdate', ()=>{
-    document.getElementById('timeCurrent').textContent = fmtTime(audioEl.currentTime);
-    if(!seeking) document.getElementById('seekBar').value = audioEl.currentTime;
-    updateSubtitleHighlight(audioEl.currentTime, audioEl.duration);
+  el.addEventListener('timeupdate', ()=>{
+    if(el !== audioEl) return;
+    document.getElementById('timeCurrent').textContent = fmtTime(el.currentTime);
+    if(!seeking) document.getElementById('seekBar').value = el.currentTime;
+    updateSubtitleHighlight(el.currentTime, el.duration);
+    syncMiniTime();
   });
-  audioEl.addEventListener('ended', ()=>{
-    document.getElementById('playBtn').textContent = '▶';
+  el.addEventListener('ended', ()=>{
+    if(el !== audioEl) return;
+    syncPlayLabels();
   });
 
   document.getElementById('playBtn').onclick = togglePlay;
@@ -1998,12 +2811,11 @@ function togglePlay(){
   if(audioEl.paused){
     ensureAudioGraph();
     audioEl.play();
-    document.getElementById('playBtn').textContent = '❚❚';
     startVisualizer();
   } else {
     audioEl.pause();
-    document.getElementById('playBtn').textContent = '▶';
   }
+  syncPlayLabels();
 }
 function ensureAudioGraph(){
   if(audioCtx) return;
@@ -2208,34 +3020,100 @@ function buildSessionQuestions(shuffle){
   const ordered = shuffle ? shuffleArray(base) : base;
   return ordered.map(q=>{
     if(!shuffle) return { ...q, options: q.options.slice(), correct: q.correct };
-    const indices = shuffleArray([0,1,2,3]);
+    const indices = shuffleArray(q.options.map((_,i)=>i));
     const options = indices.map(i=>q.options[i]);
     const correct = indices.indexOf(q.correct);
-    return { ...q, options, correct };
+    const distractors = indices.map(i=>(q.distractors || [])[i] || '');
+    return { ...q, options, correct, distractors };
   });
 }
-function difficultyPillHtml(difficulty){
-  if(difficulty === 'inferencia') return `<span class="diff-pill inferencia">🟣 Pensa un pouco</span>`;
+function levelPillHtml(q){
+  const lvl = q.level || legacyLevel(q.difficulty) || 'inicial';
+  if(lvl === 'avanzada') return `<span class="diff-pill avanzada">🟠 Reto</span>`;
+  if(lvl === 'intermedia') return `<span class="diff-pill inferencia">🟣 Pensa un pouco</span>`;
   return `<span class="diff-pill facil">🟢 Doado</span>`;
 }
+/* Tarxetas de preguntas (alumnado e vista previa do docente) */
+function questionCardsHtml(qs, cfg, selectFn, hintFn){
+  selectFn = selectFn || 'selectOption';
+  hintFn = hintFn || 'showHint';
+  return qs.map((q,qi)=>`
+    <div class="q-card" role="group" aria-labelledby="qt-${hintFn}-${qi}">
+      ${levelPillHtml(q)}
+      ${cfg && cfg.showCompetencyLabels && q.competency && q.classReviewed ? `<span class="comp-pill">${escapeHtml(COMPETENCIES[q.competency].kid)}</span>` : ''}
+      <div class="q-title" id="qt-${hintFn}-${qi}">${qi+1}. ${escapeHtml(q.text)}</div>
+      <div class="opts" data-qi="${qi}" role="radiogroup" aria-labelledby="qt-${hintFn}-${qi}">
+        ${q.options.map((opt,oi)=>`
+          <button type="button" class="opt-btn" role="radio" aria-checked="false" data-oi="${oi}" onclick="${selectFn}(${qi}, ${oi})">${escapeHtml(opt)}</button>
+        `).join('')}
+      </div>
+      ${q.hint ? `<button type="button" class="hint-btn" onclick="${hintFn}(${qi})">💡 Preciso unha pista</button><div class="hint-box" data-hint="${qi}" style="display:none;">${escapeHtml(q.hint)}</div>` : ''}
+    </div>
+  `).join('');
+}
+let hintsUsed = new Set();
+let submitting = false;
+let pendingAttemptId = null;
+let lastAttempt = null;
+function showHint(qi){
+  const el = document.querySelector(`#questionsRunner [data-hint="${qi}"]`);
+  if(el){ el.style.display = 'block'; hintsUsed.add(qi); }
+}
+
+/* ---- Mini reprodutor (fases C e D) ---- */
+function miniPlayerHtml(){
+  return `
+    <div class="mini-player" role="group" aria-label="Reprodutor do audio">
+      <button type="button" class="btn btn-gold btn-sm mp-play" onclick="mpToggle()">▶ Escoitar</button>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="skipAudio(-10)" aria-label="Repetir os últimos 10 segundos">⏪ Repetir 10 s</button>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="skipAudio(10)" aria-label="Adiantar 10 segundos">10 s ⏩</button>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="mpRestart()">⏮ Do principio</button>
+      <span class="mp-time mono" aria-live="off">0:00 / 0:00</span>
+    </div>`;
+}
+function transcriptDetailsHtml(){
+  const lines = (currentPodcast && currentPodcast.config.modality === 'apoyo') ? (currentPodcast.transcript || []) : [];
+  if(!lines.length) return '';
+  return `<details class="card" style="margin-bottom:14px;"><summary style="font-weight:800; cursor:pointer;">📖 Ler a transcrición</summary><div style="margin-top:10px;">${lines.map(l=>`<p style="margin-bottom:6px;">${escapeHtml(l)}</p>`).join('')}</div></details>`;
+}
+function syncPlayLabels(){
+  const paused = !audioEl || audioEl.paused;
+  const pb = document.getElementById('playBtn'); if(pb) pb.textContent = paused ? '▶' : '❚❚';
+  document.querySelectorAll('.mp-play').forEach(b=>{ b.textContent = paused ? '▶ Escoitar' : '❚❚ Pausa'; });
+}
+function syncMiniTime(){
+  const t = audioEl ? `${fmtTime(audioEl.currentTime)} / ${fmtTime(audioEl.duration)}` : '0:00 / 0:00';
+  document.querySelectorAll('.mp-time').forEach(el=>{ el.textContent = t; });
+}
+function mpToggle(){ togglePlay(); syncPlayLabels(); }
+function skipAudio(delta){
+  if(!audioEl) return;
+  const dur = isFinite(audioEl.duration) ? audioEl.duration : Infinity;
+  audioEl.currentTime = Math.max(0, Math.min(dur, audioEl.currentTime + delta));
+  syncMiniTime();
+}
+function mpRestart(){ if(audioEl){ audioEl.currentTime = 0; syncMiniTime(); } }
+
 function goToQuestions(shuffle){
   if(!currentPodcast) return;
-  teardownAudio();
+  const cfg = currentPodcast.config;
+  hintsUsed = new Set();
+  submitting = false;
+  pendingAttemptId = uid();
+  lastAttempt = null;
+  if(cfg.modality === 'global'){
+    teardownAudio();
+  } else {
+    if(!audioEl) setupAudioElement();
+    audioEl.pause(); syncPlayLabels();
+  }
   sessionQuestions = buildSessionQuestions(!!shuffle);
   studentAnswers = new Array(sessionQuestions.length).fill(null);
   document.getElementById('qHeaderTitle').textContent = `Preguntas · ${currentPodcast.title}`;
-  const wrap = document.getElementById('questionsRunner');
-  wrap.innerHTML = sessionQuestions.map((q,qi)=>`
-    <div class="q-card">
-      ${difficultyPillHtml(q.difficulty)}
-      <div class="q-title">${qi+1}. ${escapeHtml(q.text)}</div>
-      <div class="opts" data-qi="${qi}">
-        ${q.options.map((opt,oi)=>`
-          <button type="button" class="opt-btn" data-oi="${oi}" onclick="selectOption(${qi}, ${oi})">${escapeHtml(opt)}</button>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
+  document.getElementById('quizSupport').innerHTML = (cfg.modality === 'global') ? '' : (miniPlayerHtml() + transcriptDetailsHtml());
+  document.getElementById('questionsRunner').innerHTML = questionCardsHtml(sessionQuestions, cfg);
+  const sb = document.getElementById('submitAnswersBtn'); sb.disabled = false;
+  syncMiniTime();
   showView('view-student-questions');
   startQuizTimer();
 }
@@ -2245,42 +3123,84 @@ function retryQuiz(){
 }
 function selectOption(qi, oi){
   studentAnswers[qi] = oi;
-  const group = document.querySelector(`.opts[data-qi="${qi}"]`);
+  const group = document.querySelector(`#questionsRunner .opts[data-qi="${qi}"]`);
   group.querySelectorAll('.opt-btn').forEach(btn=>{
-    btn.classList.toggle('selected', parseInt(btn.dataset.oi,10) === oi);
+    const on = parseInt(btn.dataset.oi,10) === oi;
+    btn.classList.toggle('selected', on);
+    btn.setAttribute('aria-checked', on ? 'true' : 'false');
+  });
+}
+function buildAttemptDetails(){
+  return sessionQuestions.map((q,qi)=>{
+    const chosen = studentAnswers[qi];
+    const isCorrect = chosen === q.correct;
+    const classified = !!(q.classReviewed && q.competency);
+    return {
+      qid: q.id || null,
+      text: q.text, options: q.options, chosen, correct: q.correct, isCorrect,
+      explanation: q.explanation || '', difficulty: q.difficulty || 'facil',
+      // Clasificación gardada no propio intento. null = sen clasificar / sen revisar.
+      competency: classified ? q.competency : null,
+      secondary: classified ? (q.secondary || []) : [],
+      level: q.level || null,
+      levelDerived: !!q.levelDerived,
+      evidence: q.evidence || '',
+      distractorNote: (!isCorrect && chosen !== null) ? ((q.distractors || [])[chosen] || '') : '',
+      hintUsed: hintsUsed.has(qi)
+    };
   });
 }
 async function submitAnswers(){
+  if(submitting) return;   // evita dobre clic = intento duplicado
   if(studentAnswers.some(a=>a===null)){
     toast('Responde a todas as preguntas antes de comprobar');
     return;
   }
+  submitting = true;
+  document.getElementById('submitAnswersBtn').disabled = true;
   const timeSeconds = stopQuizTimer();
-  let score = 0;
-  const details = sessionQuestions.map((q,qi)=>{
-    const chosen = studentAnswers[qi];
-    const isCorrect = chosen === q.correct;
-    if(isCorrect) score++;
-    return { text:q.text, options:q.options, chosen, correct:q.correct, isCorrect, explanation:q.explanation || '', difficulty:q.difficulty || 'facil' };
-  });
-
+  const details = buildAttemptDetails();
+  const score = details.filter(d=>d.isCorrect).length;
   const attempt = {
-    id: uid(),
+    id: pendingAttemptId || uid(),
+    schemaVersion: 2,
     podcastId: currentPodcast.id,
     podcastTitle: currentPodcast.title,
     studentName: student.name,
     className: student.className,
     mode: student.mode || 'alumno',
+    modality: currentPodcast.config.modality,
     total: sessionQuestions.length,
     score,
     timeSeconds,
     attemptNumber: currentAttemptNumber,
+    hintsUsed: hintsUsed.size,
     details,
+    competencySummary: attemptCompetencyRows({ details }, null),
     date: Date.now()
   };
-  await cloudSaveAttempt(attempt);
-  await renderSummary(attempt);
+  lastAttempt = attempt;
+  let saved = false;
+  try{
+    await cloudSaveAttempt(attempt);
+    saved = true;
+  }catch(err){
+    console.error(err);
+  }
+  await renderSummary(attempt, saved);
   showView('view-student-summary');
+}
+async function retrySaveAttempt(){
+  if(!lastAttempt) return;
+  const btn = document.getElementById('retrySaveBtn'); if(btn) btn.disabled = true;
+  try{
+    await cloudSaveAttempt(lastAttempt);   // mesmo id: non crea duplicados
+    document.getElementById('saveStatus').innerHTML = `<div class="notice info">✅ Resultado gardado.</div>`;
+  }catch(err){
+    console.error(err);
+    toast('Seguimos sen conexión: o resultado aínda NON está gardado.');
+    if(btn) btn.disabled = false;
+  }
 }
 async function computeWeeklyStreak(studentName, className){
   try{
@@ -2306,7 +3226,40 @@ async function computeWeeklyStreak(studentName, className){
     return null;
   }
 }
-async function renderSummary(attempt){
+async function fetchStudentAttempts(name, className){
+  initFirebase();
+  const snap = await _fbDb.collection('attempts').where('studentName','==',name).get();
+  return snap.docs.map(d=>({ id:d.id, ...d.data() })).filter(a=>a.className === className);
+}
+/* Fase F: resumo por competencias + recomendación (orientativa) */
+async function buildClosingHtml(attempt, saved){
+  const own = attemptCompetencyRows(attempt, null);
+  let html = '';
+  const rows = COMP_IDS.filter(c=>own[c]).map(c=>`<li><b>${escapeHtml(COMPETENCIES[c].kid)}:</b> ${own[c].correct} de ${own[c].n}</li>`);
+  if(rows.length) html += `<div class="card" style="margin-bottom:14px;"><h4>Como che foi en cada tipo de pregunta</h4><ul style="margin:8px 0 0 18px;">${rows.join('')}</ul></div>`;
+  let attempts = [], podcasts = [];
+  try{
+    attempts = await fetchStudentAttempts(attempt.studentName, attempt.className);
+    podcasts = await cloudGetAllPodcasts();
+  }catch(e){ console.error(e); }
+  if(!attempts.some(a=>a.id === attempt.id)) attempts.push(attempt);
+  const sameMod = attempts.filter(a=>attemptModality(a) === attemptModality(attempt));
+  const byId = {}; podcasts.forEach(p=>byId[p.id] = p);
+  const stats = computeCompetencyStats(firstAttempts(sameMod), byId);
+  const recs = recommendPractice(stats.byComp, podcasts, sameMod.map(a=>a.podcastId));
+  if(recs.length){
+    html += `<div class="card" style="margin-bottom:14px;"><h4>Para practicar máis</h4><p class="hint">Son orientacións feitas cos teus resultados, non unha nota.</p>` +
+      recs.map(r=>`<p style="margin-top:8px;"><b>${escapeHtml(COMPETENCIES[r.comp].kid)}</b><br>${escapeHtml(r.practice)}<br>` +
+        (r.catalogGap ? `<span class="hint">Por agora non hai un podcast axeitado. Dillo ao teu profesorado.</span>` :
+          `Proba: ${r.podcasts.map(p=>escapeHtml(p.title)).join(' · ')}`) + `</p>`).join('') + `</div>`;
+  } else {
+    const anyOk = COMP_IDS.some(c=>reliabilityOf(stats.byComp[c].n) !== 'sin_evidencia' && reliabilityOf(stats.byComp[c].n) !== 'insuficiente');
+    html += `<div class="card" style="margin-bottom:14px;"><p>${anyOk ? 'Non se ve ningún tipo de pregunta que precise práctica especial polos datos que temos.' : 'Aínda non hai datos abondo para recomendar práctica concreta. Segue escoitando podcasts!'}</p></div>`;
+  }
+  return html;
+}
+async function renderSummary(attempt, saved){
+  const cfg = currentPodcast.config;
   const pct = Math.round((attempt.score/attempt.total)*100);
   document.getElementById('scoreRing').style.setProperty('--pct', pct);
   document.getElementById('scoreNum').textContent = `${attempt.score}/${attempt.total}`;
@@ -2314,35 +3267,83 @@ async function renderSummary(attempt){
   document.getElementById('summaryMsg').textContent = msgs;
   document.getElementById('summaryTime').textContent = `⏱ ${fmtDuration(attempt.timeSeconds || 0)}`;
 
+  document.getElementById('saveStatus').innerHTML = saved ? '' :
+    `<div class="save-warn" role="alert">⚠️ O resultado NON se gardou (sen conexión ou erro da base de datos). Non aparecerá na clasificación nin nos informes ata que se garde.<br><button class="btn btn-coral btn-sm" id="retrySaveBtn" onclick="retrySaveAttempt()">Reintentar gardar</button></div>`;
+
   const retryBtn = document.getElementById('retryBtn');
   retryBtn.style.display = pct < 100 ? 'inline-flex' : 'none';
 
   const streakWrap = document.getElementById('streakBadge');
   streakWrap.innerHTML = '';
-  const streakDays = await computeWeeklyStreak(attempt.studentName, attempt.className);
-  if(streakDays !== null && streakDays > 0){
-    streakWrap.innerHTML += `<div class="streak-badge">🔥 ${streakDays} ${streakDays===1?'día':'días'} escoitando podcasts esta semana</div>`;
-  }
-  if(currentPodcast && currentPodcast.isWeeklyChallenge){
-    streakWrap.innerHTML += `<div class="weekly-summary-badge">🌟 Completaches o Reto da semana!</div>`;
+  if(saved){
+    const streakDays = await computeWeeklyStreak(attempt.studentName, attempt.className);
+    if(streakDays !== null && streakDays > 0){
+      streakWrap.innerHTML += `<div class="streak-badge">🔥 ${streakDays} ${streakDays===1?'día':'días'} escoitando podcasts esta semana</div>`;
+    }
+    if(currentPodcast && currentPodcast.isWeeklyChallenge){
+      streakWrap.innerHTML += `<div class="weekly-summary-badge">🌟 Completaches o Reto da semana!</div>`;
+    }
   }
 
+  // Fase D: revisión e segunda escoita
+  const review = document.getElementById('reviewPanel');
+  if(cfg.showReview){
+    if(!audioEl) setupAudioElement();
+    review.innerHTML = `<div class="card" style="margin-bottom:14px;"><h4>Revisa e volve escoitar</h4><p class="hint">Mira as túas respostas e escoita de novo os fragmentos que che custaron.</p>${miniPlayerHtml()}${transcriptDetailsHtml()}</div>`;
+    syncPlayLabels(); syncMiniTime();
+  } else { review.innerHTML = ''; }
+
+  document.getElementById('competencyFeedback').innerHTML = '';
+  buildClosingHtml(attempt, saved).then(html=>{ document.getElementById('competencyFeedback').innerHTML = html; }).catch(console.error);
+
+  // Fase E: retroalimentación que ensina
   document.getElementById('summaryDetail').innerHTML = attempt.details.map((d,i)=>`
     <div class="q-card">
-      ${difficultyPillHtml(d.difficulty)}
+      ${levelPillHtml(d)}
+      ${cfg.showCompetencyLabels && d.competency ? `<span class="comp-pill">${escapeHtml(COMPETENCIES[d.competency].kid)}</span>` : ''}
       <div class="q-title">${i+1}. ${escapeHtml(d.text)}</div>
       ${d.options.map((opt,oi)=>{
         let cls = 'opt-btn';
         if(oi===d.correct) cls += ' correct';
         else if(oi===d.chosen && !d.isCorrect) cls += ' incorrect';
-        return `<div class="${cls}">${escapeHtml(opt)} ${oi===d.correct?'✓':(oi===d.chosen?'✕':'')}</div>`;
+        const mark = oi===d.correct ? ' ✓ (correcta)' : (oi===d.chosen ? ' ✕ (a túa resposta)' : '');
+        return `<div class="${cls}">${escapeHtml(opt)}${mark}</div>`;
       }).join('')}
-      ${d.explanation ? `<div class="explanation-box">💡 ${escapeHtml(d.explanation)}</div>` : ''}
+      ${d.explanation ? `<div class="explanation-box">💡 <b>Por que?</b> ${escapeHtml(d.explanation)}</div>` : ''}
+      ${d.distractorNote ? `<div class="explanation-box">🤔 <b>Por que podía confundir a túa opción:</b> ${escapeHtml(d.distractorNote)}</div>` : ''}
+      ${d.evidence && !d.isCorrect ? `<div class="explanation-box">🎯 <b>Para respondela había que:</b> ${escapeHtml(d.evidence)}</div>` : ''}
     </div>
   `).join('');
 }
 
+/* Propostas de clasificación para os 4 podcasts precargados.
+   Só se propón cando a pregunta pide un dato dito literalmente (C1) ou o propio
+   enunciado/explicación o indican (C2). O resto queda PENDENTE de revisión docente.
+   As propostas non contan nos informes ata que o docente as confirme. */
+function seedClassificationProposals(){
+  return {
+    [SEED_PODCAST_ID]:   { q1:'C1', q3:'C1', q4:'C1', q5:'C1', q6:'C1', q7:'C2', q8:'C1' },
+    [SEED_PODCAST_ID_2]: { q1:'C1', q2:'C1', q3:'C1', q4:'C1', q6:'C1' },
+    [SEED_PODCAST_ID_3]: { q1:'C1', q3:'C1', q5:'C1', q6:'C1', q7:'C2', q8:'C1' },
+    [SEED_PODCAST_ID_4]: { q1:'C1', q2:'C1', q3:'C1', q4:'C1', q5:'C1', q6:'C1' }
+  };
+}
+async function upgradeSeedClassifications(){
+  const proposals = seedClassificationProposals();
+  for(const pid of Object.keys(proposals)){
+    const p = await cloudGetPodcast(pid);
+    if(!p || p.schemaVersion >= 2) continue;
+    // Se o docente xa tocou algunha clasificación, non se sobrescribe nada
+    if(p.questions.some(q=>q.competency || q.classReviewed)) continue;
+    const map = proposals[pid];
+    const questions = p.questions.map(q=>({ ...q, competency: map[q.id] || null, classReviewed: false }));
+    initFirebase();
+    await _fbDb.collection('podcasts').doc(pid).update({ questions: questions.map(cleanQuestionForSave), schemaVersion: 2 });
+  }
+}
+
 Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast()])
+  .then(()=>upgradeSeedClassifications())
   .catch(err=>{ console.error('Erro na configuración inicial de Firebase:', err); })
   .then(()=>{ renderStudentList(); });
 </script>
