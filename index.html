@@ -382,6 +382,13 @@
 
   .row-2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
   @media (max-width:520px){ .row-2{ grid-template-columns:1fr; } }
+
+.mode-toggle{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;}
+.mode-btn{border:2px solid var(--navy); background:#fff; color:var(--navy); border-radius:14px; padding:12px 8px; font:inherit; font-weight:800; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:2px;}
+.mode-btn small{font-weight:600; font-size:.72rem; opacity:.75;}
+.mode-btn.active{background:var(--navy); color:#fff;}
+.who-line{font-size:.85rem; margin:8px 0 0; text-align:center; opacity:.85;}
+.who-line a{color:inherit; font-weight:800; cursor:pointer; text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -492,22 +499,26 @@
     </div>
   </div>
 
-  <!-- STUDENT: NAME -->
+  <!-- STUDENT: IDENTIFICACIÓN (só ao responder as preguntas) -->
   <div class="view" id="view-student-name">
     <div class="hero" style="padding-top:10px;">
-      <h2>Antes de comezar...</h2>
-      <p>Dinos quen es para gardar os teus resultados.</p>
+      <h2>Antes de responder...</h2>
+      <p>Como queredes participar?</p>
     </div>
-    <div class="card" style="max-width:420px; margin:0 auto;">
-      <div class="field">
+    <div class="card" style="max-width:460px; margin:0 auto;">
+      <div class="mode-toggle">
+        <button type="button" id="modeGroupBtn" class="mode-btn active" onclick="setIdentityMode('grupo')">👥 Grupo clase<small>Toda a clase en equipo</small></button>
+        <button type="button" id="modeStudentBtn" class="mode-btn" onclick="setIdentityMode('alumno')">🧑 Alumno/a<small>Reto individual</small></button>
+      </div>
+      <div class="field" id="sNameField" style="display:none;">
         <label>O teu nome</label>
         <input type="text" id="sName" placeholder="Ex.: Noa">
       </div>
       <div class="field">
-        <label>A túa clase</label>
+        <label id="sClassLabel">Curso / clase do grupo</label>
         <input type="text" id="sClass" placeholder="Ex.: 3º B">
       </div>
-      <button class="btn btn-coral btn-block" onclick="confirmIdentityAndPlay()">Continuar</button>
+      <button class="btn btn-coral btn-block" onclick="confirmIdentityAndStartQuiz()">Comezar as preguntas →</button>
     </div>
   </div>
 
@@ -529,7 +540,8 @@
     </div>
     <div class="subtitle-panel" id="subtitlePanel" style="display:none;"></div>
     <div style="text-align:center; margin-top:24px;">
-      <button class="btn btn-gold" id="goToQuestionsBtn" onclick="goToQuestions()">Xa escoitei · Responder preguntas →</button>
+      <button class="btn btn-gold" id="goToQuestionsBtn" onclick="requestQuiz()">Xa escoitei · Responder preguntas →</button>
+      <div class="who-line" id="whoLine"></div>
     </div>
   </div>
 
@@ -1333,7 +1345,7 @@ document.getElementById('backBtn').addEventListener('click', ()=>{
     'view-teacher-results':'view-teacher-list',
     'view-teacher-trash':'view-teacher-list',
     'view-student-search':'view-teacher-list',
-    'view-student-name':'view-home',
+    'view-student-name':'view-student-player',
     'view-student-player':'view-home',
     'view-student-questions':'view-student-player',
     'view-student-summary':'view-home',
@@ -1779,21 +1791,51 @@ function renderStudentSearchResults(){
 /* =========================================================
    STUDENT: flow
 ========================================================= */
-let student = { name:'', className:'' };
-let pendingPodcastId = null;
+let student = { name:'', className:'', mode:'' };
+let identityMode = 'grupo';
 
 function selectPodcastForIdentification(id){
-  pendingPodcastId = id;
-  document.getElementById('sName').value = '';
-  document.getElementById('sClass').value = '';
+  // Escoitar o audio xa non pide identificación
+  openPlayer(id);
+}
+function setIdentityMode(mode){
+  identityMode = mode;
+  document.getElementById('modeGroupBtn').classList.toggle('active', mode==='grupo');
+  document.getElementById('modeStudentBtn').classList.toggle('active', mode==='alumno');
+  document.getElementById('sNameField').style.display = mode==='alumno' ? 'block' : 'none';
+  document.getElementById('sClassLabel').textContent = mode==='alumno' ? 'O teu curso' : 'Curso / clase do grupo';
+}
+function showIdentityForm(){
+  document.getElementById('sName').value = student.mode==='alumno' ? student.name : '';
+  document.getElementById('sClass').value = student.className && student.className!=='-' ? student.className : '';
+  setIdentityMode(student.mode || 'grupo');
   showView('view-student-name');
 }
-function confirmIdentityAndPlay(){
-  const name = document.getElementById('sName').value.trim();
+function updateWhoLine(){
+  const el = document.getElementById('whoLine');
+  if(!el) return;
+  el.innerHTML = student.name
+    ? `Participas como <b>${escapeHtml(student.name)}</b> · <a onclick="showIdentityForm()">Cambiar</a>`
+    : '';
+}
+function requestQuiz(){
+  if(!currentPodcast) return;
+  if(!student.name){ showIdentityForm(); return; }
+  goToQuestions();
+}
+function confirmIdentityAndStartQuiz(){
   const cls = document.getElementById('sClass').value.trim();
-  if(!name){ toast('Escribe o teu nome para continuar'); return; }
-  student = { name, className: cls || '-' };
-  openPlayer(pendingPodcastId);
+  if(identityMode === 'alumno'){
+    const name = document.getElementById('sName').value.trim();
+    if(!name){ toast('Escribe o teu nome para continuar'); return; }
+    if(!cls){ toast('Escribe o teu curso para continuar'); return; }
+    student = { name, className: cls, mode:'alumno' };
+  } else {
+    if(!cls){ toast('Escribe o curso do grupo (Ex.: 3º B)'); return; }
+    student = { name: 'Grupo ' + cls, className: cls, mode:'grupo' };
+  }
+  updateWhoLine();
+  goToQuestions();
 }
 async function renderStudentList(){
   const wrap = document.getElementById('studentPodcastList');
@@ -1849,6 +1891,7 @@ async function openPlayer(id){
   document.getElementById('playerTitle').textContent = currentPodcast.title;
   setupAudioElement();
   setupSubtitles(currentPodcast);
+  updateWhoLine();
   showView('view-student-player');
 }
 
@@ -2227,6 +2270,7 @@ async function submitAnswers(){
     podcastTitle: currentPodcast.title,
     studentName: student.name,
     className: student.className,
+    mode: student.mode || 'alumno',
     total: sessionQuestions.length,
     score,
     timeSeconds,
