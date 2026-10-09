@@ -49,3 +49,6 @@ JSPDF_PATH=/ruta/node_modules/jspdf JSDOM_PATH=/ruta/node_modules/jsdom node tes
 
 ## Regla para generar preguntas
 Cada pregunta nueva debe llevar **una competencia principal (C1–C6)**, un nivel de dificultad, evidencia de aprendizaje y justificación basada en la transcripción real. Cada podcast debe tener **al menos 2 preguntas de cada competencia**. Los 4 podcasts precargados incluyen ya preguntas adicionales (ids `k1…`) para cumplirlo; se añaden una sola vez (`seedExtrasVersion`) y no se tocan las preguntas editadas por el docente. Quedan como *propuesta* hasta que el docente las confirme.
+
+## Estilo das preguntas e caderniño PDF
+Ver `docs/estilo-proba-diagnostico.md` (estilo da proba de diagnóstico de 4.º EP aplicado a En Antena e funcionamento do caderniño descargable).
