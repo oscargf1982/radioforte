@@ -36,7 +36,7 @@
 ## Pruebas
 ```
 node tests/pure.test.js                                   # lógica pura (sin dependencias)
-JSDOM_PATH=/ruta/node_modules/jsdom node tests/integration.test.js   # app completa con Firestore simulado
+JSPDF_PATH=/ruta/node_modules/jspdf JSDOM_PATH=/ruta/node_modules/jsdom node tests/integration.test.js   # app completa con Firestore simulado (JSPDF_PATH activa as probas do caderniño PDF)
 ```
 
 ## Limitaciones y cambios externos

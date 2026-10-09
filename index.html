@@ -670,6 +670,7 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
     <div style="text-align:center; margin-top:24px;">
       <button class="btn btn-gold" id="goToQuestionsBtn" onclick="requestQuiz()">Xa escoitei · Responder preguntas →</button>
       <div class="who-line" id="whoLine"></div>
+      <button class="btn btn-ghost btn-sm" style="margin-top:14px;" onclick="downloadBooklet(currentPodcast.id, false)">📄 Descargar caderniño en PDF para imprimir</button>
     </div>
   </div>
 
@@ -801,6 +802,270 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script id="bookletLogic">
+/*BOOKLET-START*/
+/* =========================================================
+   Caderniño en PDF para imprimir (monocromo, tarefas en recadros).
+   Estrutura inspirada na proba de diagnóstico: identificación,
+   instrucións con exemplos, esquema de escoita e preguntas A-D.
+   Función pura: recibe o construtor de jsPDF e devolve o documento.
+========================================================= */
+function bookletFileName(podcast, withNotes){
+  const base = String((podcast && podcast.title) || 'podcast').normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,50) || 'podcast';
+  return 'cadernino-' + base + (withNotes ? '-docente' : '') + '.pdf';
+}
+function buildBookletPdf(JsPDF, podcast, opts){
+  opts = opts || {};
+  const withNotes = !!opts.withNotes;
+  const qs = (podcast.questions || []);
+  const cfg = podcast.config || {};
+  const doc = new JsPDF({ unit:'mm', format:'a4' });
+  const W = 210, H = 297, M = 18, CW = W - 2*M, FOOT = H - 16, TOP = 22;
+  const LET = ['A','B','C','D','E','F'];
+  const pageKinds = [];            // 'cover' | 'student' | 'teacher'
+  let kind = 'cover';
+  let y = TOP;
+
+  const setF = (size, style)=>{ doc.setFont('helvetica', style || 'normal'); doc.setFontSize(size); };
+  const lh = size => size * 0.3528 * 1.32;
+  const wrap = (txt, size, width, style)=>{ setF(size, style); return doc.splitTextToSize(String(txt == null ? '' : txt), width); };
+  const newPage = k =>{ doc.addPage(); kind = k || kind; pageKinds[doc.getNumberOfPages()-1] = kind; y = TOP; };
+  pageKinds[0] = 'cover';
+  const ensure = h =>{ if(y + h > FOOT) newPage(); };
+  const hline = (yy, w)=>{ doc.setLineWidth(w || 0.3); doc.line(M, yy, W-M, yy); };
+  const box = (x, yy, w, h, lw)=>{ doc.setLineWidth(lw || 0.4); doc.rect(x, yy, w, h); };
+  doc.setDrawColor(0); doc.setTextColor(0);
+
+  /* ---------- Portada ---------- */
+  setF(10, 'normal'); doc.setTextColor(90);
+  doc.text('CEIP Plurilingüe de Monforte de Lemos · En Antena', M, 18);
+  doc.setTextColor(0);
+  // Recadro de identificación (como o da proba oficial, pero con nome, curso e data)
+  const idY = 28, idH = 22;
+  box(M, idY, CW, idH, 0.6);
+  const cw1 = CW*0.52, cw2 = CW*0.26;
+  doc.setLineWidth(0.4); doc.line(M+cw1, idY, M+cw1, idY+idH); doc.line(M+cw1+cw2, idY, M+cw1+cw2, idY+idH);
+  setF(9, 'normal'); doc.setTextColor(70);
+  doc.text('Nome e apelidos', M+2.5, idY+5); doc.text('Curso e grupo', M+cw1+2.5, idY+5); doc.text('Data', M+cw1+cw2+2.5, idY+5);
+  doc.setTextColor(0);
+  // Barra vertical e título
+  doc.setLineWidth(1.6); doc.line(M, 86, M, 132);
+  setF(30, 'normal'); doc.text('COMPRENSIÓN', M+8, 98); doc.text('ORAL', M+8, 110);
+  setF(18, 'normal'); doc.text('Caderniño do alumnado', M+8, 124);
+  const tl = wrap(podcast.title || '', 22, CW-6, 'bold');
+  setF(22, 'bold'); doc.text(tl, M+3, 158);
+  let cy = 158 + tl.length * lh(22) + 4;
+  setF(13, 'normal'); doc.setTextColor(60);
+  doc.text(String(podcast.cycle || ''), M+3, cy); cy += 7;
+  doc.text(qs.length + ' preguntas de resposta única', M+3, cy);
+  doc.setTextColor(0);
+  box(M, 236, CW, 30, 0.4);
+  setF(10.5, 'normal');
+  const covNote = wrap('Este caderniño é individual. Escribe o teu nome e escoita con atención. Non o abras ata que o teu profesor ou a túa profesora che o indique.', 10.5, CW-8);
+  doc.text(covNote, M+4, 245);
+
+  /* ---------- Instrucións ---------- */
+  newPage('student');
+  setF(17, 'bold'); doc.text('INSTRUCIÓNS', W/2, y+4, { align:'center' });
+  hline(y-1, 0.5); hline(y+7, 0.5); y += 15;
+  setF(11.5, 'normal');
+  const para = (txt, indent)=>{
+    const L = wrap(txt, 11.5, CW-(indent||0));
+    ensure(L.length*lh(11.5)+2);
+    doc.text(L, M+(indent||0), y); y += L.length*lh(11.5) + 2;
+  };
+  para('Neste caderniño tes que responder a preguntas sobre un audio que vas escoitar.');
+  const bullets = [
+    'Se non sabes contestar algunha pregunta, non perdas tempo e pasa á seguinte.',
+    'Le cada pregunta con atención.',
+    'Cada pregunta ten catro respostas posibles, pero só unha é correcta. Rodea a letra que está xunto a ela.'
+  ];
+  bullets.forEach(b=>{
+    const L = wrap(b, 11.5, CW-10);
+    ensure(L.length*lh(11.5)+2);
+    doc.circle(M+3, y-1.2, 0.7, 'F');
+    doc.text(L, M+8, y); y += L.length*lh(11.5) + 1.8;
+  });
+  y += 3;
+  para('Mira este exemplo:');
+  const exampleBox = (rows, mark)=>{
+    const stem = '¿Cantos meses ten un ano? Elixe a resposta correcta.';
+    const h = 8 + rows.length*6 + 2;
+    ensure(h+4);
+    box(M, y, CW, h, 0.4);
+    setF(11.5, 'bold'); doc.text(stem, M+3, y+6);
+    rows.forEach((r,i)=>{
+      const ry = y + 12.5 + i*6;
+      setF(11.5, 'normal'); doc.text(LET[i]+'.', M+8, ry); doc.text(r, M+17, ry);
+      if(mark.circle === i) doc.circle(M+9.2, ry-1.4, 2.7);
+      if(mark.cross === i){ doc.setLineWidth(0.5); doc.line(M+6.2, ry-4, M+12.2, ry+1.2); doc.line(M+12.2, ry-4, M+6.2, ry+1.2); }
+    });
+    y += h + 5;
+  };
+  const rows = ['2 meses','17 meses','12 meses','11 meses'];
+  setF(11.5, 'bold'); ensure(8); doc.text('Exemplo 1', M, y); y += 5;
+  exampleBox(rows, { circle:2 });
+  para('Se decides cambiar unha resposta, tacha cunha X a túa primeira elección e rodea a resposta correcta. Mira este exemplo, onde primeiro se elixiu a resposta A e despois a C.');
+  setF(11.5, 'bold'); ensure(8); doc.text('Exemplo 2', M, y); y += 5;
+  exampleBox(rows, { circle:2, cross:0 });
+  y += 4;
+  setF(12, 'bold'); ensure(10);
+  box(M, y-6, CW, 11, 0.5);
+  doc.text('NON PASES Á PÁXINA SEGUINTE ATA QUE SE TE INDIQUE', W/2, y+1, { align:'center' });
+  y += 8;
+
+  /* ---------- Páxina de tarefa (esquema de escoita) ---------- */
+  newPage('student');
+  box(M, y, CW, 14, 0.8);
+  const tt = wrap(podcast.title || '', 17, CW-8, 'normal');
+  setF(17, 'normal'); doc.text(tt[0] + (tt.length>1 ? '…' : ''), W/2, y+9.2, { align:'center' });
+  y += 24;
+  setF(11.5, 'normal');
+  doc.text('Este exercicio consiste en ', M, y);
+  let tx = M + doc.getTextWidth('Este exercicio consiste en ');
+  [['escoitar','bold'],[' e ','normal'],['contestar','bold'],[' preguntas.','normal']].forEach(([t,s])=>{ setF(11.5,s); doc.text(t, tx, y); tx += doc.getTextWidth(t); });
+  y += 12;
+  const steps = [['Ler','2 minutos'],['Escoitar','1.ª vez'],['Responder','1 minuto'],['Escoitar','2.ª vez'],['Repasar','as respostas']];
+  const gap = 7, sw = (CW - gap*4)/5;
+  steps.forEach((s,i)=>{
+    const sx = M + i*(sw+gap);
+    box(sx, y, sw, 24, 0.5);
+    doc.setLineWidth(0.5); doc.circle(sx+sw/2, y+7, 4); setF(11,'bold'); doc.text(String(i+1), sx+sw/2, y+8.6, { align:'center' });
+    setF(10.5,'bold'); doc.text(s[0], sx+sw/2, y+16, { align:'center' });
+    setF(9,'normal'); doc.text(s[1], sx+sw/2, y+21, { align:'center' });
+    if(i<4){ const ax = sx+sw+1; doc.line(ax, y+12, ax+gap-2, y+12); doc.line(ax+gap-3.5, y+10.5, ax+gap-2, y+12); doc.line(ax+gap-3.5, y+13.5, ax+gap-2, y+12); }
+  });
+  y += 34;
+  const ctx = (cfg.showPre !== false) ? (cfg.context || '') : '';
+  const ant = (cfg.showPre !== false) ? (cfg.anticipation || '') : '';
+  const preLines = [];
+  if(ctx) preLines.push(...wrap(ctx, 11.5, CW-10));
+  const antL = ant ? wrap('Pensa: ' + ant, 11.5, CW-10, 'normal') : [];
+  const preH = 12 + (ctx ? preLines.length*lh(11.5) : lh(11.5)) + (antL.length ? antL.length*lh(11.5)+3 : 0) + 4;
+  box(M, y, CW, preH, 0.5);
+  setF(11.5,'bold'); doc.text('Antes de escoitar', M+5, y+7);
+  setF(11.5,'normal');
+  let py = y + 14;
+  if(ctx){ doc.text(preLines, M+5, py); py += preLines.length*lh(11.5) + 1; }
+  else { doc.text('Le o título e pensa de que pode tratar o audio.', M+5, py); py += lh(11.5)+1; }
+  if(antL.length){ setF(11.5,'bold'); doc.text(antL.slice(0,1), M+5, py+2); setF(11.5,'normal'); if(antL.length>1) doc.text(antL.slice(1), M+5, py+2+lh(11.5)); }
+  y += preH + 12;
+  setF(10.5,'normal'); doc.setTextColor(70);
+  doc.text(wrap('O teu profesor ou a túa profesora reproducirá o audio. Respecta o tempo de cada paso.', 10.5, CW), M, y);
+  doc.setTextColor(0);
+  y += 16;
+  setF(12,'bold'); box(M, y-6, CW, 11, 0.5);
+  doc.text('NON PASES Á PÁXINA SEGUINTE ATA QUE SE TE INDIQUE', W/2, y+1, { align:'center' });
+
+  /* ---------- Preguntas ---------- */
+  newPage('student');
+  const SZ = 11.5, NUMX = M+3, TXTX = M+17, TW = CW-21;
+  qs.forEach((q,i)=>{
+    const stemL = wrap(q.text, SZ, TW, 'bold');
+    const optL = (q.options||[]).map(o=>wrap(o, SZ, TW-9, 'normal'));
+    let h = 6.2 + stemL.length*lh(SZ) + 2.6;
+    optL.forEach(L=>{ h += L.length*lh(SZ) + 1.2; });
+    h += 2.2 - lh(SZ);
+    ensure(h + 5);
+    box(M, y, CW, h, 0.4);
+    setF(22,'normal'); doc.text(String(i+1)+'.', NUMX, y+10.5);
+    setF(SZ,'bold'); doc.text(stemL, TXTX, y+6.2);
+    let oy = y + 6.2 + stemL.length*lh(SZ) + 2.6;
+    optL.forEach((L,oi)=>{
+      setF(SZ,'normal'); doc.text(LET[oi]+'.', TXTX+1, oy);
+      doc.text(L, TXTX+9, oy);
+      oy += L.length*lh(SZ) + 1.2;
+    });
+    y += h + 5;
+  });
+  if(y < FOOT-18){
+    setF(12,'bold'); box(M, y+2, CW, 11, 0.5);
+    doc.text('FIN DAS PREGUNTAS · REPASA AS TÚAS RESPOSTAS', W/2, y+9, { align:'center' });
+  }
+
+  /* ---------- Notas para o docente (páxinas aparte) ---------- */
+  if(withNotes){
+    newPage('teacher');
+    setF(16,'bold'); doc.text('NOTAS PARA O DOCENTE', M, y+2);
+    setF(10,'normal'); doc.setTextColor(70); doc.text('Non entregar esta páxina ao alumnado.', M, y+8); doc.setTextColor(0);
+    hline(y+11, 0.6); y += 19;
+    const kv = (k,v,kw)=>{ kw = kw || 42; const L = wrap(v, 10.5, CW-kw); ensure(L.length*lh(10.5)+2); setF(10.5,'bold'); doc.text(k, M, y); setF(10.5,'normal'); doc.text(L, M+kw, y); y += L.length*lh(10.5)+1.6; };
+    kv('Podcast', podcast.title || '');
+    kv('Ciclo', String(podcast.cycle || ''));
+    kv('Modalidade', MODALITY_LABELS[cfg.modality] || '—');
+    kv('Preguntas', String(qs.length) + ' · 1 punto por acerto, sen penalización por erro');
+    kv('Aplicación', 'Lectura do contexto (2 min) · 1.ª escoita · 1 min para responder · 2.ª escoita · repaso. Reproduce o audio desde En Antena.');
+    y += 3;
+    // Clave
+    setF(12,'bold'); ensure(14); doc.text('Clave de respostas e competencia avaliada', M, y); y += 4;
+    const cols = [ ['Nº',12], ['Resp.',16], ['Competencia',112], ['Nivel',34] ];
+    const drawHead = ()=>{ let cx = M; setF(9.5,'bold'); box(M, y, CW, 7, 0.4); cols.forEach(c=>{ doc.text(c[0], cx+2, y+4.8); cx += c[1]; }); y += 7; };
+    drawHead();
+    qs.forEach((q,i)=>{
+      const compTxt = q.competency ? (q.competency + ' · ' + COMPETENCIES[q.competency].short + (q.classReviewed ? '' : ' (proposta sen confirmar)')) : 'Sen clasificar';
+      const L = wrap(compTxt, 9.5, cols[2][1]-4);
+      const rh = Math.max(7, L.length*lh(9.5)+3);
+      if(y + rh > FOOT){ newPage('teacher'); drawHead(); }
+      doc.setLineWidth(0.25); doc.rect(M, y, CW, rh);
+      let cx = M; setF(9.5,'normal');
+      doc.text(String(i+1), cx+2, y+4.8); cx += cols[0][1];
+      setF(9.5,'bold'); doc.text(LET[q.correct] || '?', cx+2, y+4.8); cx += cols[1][1]; setF(9.5,'normal');
+      doc.text(L, cx+2, y+4.8); cx += cols[2][1];
+      doc.text(q.level ? (LEVEL_LABELS[q.level] || '') + (q.levelDerived ? ' *' : '') : '—', cx+2, y+4.8);
+      y += rh;
+    });
+    setF(8.5,'normal'); doc.setTextColor(80);
+    doc.text('* Nivel derivado da dificultade antiga; non confirmado polo docente.', M, y+5); doc.setTextColor(0);
+    y += 12;
+    // Resumo por competencia
+    ensure(30);
+    setF(12,'bold'); doc.text('Preguntas por competencia', M, y); y += 5;
+    COMP_IDS.forEach(c=>{
+      const ids = qs.map((q,i)=>q.competency===c ? (i+1) : null).filter(Boolean);
+      kv(c + ' · ' + COMPETENCIES[c].short, ids.length ? ids.length + ' (preguntas ' + ids.join(', ') + ')' : 'Ningunha', 78);
+    });
+    const sinClas = qs.map((q,i)=>q.competency ? null : (i+1)).filter(Boolean);
+    if(sinClas.length) kv('Sen clasificar', sinClas.join(', '), 78);
+    // Xustificacións
+    newPage('teacher');
+    setF(14,'bold'); doc.text('Xustificación de cada resposta', M, y+2); hline(y+5, 0.5); y += 12;
+    qs.forEach((q,i)=>{
+      const parts = [];
+      parts.push('Correcta: ' + (LET[q.correct] || '?') + '. ' + (q.options && q.options[q.correct] != null ? q.options[q.correct] : ''));
+      if(q.explanation) parts.push('Xustificación: ' + q.explanation);
+      if(q.evidence) parts.push('Criterio / evidencia: ' + q.evidence);
+      const dn = Array.isArray(q.distractors) ? q.distractors.map((t,k)=>t ? (LET[k] + ': ' + t) : '').filter(Boolean).join(' · ') : (typeof q.distractors === 'string' ? q.distractors : '');
+      if(dn) parts.push('Notas sobre distractores: ' + dn);
+      const Ls = parts.map(p=>wrap(p, 10, CW-10));
+      let h = 7; Ls.forEach(L=>{ h += L.length*lh(10)+1; });
+      ensure(h+3);
+      box(M, y, CW, h, 0.3);
+      setF(10.5,'bold'); doc.text('Pregunta ' + (i+1), M+3, y+5);
+      let yy = y + 5 + lh(10);
+      Ls.forEach(L=>{ setF(10,'normal'); doc.text(L, M+6, yy); yy += L.length*lh(10)+1; });
+      y += h + 3;
+    });
+  }
+
+  /* ---------- Cabeceira e pé en todas as páxinas ---------- */
+  const total = doc.getNumberOfPages();
+  for(let p=1; p<=total; p++){
+    doc.setPage(p);
+    const k = pageKinds[p-1] || 'student';
+    doc.setTextColor(110); setF(8.5,'normal');
+    if(k !== 'cover'){
+      doc.text('En Antena · Comprensión oral', M, 12);
+      doc.text(k === 'teacher' ? 'SÓ PROFESORADO' : String(podcast.cycle || ''), W-M, 12, { align:'right' });
+    }
+    doc.text(String(p), W/2, H-8, { align:'center' });
+    doc.setTextColor(0);
+  }
+  return doc;
+}
+/*BOOKLET-END*/
+</script>
 <script id="pureLogic">
 /*PURE-START*/
 /* =========================================================
@@ -1879,6 +2144,8 @@ async function renderTeacherList(){
           <button class="btn ${p.isWeeklyChallenge ? 'btn-gold' : 'btn-ghost'} btn-sm" onclick="toggleWeeklyChallenge('${p.id}')">🌟 ${p.isWeeklyChallenge ? 'Quitar reto' : 'Marcar reto da semana'}</button>
           <button class="btn btn-ghost btn-sm" onclick="editPodcast('${p.id}')">Editar</button>
           <button class="btn btn-teal btn-sm" onclick="viewResultsFor('${p.id}')">Ver resultados</button>
+          <button class="btn btn-gold btn-sm" onclick="downloadBooklet('${p.id}', false)">📄 Caderniño PDF</button>
+          <button class="btn btn-gold btn-sm" onclick="downloadBooklet('${p.id}', true)">📄 Con notas docentes</button>
           <button class="btn btn-gold btn-sm" onclick="printWorksheet('${p.id}', false)">🖨️ Ficha</button>
           <button class="btn btn-gold btn-sm" onclick="printWorksheet('${p.id}', true)">🖨️ Con respostas</button>
           <button class="btn btn-danger btn-sm" onclick="askDelete('${p.id}')">🗑️ Eliminar</button>
@@ -2574,6 +2841,24 @@ async function exportReportToExcel(){
   XLSX.writeFile(wb, `informe-competencias-en-antena-${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 
+/* ---- Caderniño PDF descargable (xerado no navegador) ---- */
+async function downloadBooklet(podcastId, withNotes){
+  try{
+    const podcast = await cloudGetPodcast(podcastId);
+    if(!podcast){ toast('Non se atopou o podcast.'); return; }
+    if(!podcast.questions || podcast.questions.length === 0){ toast('Este podcast aínda non ten preguntas.'); return; }
+    if(!window.jspdf || !window.jspdf.jsPDF){
+      toast('Non se puido cargar o xerador de PDF (rede bloqueada?). Proba noutra rede ou usa "🖨️ Ficha".');
+      return;
+    }
+    const doc = buildBookletPdf(window.jspdf.jsPDF, podcast, { withNotes: !!withNotes });
+    doc.save(bookletFileName(podcast, !!withNotes));
+  }catch(err){
+    console.error(err);
+    toast('Non se puido crear o PDF. Proba de novo.');
+  }
+}
+
 /* ---- Ficha imprimible en PDF (vía impresión do navegador) ---- */
 const LETTERS = ['A','B','C','D'];
 async function printWorksheet(podcastId, withAnswers){
@@ -2745,6 +3030,7 @@ async function renderStudentList(){
         ${p.desc ? `<p class="desc">${escapeHtml(p.desc)}</p>` : ''}
         <div class="actions">
           <button class="btn btn-coral btn-sm" onclick="selectPodcastForIdentification('${p.id}')">▶ Escoitar</button>
+          <button class="btn btn-ghost btn-sm" onclick="downloadBooklet('${p.id}', false)">📄 Caderniño PDF</button>
           <button class="btn btn-teal btn-sm" onclick="viewClassification('${p.id}')">🏆 Clasificación</button>
         </div>
       </div>
@@ -4435,6 +4721,36 @@ async function upgradeSeedExtras(){
   }
 }
 
+/* Restaura tiles e signos (¿ ?) nas 8 preguntas orixinais de Radio Libre; só se o texto segue sendo o orixinal (non pisa edicións do docente). A transcrición non se toca. */
+const RADIO_LIBRE_TEXT_FIXES = [
+  ['q1','?Quien acompana a Andres en este podcast?','¿Quién acompaña a Andrés en este podcast?',null,'Andrés dice que "tambien tenemos a Victor D conmigo de mi misma clase".'],
+  ['q2','?Sobre que tema trata este nuevo podcast, a diferencia de los anteriores (de Brawl Stars)?','¿Sobre qué tema trata este nuevo podcast, a diferencia de los anteriores (de Brawl Stars)?',['Videojuegos','Libros','Deportes','Música'],'Andrés explica que "ahora tenemos un nuevo podcast de libros".'],
+  ['q3','?Que libro recomienda Victor primero, formado por tres libros?','¿Qué libro recomienda Víctor primero, formado por tres libros?',['One Piece','El Señor de los Anillos','El Lago de los Cisnes','Harry Potter'],'Víctor responde "El Senor de los Anillos" cuando le preguntan qué recomienda.'],
+  ['q4','Segun Victor, ?que tienen Los Juegos del Hambre que hizo que se llevara algun susto?','Según Víctor, ¿qué tienen Los Juegos del Hambre que hizo que se llevara algún susto?',null,'Víctor dice que tiene "aventuras, el misterio, la intriga, un poco de sangre" y que él mismo se llevó algún susto leyéndolo.'],
+  ['q5','?De que trata el libro "Guerra Mundial Z"?','¿De qué trata el libro "Guerra Mundial Z"?',null,'Víctor lo dice directamente: "Guerra Mundial Z... va de zombies".'],
+  ['q6','?Que tiene de especial el protagonista de "El Detective Esqueleto"?','¿Qué tiene de especial el protagonista de "El Detective Esqueleto"?',null,null],
+  ['q7','?Por que Andres no da mas detalles sobre "El Detective Esqueleto" y "One Piece"?','¿Por qué Andrés no da más detalles sobre "El Detective Esqueleto" y "One Piece"?',['Porque no se acuerda','Porque son libros aburridos','Para no hacer spoiler','Porque están prohibidos'],'Repite varias veces que no quiere contar más "para no hacer spoiler 100%".'],
+  ['q8','?Que le pasa al protagonista de One Piece tras comerse una fruta especial?','¿Qué le pasa al protagonista de One Piece tras comerse una fruta especial?',null,'Se dice que el niño "se come una fruta demoniaca... es de goma, se puede estirar".']
+];
+async function upgradeSeedTextFixes(){
+  initFirebase();
+  const ref = _fbDb.collection('podcasts').doc(SEED_PODCAST_ID_3);
+  const doc = await ref.get();
+  if(!doc.exists) return;
+  const data = doc.data();
+  let changed = false;
+  const questions = (data.questions || []).map(q=>{
+    const fx = RADIO_LIBRE_TEXT_FIXES.find(f=>f[0] === q.id && f[1] === q.text);
+    if(!fx) return q;
+    changed = true;
+    const n = { ...q, text: fx[2] };
+    if(fx[3]) n.options = fx[3];
+    if(fx[4]) n.explanation = fx[4];
+    return n;
+  });
+  if(changed) await ref.update({ questions });
+}
+
 async function upgradeSeedCountry(){
   initFirebase();
   const ref = _fbDb.collection('podcasts').doc(SEED_PODCAST_ID_4);
@@ -4446,6 +4762,7 @@ Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seed
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
   .then(()=>upgradeSeedCountry())
+  .then(()=>upgradeSeedTextFixes())
   .catch(err=>{ console.error('Erro na configuración inicial de Firebase:', err); })
   .then(()=>{ renderStudentList(); });
 </script>

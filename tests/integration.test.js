@@ -42,6 +42,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
       w.XLSX = { utils:{ json_to_sheet: rows=>{ xlsxCalls.push(rows); return {}; }, book_new:()=>({}), book_append_sheet:()=>{} }, writeFile:()=>{} };
       w.HTMLCanvasElement.prototype.getContext = ()=>new Proxy({}, { get:()=>()=>{} , set:()=>true });
       w.Audio = function(){ return { addEventListener(){}, play(){ this.paused = false; return Promise.resolve(); }, pause(){ this.paused = true; }, paused:true, currentTime:0, duration:100, set src(v){}, get src(){return '';} }; };
+      if(process.env.JSPDF_PATH){ const J = require(process.env.JSPDF_PATH).jsPDF; w.__saved = []; w.__pdfs = []; w.jspdf = { jsPDF: class extends J { constructor(...a){ super(...a); this.save = n=>{ w.__saved.push(n); w.__pdfs.push(Buffer.from(this.output('arraybuffer'))); }; } } }; }
       w.scrollTo = ()=>{}; w.Element.prototype.scrollIntoView = ()=>{}; w.print = ()=>{};
     }});
   const w = dom.window, d = w.document;
@@ -271,6 +272,28 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   ok('lista del alumnado: se muestran podcasts', $$('#studentPodcastList .podcast-card').length >= 5);
   await E(`viewClassification('${newId}')`);
   ok('clasificación: lista a los participantes con su mejor intento', await waitFor(()=>$('#classificationList').textContent.includes('Noa')));
+
+  // ---------- 9. Caderniño PDF ----------
+  if(process.env.JSPDF_PATH){
+    ok('radio libre: tildes e signos restaurados nas preguntas orixinais', store.podcasts['seed-radio-libre-libros'].questions[0].text.startsWith('¿Quién'));
+    ok('caderniño: botón na lista do alumnado', $$('#studentPodcastList button').some(b=>b.textContent.includes('Caderniño PDF')));
+    await E(`renderTeacherList()`);
+    ok('caderniño: botóns na lista docente (con e sen notas)', $$('#teacherPodcastList button').some(b=>b.textContent.includes('Con notas docentes')) && $$('#teacherPodcastList button').some(b=>b.textContent.includes('Caderniño PDF')));
+    for(const id of seedIds){
+      w.__saved.length = 0; w.__pdfs.length = 0;
+      await E(`downloadBooklet('${id}', false)`); await E(`downloadBooklet('${id}', true)`);
+      ok(`caderniño ${id}: descarga alumnado e docente con nome de ficheiro`, w.__saved.length === 2 && w.__saved[0].endsWith('.pdf') && w.__saved[1].endsWith('-docente.pdf'));
+      const s0 = w.__pdfs[0].toString('latin1'), s1 = w.__pdfs[1].toString('latin1');
+      const pages = s => (s.match(/\/Type \/Page\b/g) || []).length;
+      ok(`caderniño ${id}: o do docente ten máis páxinas (notas aparte)`, pages(s1) > pages(s0) && pages(s0) >= 4, pages(s0)+' vs '+pages(s1));
+      ok(`caderniño ${id}: o do alumnado non contén a clave`, !s0.includes('NOTAS PARA O DOCENTE') && s1.includes('NOTAS PARA O DOCENTE'));
+    }
+    w.__saved.length = 0;
+    const jsp = w.jspdf; w.jspdf = undefined;
+    await E(`downloadBooklet('${seedIds[0]}', false)`);
+    ok('caderniño: sen librería PDF avisa sen romper', w.__saved.length === 0 && /PDF/.test(lastToast()));
+    w.jspdf = jsp;
+  }
 
   const bad = results.filter(r=>!r[1]).length;
   console.log(`\n${results.length - bad} superadas, ${bad} falladas`);
