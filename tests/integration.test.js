@@ -59,7 +59,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   ok('semilla: propuesta C1 sin revisar en preguntas de dato literal', cuba.questions[0].competency === 'C1' && cuba.questions[0].classReviewed === false);
   ok('semilla: pregunta ambigua (inferencia) queda PENDIENTE, sin competencia', cuba.questions[6].competency === null && cuba.questions[7].competency === null);
-  ok('semilla: no se guardan campos derivados (nivel/suggested)', cuba.questions.filter(q=>!q.id.startsWith('k')).every(q=>q.levelDerived===undefined && q.suggestedCompetency===undefined && q.level===undefined));
+  ok('semilla: no se guardan campos derivados (nivel/suggested)', cuba.questions.filter(q=>!/^[ki]\d+$/.test(q.id)).every(q=>q.levelDerived===undefined && q.suggestedCompetency===undefined && q.level===undefined));
 
   // Cada podcast precargado: >= 2 preguntas de cada competencia, bien formadas y sin duplicar ids
   const seedIds = Object.keys(store.podcasts).filter(id=>id.startsWith('seed-'));
@@ -74,7 +74,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   await E(`upgradeSeedExtras()`);
   ok('las preguntas adicionales no se duplican al recargar', JSON.stringify(Object.values(store.podcasts).map(p=>p.questions.length)) === nBefore0);
   // un podcast ya existente (con 8 preguntas editadas por el docente) recibe las nuevas sin tocar las suyas
-  store.podcasts['seed-un-pais-en-podcast-cuba'] = { ...store.podcasts['seed-un-pais-en-podcast-cuba'], seedExtrasVersion: undefined, questions: store.podcasts['seed-un-pais-en-podcast-cuba'].questions.filter(q=>!q.id.startsWith('k')).map((q,i)=>i===0 ? { ...q, text:'EDITADA POR EL DOCENTE', classReviewed:true } : q) };
+  store.podcasts['seed-un-pais-en-podcast-cuba'] = { ...store.podcasts['seed-un-pais-en-podcast-cuba'], seedExtrasVersion: undefined, questions: store.podcasts['seed-un-pais-en-podcast-cuba'].questions.filter(q=>!/^[ki]\d+$/.test(q.id)).map((q,i)=>i===0 ? { ...q, text:'EDITADA POR EL DOCENTE', classReviewed:true } : q) };
   delete store.podcasts['seed-un-pais-en-podcast-cuba'].seedExtrasVersion;
   await E(`upgradeSeedExtras()`);
   const cu = store.podcasts['seed-un-pais-en-podcast-cuba'];
@@ -293,6 +293,22 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     await E(`downloadBooklet('${seedIds[0]}', false)`);
     ok('caderniño: sen librería PDF avisa sen romper', w.__saved.length === 0 && /PDF/.test(lastToast()));
     w.jspdf = jsp;
+  }
+
+  // ---------- 10. Preguntas de inferir (>= 1/3 de cada podcast) ----------
+  delete store.podcasts['seed-un-pais-en-podcast-cuba'].seedInferenceVersion;   // un podcast ya modificado por el docente recibe las nuevas
+  await E(`upgradeSeedInference()`); await E(`upgradeSeedInference()`);
+  ok('inferencia: la mejora es idempotente (no duplica ids)', new Set(store.podcasts['seed-un-pais-en-podcast-cuba'].questions.map(q=>q.id)).size === store.podcasts['seed-un-pais-en-podcast-cuba'].questions.length);
+  for(const id of seedIds){
+    const p = store.podcasts[id];
+    const inf = p.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id));
+    ok(`inferencia ${id}: polo menos un terzo das preguntas son de inferir (${inf.length}/${p.questions.length})`, inf.length * 3 >= p.questions.length);
+    const mine = p.questions.filter(q=>/^i\d+$/.test(q.id));
+    ok(`inferencia ${id}: 7 preguntas novas, sen revisar, con evidencia literal e nota por distractor`, mine.length === 7 && mine.every(q=>q.classReviewed === false && q.competency && q.evidence && q.explanation && q.distractors.filter(Boolean).length === 3 && q.distractors[q.correct] === ''));
+    const transcript = p.transcript.join(' ').replace(/[«»"“”]/g,'').replace(/\s+/g,' ').toLowerCase();
+    const lit = mine.every(q=>q.evidence.split(' / ').every(part=>part.split('...').every(fr=>{ const f = fr.replace(/[«»"“”]/g,'').replace(/\s+/g,' ').trim().replace(/\.$/,'').toLowerCase(); return f.length < 4 || transcript.includes(f); })));
+    ok(`inferencia ${id}: as citas de evidencia son literais da transcrición`, lit);
+    ok(`inferencia ${id}: 4 opcións e posición da correcta variada`, mine.every(q=>q.options.length === 4) && new Set(mine.map(q=>q.correct)).size >= 3);
   }
 
   const bad = results.filter(r=>!r[1]).length;

@@ -4706,6 +4706,787 @@ function seedExtraQuestions(){
     ]
   };
 }
+/* Preguntas de inferir información (estilo da proba de diagnóstico): emoción/actitude, causa-consecuencia, vantaxe,
+   sentido figurado, frase parafraseada, valoración e intención. Sempre baseadas na transcrición real e como PROPOSTA sen confirmar. */
+function seedInferenceQuestions(){
+  return {
+ [SEED_PODCAST_ID]: [
+  {
+   "id": "i1",
+   "text": "Que sente a estudante que escribiu «Palabras que abrazan» cara ás palabras galegas?",
+   "options": [
+    "Vergoña de usalas diante doutras persoas",
+    "Indiferenza: son só palabras para un traballo",
+    "Cariño por elas e pena de que ás veces se esquezan",
+    "Medo a que ninguén as entenda no cole"
+   ],
+   "correct": 2,
+   "difficulty": "inferencia",
+   "explanation": "Escolle palabras de agarimo, tenrura e morriña e di que son «moi fermosas» pero que «ás veces esquecemos usar»: transmite cariño e certa pena. A emoción dedúcese dos indicios, non se di directamente.",
+   "competency": "C6",
+   "secondary": [
+    "C2"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Escollín palabras galegas que transmiten emocións como agarimo, tenrura ou morriña.» / «Creo que o galego ten palabras moi fermosas que ás veces esquecemos usar.»",
+   "hint": "",
+   "distractors": [
+    "Tentadora: «esquecemos usar» pode parecer vergoña, pero ela di que son «fermosas»",
+    "Contraria: escolle palabras que transmiten emocións",
+    "",
+    "Esaxera: ela non fala de medo nin de non ser entendida"
+   ]
+  },
+  {
+   "id": "i2",
+   "text": "Que podería pasarlle ao galego se os nenos e as nenas deixasen de usalo, segundo o programa?",
+   "options": [
+    "Que se convertería nunha lingua máis moderna",
+    "Que iría perdendo forza e algunhas palabras poderían esquecerse",
+    "Que pasaría a escribirse só nos libros do cole",
+    "Que ninguén notaría ningún cambio na lingua"
+   ],
+   "correct": 1,
+   "difficulty": "inferencia",
+   "explanation": "Na mini historia as palabras desaparecen e hai que recuperalas falando máis galego; a conclusión é que «se non o usamos, a lingua pode debilitarse». A consecuencia de non usalo é perder forza.",
+   "competency": "C2",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Eu escribín unha mini historia onde as palabras galegas desaparecen e os nenos teñen que recuperalas falando máis galego.» / «Porque se non o usamos, a lingua pode debilitarse.»",
+   "hint": "",
+   "distractors": [
+    "Contraria: a modernidade vén de usalo, non de deixalo",
+    "",
+    "Tentadora: fala da lingua como materia, pero non di isto",
+    "Contraria: o programa avisa do risco"
+   ]
+  },
+  {
+   "id": "i3",
+   "text": "Que vantaxe ten presentar o galego nun rapego, segundo o que quere amosar o estudante?",
+   "options": [
+    "Axuda a ver que o galego tamén serve para a música de hoxe",
+    "Permite non ter que escribir ningunha palabra",
+    "Fai que o galego se pareza ao inglés",
+    "Evita que a xente ouza o galego tradicional"
+   ],
+   "correct": 0,
+   "difficulty": "inferencia",
+   "explanation": "O estudante di que quere «demostrar que a nosa lingua tamén pode soar moderna» e outro comenta que «o galego ten moito ritmo»: a vantaxe é aproximar o galego á música actual.",
+   "competency": "C2",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Eu preparei un pequeno rapego. Quero demostrar que a nosa lingua tamén pode soar moderna.» / «Encántanos. O galego ten moito ritmo.»",
+   "hint": "",
+   "distractors": [
+    "",
+    "Absurda: o rap leva letra",
+    "Tentadora: o rap adoita relacionarse co inglés, pero non se di",
+    "Contraria: non quere esconder o tradicional, quere amosar outra cara"
+   ]
+  },
+  {
+   "id": "i4",
+   "text": "Que quere dicir que a lingua galega «se enche de cor, música, palabras e creatividade»?",
+   "options": [
+    "Que hai que pintar as paredes do colexio de cores",
+    "Que o galego só se usa nas festas con música",
+    "Que as palabras galegas cambiaron de color",
+    "Que se mostra moi viva, con moitas formas de expresarse"
+   ],
+   "correct": 3,
+   "difficulty": "inferencia",
+   "explanation": "É unha expresión figurada: a lingua non ten cores de verdade; quere dicir que neste Correlingua o galego aparece moi vivo e creativo.",
+   "competency": "C5",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«...unha edición moi especial na que a lingua galega se enche de cor, música, palabras e creatividade.»",
+   "hint": "",
+   "distractors": [
+    "Literal: toma «cor» ao pé da letra",
+    "Esaxera: ninguén di que sexa só para festas",
+    "Literal: toma «cor» ao pé da letra",
+    ""
+   ]
+  },
+  {
+   "id": "i5",
+   "text": "Que quere dicir «unha lingua viva é unha lingua que se usa e tamén que se crea»?",
+   "options": [
+    "Que a lingua galega ten que inventarse de cero",
+    "Que só está viva a lingua que sae nos libros",
+    "Que unha lingua segue forte se se fala e se fan cousas novas nela",
+    "Que unha lingua viva é a que falan os animais"
+   ],
+   "correct": 2,
+   "difficulty": "inferencia",
+   "explanation": "A frase final resume o programa con outras palabras: usar o galego cada día e crear con el (poemas, raps, contos) é o que o mantén vivo.",
+   "competency": "C5",
+   "secondary": [
+    "C2"
+   ],
+   "level": "avanzada",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«...porque unha lingua viva é unha lingua que se usa e tamén que se crea.»",
+   "hint": "",
+   "distractors": [
+    "Esaxera: fala de crear con ela, non de inventala",
+    "Contraria: o programa insiste en falar cada día",
+    "",
+    "Literal: confunde «viva» co seu sentido de ser vivo"
+   ]
+  },
+  {
+   "id": "i6",
+   "text": "É axeitado o título «Palabras que abrazan» para o poema ilustrado?",
+   "options": [
+    "Non, porque o poema fala de deportes e competicións",
+    "Si, porque as palabras que escolleu transmiten agarimo e tenrura",
+    "Si, porque as palabras do poema son moi longas",
+    "Non, porque un abrazo non ten que ver coas palabras"
+   ],
+   "correct": 1,
+   "difficulty": "inferencia",
+   "explanation": "O título compara as palabras cun abrazo; resulta axeitado porque ela elixe palabras de agarimo, tenrura e morriña, que «abrazan» as persoas que as len.",
+   "competency": "C3",
+   "secondary": [
+    "C5"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Eu fixen un poema ilustrado que se chama Palabras que abrazan.» / «Escollín palabras galegas que transmiten emocións como agarimo, tenrura ou morriña.»",
+   "hint": "",
+   "distractors": [
+    "Contraria: ningún indicio de deportes",
+    "",
+    "Tentadora: soa a razón, pero non ten apoio no audio",
+    "Literal: ignora o sentido figurado do abrazo"
+   ]
+  },
+  {
+   "id": "i7",
+   "text": "Con que intención se di ao principio que «cada palabra que dicimos en galego axuda a manter viva a nosa cultura»?",
+   "options": [
+    "Animar o alumnado a usar o galego porque iso é importante",
+    "Explicar as normas dun concurso deportivo",
+    "Contar un conto de misterio sobre a lingua",
+    "Presentar a un novo reporteiro do programa"
+   ],
+   "correct": 0,
+   "difficulty": "inferencia",
+   "explanation": "A frase non dá un dato: busca convencer e motivar. Vén xusto despois de dicir que o programa «anima a mocidade a usar o galego con orgullo».",
+   "competency": "C6",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Anima a mocidade a usar o galego con orgullo.» / «Cada palabra que dicimos en galego axuda a manter viva a nosa cultura, a nosa historia e a nosa identidade.»",
+   "hint": "",
+   "distractors": [
+    "",
+    "Contraria: non hai normas nin deporte no audio",
+    "Contraria: non é unha narración",
+    "Tentadora: o reporteiro Carlos si se presenta, pero non nesta frase"
+   ]
+  }
+ ],
+ [SEED_PODCAST_ID_2]: [
+  {
+   "id": "i1",
+   "text": "Que actitude amosan Milet e Lucas cara ás tradicións galegas?",
+   "options": [
+    "Pensan que son cousas antigas sen importancia",
+    "Só lles interesan os disfraces e as bromas",
+    "Teñen medo a que a xente se ría delas",
+    "Valóranas e queren que a xente as coñeza e non se perdan"
+   ],
+   "correct": 3,
+   "difficulty": "inferencia",
+   "explanation": "Din que queren que coñezamos a cultura propia, axudándonos «a valorala e mantela viva», e rematan dicindo que seguir contando historias mantén viva a cultura: valoran as tradicións.",
+   "competency": "C6",
+   "secondary": [
+    "C2"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Queremos que coñezades a cultura propia, axudándovos a valorala e mantela viva.» / «Seguir contando historias é unha forma de manter viva a cultura.»",
+   "hint": "",
+   "distractors": [
+    "Contraria: din que hai que valorar a cultura",
+    "Tentadora: mencionan os disfraces, pero só como parte da festa",
+    "Absurda: ningún indicio de medo",
+    ""
+   ]
+  },
+  {
+   "id": "i2",
+   "text": "Por que pensa o labrego «Se escollera a mancheas polo menos tería algo»?",
+   "options": [
+    "Porque a moura lle regalou ouro suficiente",
+    "Porque a mancheas era un camiño máis curto",
+    "Porque coa man cheia de ouro xa se levaría algo seguro",
+    "Porque a moura lle prometeu volver ao día seguinte"
+   ],
+   "correct": 2,
+   "difficulty": "inferencia",
+   "explanation": "Contestou «a ferrados» sen pensar, marchou polo recipiente e, ao volver, non quedaba nada. Se tivese pedido unha manchea (o que cabe nas mans), levaría ouro naquel instante.",
+   "competency": "C2",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Como o queres? A mancheas ou a ferrados?» / «O castro estaba baleiro, e pensou arrepentido: Se escollera a mancheas polo menos tería algo.»",
+   "hint": "",
+   "distractors": [
+    "Contraria: non lle deu ouro, só llo ofreceu",
+    "Tentadora: «mancheas» soa a camiño, pero é unha medida de man",
+    "",
+    "Inventada: a lenda non di isto"
+   ]
+  },
+  {
+   "id": "i3",
+   "text": "Que vantaxe ten que o alumnado de terceiro investigase as lendas «nas súas casas»?",
+   "options": [
+    "Que non necesitaron escoitar a ninguén máis",
+    "Que puideron recoller historias que conta a súa propia xente",
+    "Que puideron facer o podcast sen preparar nada",
+    "Que as lendas saíron máis curtas que nos libros"
+   ],
+   "correct": 1,
+   "difficulty": "inferencia",
+   "explanation": "Investigar nas casas supón preguntar á familia e á xente próxima, que é quen conserva e conta as lendas; así se mantén a tradición oral.",
+   "competency": "C2",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«E agora imos escoitar ao alumnado de terceiro, que investigou nas súas casas distintas lendas sobre mouros e mouras.»",
+   "hint": "",
+   "distractors": [
+    "Esaxera: investigaron preguntando, non sós",
+    "",
+    "Contraria: investigaron",
+    "Tentadora: soa lóxica, pero non se di nada diso"
+   ]
+  },
+  {
+   "id": "i4",
+   "text": "Que quere dicir «seguir contando historias é unha forma de manter viva a cultura»?",
+   "options": [
+    "Que se as historias se seguen contando, a cultura non se esquece",
+    "Que a cultura é unha persoa que precisa comer",
+    "Que hai que contar sempre as historias en voz moi alta",
+    "Que as historias só valen se están escritas nun libro"
+   ],
+   "correct": 0,
+   "difficulty": "inferencia",
+   "explanation": "É unha expresión figurada: a cultura non «vive» como un ser vivo, pero se desaparecen as historias que se contan, tamén desaparece parte dela.",
+   "competency": "C5",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Seguir contando historias é unha forma de manter viva a cultura.»",
+   "hint": "",
+   "distractors": [
+    "",
+    "Literal: toma «viva» ao pé da letra",
+    "Absurda: non fala do volume",
+    "Contraria: a lenda chega por tradición oral"
+   ]
+  },
+  {
+   "id": "i5",
+   "text": "Que quere dicir que «cada lugar foi adaptando a palabra á súa maneira de falar»?",
+   "options": [
+    "Que cada lugar inventou unha palabra totalmente nova",
+    "Que a palabra se deixou de usar en moitos lugares",
+    "Que só os mestres poden dicir a palabra correcta",
+    "Que en cada zona se di e se pronuncia de forma un pouco distinta"
+   ],
+   "correct": 3,
+   "difficulty": "inferencia",
+   "explanation": "Todas as variantes (antroido, entruido, troido...) veñen da mesma palabra latina; co tempo cada zona a foi cambiando segundo a súa forma de falar.",
+   "competency": "C5",
+   "secondary": [
+    "C2"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Co paso do tempo, cada lugar foi adaptando a palabra á súa maneira de falar, e así quedaron esas variantes.»",
+   "hint": "",
+   "distractors": [
+    "Esaxera: a orixe segue sendo a mesma",
+    "Contraria: ao contrario, hai moitas variantes",
+    "Absurda: non se fala de normas de mestres",
+    ""
+   ]
+  },
+  {
+   "id": "i6",
+   "text": "Por que se pode dicir que este podcast é un bo «percorrido polas nosas tradicións»?",
+   "options": [
+    "Porque só fala dunha festa dun único lugar",
+    "Porque se centra na historia da radio escolar",
+    "Porque trata tres tradicións distintas: palabra, compadres e lenda",
+    "Porque ensina receitas típicas do Entroido"
+   ],
+   "correct": 2,
+   "difficulty": "inferencia",
+   "explanation": "Ao longo do podcast aparecen a palabra «Entroido» e as súas variantes, os compadres e comadres e unha lenda de mouras: tres tradicións, polo que a despedida describe ben o contido.",
+   "competency": "C3",
+   "secondary": [
+    "C6"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Agardamos que vos guste este percorrido polas nosas tradicións, polos contos e polo entroido galego.»",
+   "hint": "",
+   "distractors": [
+    "Contraria: hai varias partes e varias zonas",
+    "Tentadora: a radio aparece, pero é só o medio",
+    "",
+    "Inventada: non hai receitas"
+   ]
+  },
+  {
+   "id": "i7",
+   "text": "Para que lle preguntan ao público «Sabedes que a palabra ten varias formas?»",
+   "options": [
+    "Para comprobar se o público fixo os deberes",
+    "Para espertar a curiosidade e entrar no tema das variantes",
+    "Para criticar a quen di a palabra de xeito diferente",
+    "Para pedirlle ao público que cambie de radio"
+   ],
+   "correct": 1,
+   "difficulty": "inferencia",
+   "explanation": "Non esperan resposta: é unha pregunta para atraer a atención antes de explicar as variantes (antroido, entruido...) e a súa orixe latina.",
+   "competency": "C6",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Sabedes que a palabra ten varias formas? Tamén se di antroido ou entruido ou mesmo outras variantes segundo a zona.»",
+   "hint": "",
+   "distractors": [
+    "Absurda: non é un exame",
+    "",
+    "Contraria: despois explican que todas as formas son válidas",
+    "Absurda: non hai ningún indicio"
+   ]
+  }
+ ],
+ [SEED_PODCAST_ID_3]: [
+  {
+   "id": "i1",
+   "text": "¿Qué actitud muestra Andrés cuando dice «ya sé lo que pensaréis… pero esta vez lo quería hacer de libros»?",
+   "options": [
+    "Sabe lo que esperan los oyentes, pero hace lo que él quiere",
+    "Se disculpa porque no sabe hacer podcasts de libros",
+    "Se enfada con quienes piden el podcast de Brawl Stars",
+    "Cambia de idea y hace el podcast de Brawl Stars"
+   ],
+   "correct": 0,
+   "difficulty": "inferencia",
+   "explanation": "Primero adivina lo que piensan («queríais el podcast de Brawl Stars») y luego dice que esta vez prefiere libros y que el siguiente sí será de brawlers: decide con seguridad y sin enfadarse.",
+   "competency": "C6",
+   "secondary": [
+    "C2"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Ya se lo que pensareis: queriais el podcast de Brawl Stars o la guia de Kenji. Pero esta vez lo queria hacer de libros.»",
+   "hint": "",
+   "distractors": [
+    "",
+    "Tentadora: reconoce lo que piensan, pero no pide perdón",
+    "Esaxera: no muestra enfado",
+    "Contraria: mantiene su decisión"
+   ]
+  },
+  {
+   "id": "i2",
+   "text": "¿Por qué cree Andrés que es mejor leer primero el libro y luego ver la película?",
+   "options": [
+    "Porque las películas siempre son más largas que los libros",
+    "Porque los libros cuestan menos que ir al cine",
+    "Porque las películas casi nunca cuentan historias reales",
+    "Porque muchas películas salen de libros, y el libro es el origen"
+   ],
+   "correct": 3,
+   "difficulty": "inferencia",
+   "explanation": "Se deduce de lo que dice a continuación: las películas salen «de algo que pasa en la vida real, o muchas veces de libros». Si el libro es el origen, tiene sentido leerlo antes.",
+   "competency": "C2",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Para mi siempre es mejor leer primero el libro y luego ver la pelicula.» / «?De donde crees que salen las peliculas? De algo que pasa en la vida real, o muchas veces de libros.»",
+   "hint": "",
+   "distractors": [
+    "Inventada: no compara la duración",
+    "Tentadora: suena razonable, pero no se dice",
+    "Contraria: dice que muchas salen de la vida real",
+    ""
+   ]
+  },
+  {
+   "id": "i3",
+   "text": "¿Qué ventaja tiene que One Piece sea «cortito», según lo que dice Andrés?",
+   "options": [
+    "Que se puede leer antes de ver la película",
+    "Que es el libro más caro de todos los recomendados",
+    "Que se anima más gente a leerlo porque no cuesta mucho tiempo",
+    "Que se acaba con un susto como Los Juegos del Hambre"
+   ],
+   "correct": 2,
+   "difficulty": "inferencia",
+   "explanation": "Dice que es cortito y enseguida pide que lo lean quienes no lo hayan leído: lo presenta como fácil de empezar y de terminar.",
+   "competency": "C2",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Es cortito, por favor, leedlo si no lo habeis leido ya.»",
+   "hint": "",
+   "distractors": [
+    "Tentadora: antes habló de libros y películas, pero no aquí",
+    "Contraria: no se habla de precio",
+    "",
+    "Mestura: el susto es de otro libro"
+   ]
+  },
+  {
+   "id": "i4",
+   "text": "¿Qué quiere decir que el niño de One Piece «se puede estirar como si fuera de goma»?",
+   "options": [
+    "Que está hecho de goma de borrar de verdad",
+    "Que su cuerpo se alarga y vuelve a su forma, como la goma",
+    "Que crece mucho de altura y ya no encoge",
+    "Que es muy flexible y hace gimnasia todos los días"
+   ],
+   "correct": 1,
+   "difficulty": "inferencia",
+   "explanation": "Es una comparación: se come una fruta y su cuerpo se estira como lo haría la goma, sin romperse.",
+   "competency": "C5",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«...un nino se come una fruta y se puede estirar como si fuera de goma.»",
+   "hint": "",
+   "distractors": [
+    "Literal: toma «goma» ao pé da letra",
+    "",
+    "Mestura: estirar no es crecer para siempre",
+    "Tentadora: «flexible» suena bien, pero no se dice"
+   ]
+  },
+  {
+   "id": "i5",
+   "text": "¿Qué quiere decir Víctor cuando responde «Todos. Todos son buenos» a la pregunta «¿cuál de los tres?»?",
+   "options": [
+    "Que recomienda leer los tres libros de la historia",
+    "Que no sabe cuál elegir porque no los ha leído",
+    "Que los tres libros cuentan historias sin relación",
+    "Que solo recomienda el tercero de la serie"
+   ],
+   "correct": 0,
+   "difficulty": "inferencia",
+   "explanation": "Andrés le recuerda que «hay tres» y Víctor no elige uno: con «todos» quiere decir que merece la pena leer los tres.",
+   "competency": "C2",
+   "secondary": [
+    "C5"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«?Cual de los tres? Porque hay tres.» / «Todos. Todos son buenos.»",
+   "hint": "",
+   "distractors": [
+    "",
+    "Contraria: dice que son buenos, o sea, los conoce",
+    "Tentadora: son tres, pero forman una misma obra",
+    "Contraria: dice «todos»"
+   ]
+  },
+  {
+   "id": "i6",
+   "text": "¿Es buena idea que Andrés invite a Víctor a recomendar libros en este podcast?",
+   "options": [
+    "No, porque Víctor solo conoce libros para adultos",
+    "Sí, porque Víctor ya ha escrito varios de esos libros",
+    "No, porque Andrés prefiere hablar siempre solo",
+    "Sí, porque es de su clase y conoce libros que gustan a su edad"
+   ],
+   "correct": 3,
+   "difficulty": "inferencia",
+   "explanation": "Andrés presenta a Víctor como «de mi misma clase» y le pregunta por libros «para gente de nuestra edad»: la invitación tiene sentido porque habla de lecturas cercanas a quien escucha.",
+   "competency": "C6",
+   "secondary": [
+    "C2"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«...hoy esta con nosotros Victor D., de mi misma clase.» / «Hola, Victor, ?que libros recomiendas para gente de nuestra edad?»",
+   "hint": "",
+   "distractors": [
+    "Contraria: recomienda para gente de su edad",
+    "Inventada: no es autor",
+    "Tentadora: Andrés habla mucho, pero él mismo lo presenta",
+    ""
+   ]
+  },
+  {
+   "id": "i7",
+   "text": "¿Para qué dice Andrés «pero eso no es lo importante» tras hablar de Brawl Stars?",
+   "options": [
+    "Para decir que Brawl Stars no le gusta nada",
+    "Para terminar el podcast cuanto antes",
+    "Para llevar la atención a lo que de verdad quiere contar hoy",
+    "Para que los oyentes busquen otro podcast"
+   ],
+   "correct": 2,
+   "difficulty": "inferencia",
+   "explanation": "Después de hablar de lo que esperaban los oyentes, cambia de tema con esa frase y presenta lo que de verdad le interesa hoy: un podcast de libros con un invitado.",
+   "competency": "C6",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Pero eso no es lo importante. Un podcast de libros, si, pero tambien es especial porque hoy esta con nosotros Victor D.»",
+   "hint": "",
+   "distractors": [
+    "Esaxera: solo dice que no es lo importante hoy",
+    "Contraria: justo ahí empieza el tema",
+    "",
+    "Contraria: quiere que sigan escuchando"
+   ]
+  }
+ ],
+ [SEED_PODCAST_ID_4]: [
+  {
+   "id": "i1",
+   "text": "¿Qué sentimiento se deduce de Eric cuando habla de los viajes a la playa y a los ríos con su familia?",
+   "options": [
+    "Aburrimiento porque iban demasiadas veces",
+    "Cariño y nostalgia: son lo que más le gustaba y echa de menos",
+    "Enfado porque no le dejaban hacer otras cosas",
+    "Miedo a que le pasara algo en el agua"
+   ],
+   "correct": 1,
+   "difficulty": "inferencia",
+   "explanation": "Eric cuenta que lo que más le gustaba eran los viajes a la playa «casi todos los días» y que lo que más echa de menos son los viajes con su familia a los ríos: los recuerda con cariño.",
+   "competency": "C6",
+   "secondary": [
+    "C2"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Los viajes a la playa que hacíamos casi todos los días.» / «Los viajes con mi familia a los ríos, que casi siempre nos bañábamos, pescar y listo.»",
+   "hint": "",
+   "distractors": [
+    "Tentadora: dice «casi todos los días», pero lo cuenta con gusto",
+    "",
+    "Inventada: no se dice nada parecido",
+    "Inventada: no hay ningún indicio"
+   ]
+  },
+  {
+   "id": "i2",
+   "text": "¿Qué se puede deducir de que en Cuba, cuando hacían una fiesta, invitaran «hasta a gente desconocida»?",
+   "options": [
+    "Que la gente suele ser abierta y le gusta compartir",
+    "Que las fiestas eran siempre muy pequeñas",
+    "Que nadie conocía a sus vecinos de la calle",
+    "Que los invitados tenían que pagar la entrada"
+   ],
+   "correct": 0,
+   "difficulty": "inferencia",
+   "explanation": "Sahani habla de «mucha bulla» y de que invitaban incluso a desconocidos: lo cuenta como una diferencia con España y deja ver que allí las fiestas eran abiertas y con mucha gente.",
+   "competency": "C2",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«...en Cuba había mucha, pero mucha bulla y cuando hacían una fiesta invitaban a gente hasta desconocida.»",
+   "hint": "",
+   "distractors": [
+    "",
+    "Contraria: había mucha gente y bulla",
+    "Tentadora: desconocida no es lo mismo que vecino",
+    "Inventada: no se habla de pagar"
+   ]
+  },
+  {
+   "id": "i3",
+   "text": "¿Qué ventaja tiene, según la presentadora, conocer un país a través de alguien que ha vivido allí?",
+   "options": [
+    "Que no hace falta saber nada de ese país antes",
+    "Que se puede viajar gratis a ese país",
+    "Que se evitan las preguntas incómodas",
+    "Que se conocen recuerdos y vida diaria que no salen en un mapa"
+   ],
+   "correct": 3,
+   "difficulty": "inferencia",
+   "explanation": "La presentadora dice que para conocer un país no basta con mirar un mapa: también se conoce por las historias y los recuerdos de quienes han vivido allí, como el día a día de Eric y Sahani.",
+   "competency": "C2",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«...no basta con mirar una mapa, también podemos conocerlo a través de las historias y los recuerdos de las personas que han vivido allí.»",
+   "hint": "",
+   "distractors": [
+    "Esaxera: no dice eso",
+    "Tentadora: viajan sin avión, pero solo escuchando",
+    "Inventada: no se habla de eso",
+    ""
+   ]
+  },
+  {
+   "id": "i4",
+   "text": "¿Qué quiere decir que en el programa «viajamos por el mundo sin necesidad de coger un avión»?",
+   "options": [
+    "Que los viajes del programa son en barco",
+    "Que hay que coger un avión para escuchar el programa",
+    "Que se conocen países escuchando, sin viajar de verdad",
+    "Que los aviones no pueden volar a Cuba"
+   ],
+   "correct": 2,
+   "difficulty": "inferencia",
+   "explanation": "Es una forma figurada de hablar: el «viaje» se hace con la imaginación, escuchando a personas que cuentan cómo es un país.",
+   "competency": "C5",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Bienvenidos a Un país en podcast, el programa en el que viajamos por el mundo sin necesidad de coger un avión.»",
+   "hint": "",
+   "distractors": [
+    "Tentadora: no usan avión, pero tampoco viajan de verdad",
+    "Contraria: dice justo lo contrario",
+    "",
+    "Inventada: no se habla de aviones reales"
+   ]
+  },
+  {
+   "id": "i5",
+   "text": "Cuando Sahani dice «no hay esas rayas raras», ¿a qué se refiere?",
+   "options": [
+    "A las rayas de los uniformes del colegio",
+    "A los pasos de peatones pintados en la calle",
+    "A las marcas que dejan los coches al frenar",
+    "A las líneas de los cuadernos de Lengua"
+   ],
+   "correct": 1,
+   "difficulty": "inferencia",
+   "explanation": "Antes dijo que en Cuba «no hay líneas peatonales» y Eric habló de calles con «rayas, pasos peatonales»: las «rayas raras» son los pasos de peatones, que a ella le resultan extraños.",
+   "competency": "C5",
+   "secondary": [
+    "C2"
+   ],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«...en Cuba no hay líneas peatonales o no sé cómo se diga, pero no hay esas rayas raras.»",
+   "hint": "",
+   "distractors": [
+    "Tentadora: hablaba antes del colegio, pero no de uniformes",
+    "",
+    "Tentadora: relaciona rayas y coches, pero no se dice",
+    "Inventada: no tiene relación con el contexto"
+   ]
+  },
+  {
+   "id": "i6",
+   "text": "Después de oír a Eric y a Sahani, ¿qué afirmación sobre Cuba está mejor apoyada en lo que cuentan?",
+   "options": [
+    "Que tiene cosas que echan de menos y también dificultades",
+    "Que es un país sin ningún problema para vivir",
+    "Que solo tiene problemas y nadie la recuerda con cariño",
+    "Que no tiene nada especial respecto a España"
+   ],
+   "correct": 0,
+   "difficulty": "inferencia",
+   "explanation": "Echan de menos la familia, las playas, los ríos, las compañeras y La Habana, pero también cuentan la falta de bus y que salir sin nada era peligroso: una valoración equilibrada recoge las dos cosas.",
+   "competency": "C3",
+   "secondary": [
+    "C6"
+   ],
+   "level": "avanzada",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Lo que más extraño es a mis compañeras... ah, y La Habana.» / «...no había bus para ir al colegio.» / «...si tú sales de tu casa sin nada... te asaltan.»",
+   "hint": "",
+   "distractors": [
+    "",
+    "Contraria: hablan del bus y de los asaltos",
+    "Contraria: recuerdan playas, familia y compañeras",
+    "Contraria: señalan muchas diferencias"
+   ]
+  },
+  {
+   "id": "i7",
+   "text": "¿Con qué intención dice Sahani «no te recomiendo como está»?",
+   "options": [
+    "Para criticar a quienes viven allí",
+    "Para decir que no se puede ir a ninguna playa",
+    "Para pedir dinero a los oyentes",
+    "Para advertir de un riesgo, aunque aprecie su país"
+   ],
+   "correct": 3,
+   "difficulty": "inferencia",
+   "explanation": "Lo dice y da una razón concreta (si sales sin nada, te asaltan), pero a continuación recomienda qué visitar: advierte sin rechazar el país.",
+   "competency": "C6",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Primero que todo, no te recomiendo como está, porque por ejemplo si tú sales de tu casa sin nada, ni con dinero ni con nada, pues mira, te asaltan.»",
+   "hint": "",
+   "distractors": [
+    "Esaxera: habla de la situación, no de las personas",
+    "Contraria: recomienda playas y el centro comercial",
+    "Inventada: no pide nada",
+    ""
+   ]
+  }
+ ]
+};
+}
+async function upgradeSeedInference(){
+  const extras = seedInferenceQuestions();
+  for(const pid of Object.keys(extras)){
+    initFirebase();
+    const ref = _fbDb.collection('podcasts').doc(pid);
+    const doc = await ref.get();
+    if(!doc.exists) continue;
+    const data = doc.data();
+    if(data.seedInferenceVersion >= 1) continue;
+    const have = new Set((data.questions || []).map(q=>q.id));
+    const toAdd = extras[pid].filter(q=>!have.has(q.id));
+    await ref.update({ questions: [ ...(data.questions || []), ...toAdd ], seedInferenceVersion: 1, schemaVersion: 2 });
+  }
+}
+
 async function upgradeSeedExtras(){
   const extras = seedExtraQuestions();
   for(const pid of Object.keys(extras)){
@@ -4761,6 +5542,7 @@ async function upgradeSeedCountry(){
 Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast()])
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
+  .then(()=>upgradeSeedInference())
   .then(()=>upgradeSeedCountry())
   .then(()=>upgradeSeedTextFixes())
   .catch(err=>{ console.error('Erro na configuración inicial de Firebase:', err); })

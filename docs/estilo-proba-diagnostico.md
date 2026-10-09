@@ -42,3 +42,7 @@ Regra para En Antena: unha pregunta inferencial só é válida se un adulto pode
 - Só elección múltiple (A–D): **non** hai aínda táboas verdadeiro/falso nin ordenación como tipos de pregunta propios (a ordenación exprésase con opcións «En que orde…?»).
 - O PDF necesita cargar a librería jsPDF desde internet; se a rede do colexio a bloquea, avisa e queda o botón «🖨️ Ficha».
 - Probado con xerado automático e revisión visual das páxinas; a impresión real en papel ha de comprobarse na impresora do centro (marxes e escala 100 %).
+
+## Regla de proporción (decidida polo director)
+En cada podcast, **polo menos un terzo das preguntas deben ser de inferir información** (non resolubles copiando unha frase), cubrindo: emoción ou actitude por indicios, causa/consecuencia, vantaxe, sentido figurado, frase parafraseada, valoración e intención. Sen verdadeiro/falso por agora.
+Os podcasts precargados levan unha serie `i1…i7` con estes tipos (marcador `seedInferenceVersion:1`); son **propostas sen confirmar**, con evidencia literal do audio e nota sobre cada distractor. Os tests comproban a proporción, a literalidade das citas e que a mellora non duplique preguntas.
