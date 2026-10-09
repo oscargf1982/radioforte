@@ -58,7 +58,26 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   ok('semilla: propuesta C1 sin revisar en preguntas de dato literal', cuba.questions[0].competency === 'C1' && cuba.questions[0].classReviewed === false);
   ok('semilla: pregunta ambigua (inferencia) queda PENDIENTE, sin competencia', cuba.questions[6].competency === null && cuba.questions[7].competency === null);
-  ok('semilla: no se guardan campos derivados (nivel/suggested)', cuba.questions.every(q=>q.levelDerived===undefined && q.suggestedCompetency===undefined && q.level===undefined));
+  ok('semilla: no se guardan campos derivados (nivel/suggested)', cuba.questions.filter(q=>!q.id.startsWith('k')).every(q=>q.levelDerived===undefined && q.suggestedCompetency===undefined && q.level===undefined));
+
+  // Cada podcast precargado: >= 2 preguntas de cada competencia, bien formadas y sin duplicar ids
+  const seedIds = Object.keys(store.podcasts).filter(id=>id.startsWith('seed-'));
+  for(const id of seedIds){
+    const p = store.podcasts[id];
+    const dist = E(`competencyDistribution(${JSON.stringify(p.questions)})`);
+    ok(`semilla ${id}: >=2 preguntas de cada competencia C1-C6`, ['C1','C2','C3','C4','C5','C6'].every(c=>dist.counts[c] >= 2), JSON.stringify(dist.counts));
+    ok(`semilla ${id}: ids únicos y preguntas válidas`, new Set(p.questions.map(q=>q.id)).size === p.questions.length && p.questions.every(q=>q.options.length>=3 && q.options[q.correct] && q.explanation));
+    ok(`semilla ${id}: las nuevas son propuestas sin revisar`, p.questions.filter(q=>q.id.startsWith('k')).every(q=>q.classReviewed===false && q.competency));
+  }
+  const nBefore0 = JSON.stringify(Object.values(store.podcasts).map(p=>p.questions.length));
+  await E(`upgradeSeedExtras()`);
+  ok('las preguntas adicionales no se duplican al recargar', JSON.stringify(Object.values(store.podcasts).map(p=>p.questions.length)) === nBefore0);
+  // un podcast ya existente (con 8 preguntas editadas por el docente) recibe las nuevas sin tocar las suyas
+  store.podcasts['seed-un-pais-en-podcast-cuba'] = { ...store.podcasts['seed-un-pais-en-podcast-cuba'], seedExtrasVersion: undefined, questions: store.podcasts['seed-un-pais-en-podcast-cuba'].questions.filter(q=>!q.id.startsWith('k')).map((q,i)=>i===0 ? { ...q, text:'EDITADA POR EL DOCENTE', classReviewed:true } : q) };
+  delete store.podcasts['seed-un-pais-en-podcast-cuba'].seedExtrasVersion;
+  await E(`upgradeSeedExtras()`);
+  const cu = store.podcasts['seed-un-pais-en-podcast-cuba'];
+  ok('podcast existente: se añaden las nuevas y se respetan las ediciones del docente', cu.questions.length === 18 && cu.questions[0].text === 'EDITADA POR EL DOCENTE' && cu.questions[0].classReviewed === true);
 
   // ---------- 2. Podcast antiguo ----------
   store.podcasts['legacy1'] = { createdAt: 5, title:'Antiguo', cycle:'2º ciclo', desc:'d', transcript:['Hola a todos','Adiós'], mimeType:'audio/mpeg', audioURL:'http://example.test/a.mp3',

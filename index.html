@@ -3342,8 +3342,1027 @@ async function upgradeSeedClassifications(){
   }
 }
 
+/* Preguntas adicionais para que cada podcast precargado teña polo menos 2 preguntas
+   de cada competencia (C1-C6). Están feitas SÓ a partir da transcrición real de cada audio
+   e quedan como proposta (classReviewed:false) ata que o docente as revise. */
+function seedExtraQuestions(){
+  return {
+    [SEED_PODCAST_ID]: [
+     {
+      "id": "k1",
+      "text": "Que se pode deducir de que unha estudante diga «Se falas galego non quedas atrás»?",
+      "options": [
+       "Que o galego só se fala nas aldeas",
+       "Que ás veces se pensa que o galego é unha lingua anticuada",
+       "Que hai que falar inglés para non quedar atrás",
+       "Que o rap só se pode facer en galego"
+      ],
+      "correct": 1,
+      "difficulty": "inferencia",
+      "explanation": "Antes di que quere demostrar que o galego «tamén pode soar moderno» e que é «lingua de hoxe»: iso implica que hai quen o ve como unha lingua antiga.",
+      "competency": "C2",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Deducir unha idea que non se di directamente a partir dun indicio do audio.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k2",
+      "text": "Cal é a idea principal do programa?",
+      "options": [
+       "Animar a usar e a crear en galego a través do Correlingua 2026",
+       "Explicar as normas dunha competición deportiva",
+       "Ensinar a escribir poemas en castelán",
+       "Presentar un novo reporteiro do colexio"
+      ],
+      "correct": 0,
+      "difficulty": "facil",
+      "explanation": "Todo o programa xira arredor do Correlingua 2026 e da invitación a crear e vivir en galego (poema, rap, mini historia e lema final).",
+      "competency": "C3",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Distinguir o tema central dos detalles.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k3",
+      "text": "Cal sería o mellor título para este programa?",
+      "options": [
+       "Os presentadores Martín, Víctor e Selena",
+       "Como facer un rap en inglés",
+       "Un poema sobre o mar",
+       "Correlingua 2026: crear e vivir en galego"
+      ],
+      "correct": 3,
+      "difficulty": "facil",
+      "explanation": "O título resume o tema central: o Correlingua 2026 e o lema «creamos, compartimos e vivimos en galego». Os nomes dos presentadores son só un detalle.",
+      "competency": "C3",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Resumir o contido global nun título.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k4",
+      "text": "En que orde presentan os artistas as súas creacións?",
+      "options": [
+       "Primeiro un rap, despois un poema e despois unha mini historia",
+       "Primeiro unha mini historia, despois un rap e despois un poema",
+       "Primeiro un poema, despois un rap e despois unha mini historia",
+       "Primeiro un poema, despois unha mini historia e despois un rap"
+      ],
+      "correct": 2,
+      "difficulty": "facil",
+      "explanation": "No programa soan por orde: o poema «Palabras que abrazan», o rapego e, por último, a mini historia das palabras que desaparecen.",
+      "competency": "C4",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Seguir a secuencia en que aparecen as partes.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k5",
+      "text": "Como remata o programa?",
+      "options": [
+       "Cun rap final sen ningunha despedida",
+       "Lembrando o lema do Correlingua, animando a participar e despedíndose",
+       "Explicando paso a paso as normas dun concurso",
+       "Presentando o seguinte programa de deportes"
+      ],
+      "correct": 1,
+      "difficulty": "facil",
+      "explanation": "Ao final repiten o lema «creamos en galego, compartimos en galego, vivimos en galego», animan a participar e despídense: «Ata o próximo programa».",
+      "competency": "C4",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Recoñecer a conclusión do discurso.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k6",
+      "text": "Que quere dicir «molar» na frase «tamén podes molar»?",
+      "options": [
+       "Estar á moda e gustar aos demais",
+       "Estar canso de falar",
+       "Ter moita fame",
+       "Perderse polo camiño"
+      ],
+      "correct": 0,
+      "difficulty": "facil",
+      "explanation": "A frase vén despois de dicir que o galego «pode soar moderno» e que é «lingua de hoxe»: polo contexto, «molar» significa ser moderno e atractivo (ser «guay»).",
+      "competency": "C5",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Deducir o significado dunha palabra polo contexto.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k7",
+      "text": "Que significa «tesouro» en «estamos coidando un tesouro colectivo»?",
+      "options": [
+       "Un cofre con moedas escondido no colexio",
+       "Un xogo que se garda nun caixón",
+       "Un premio que só gaña unha persoa",
+       "Algo moi valioso que pertence a todas as persoas"
+      ],
+      "correct": 3,
+      "difficulty": "facil",
+      "explanation": "Fala da lingua, da cultura e da identidade: é unha forma figurada de dicir que a lingua é algo moi valioso que compartimos todos.",
+      "competency": "C5",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Interpretar unha expresión figurada axeitada á idade.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k8",
+      "text": "Para que conta o estudante a mini historia das palabras que desaparecen?",
+      "options": [
+       "Para facer rir ao público cunha historia de misterio",
+       "Para ensinar a escribir cancións",
+       "Para advertir de que, se non usamos o galego, a lingua pode debilitarse",
+       "Para anunciar a data do Correlingua"
+      ],
+      "correct": 2,
+      "difficulty": "facil",
+      "explanation": "Despois da historia di: «Porque se non o usamos, a lingua pode debilitarse. Unha mensaxe moi importante».",
+      "competency": "C6",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Identificar a intención de quen fala (advertir).",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k9",
+      "text": "Que actitude amosan os presentadores e os artistas cara ao galego?",
+      "options": [
+       "Indiferenza e desinterese total",
+       "Orgullo e cariño pola lingua",
+       "Vergoña de falalo en público",
+       "Aburrimento e ganas de rematar"
+      ],
+      "correct": 1,
+      "difficulty": "facil",
+      "explanation": "Din que hai que usalo «con orgullo», que lles «encanta» e que é un tesouro: amosan orgullo e cariño.",
+      "competency": "C6",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Recoñecer actitudes cando hai indicios suficientes.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     }
+    ],
+    [SEED_PODCAST_ID_2]: [
+     {
+      "id": "k1",
+      "text": "Que se pode deducir de que o castro estivese baleiro cando o labrego volveu?",
+      "options": [
+       "Que perdeu a oportunidade e xa non podía recuperar o ouro",
+       "Que o labrego roubara o castro",
+       "Que o castro nunca existira",
+       "Que a moura se mudara á casa do labrego"
+      ],
+      "correct": 0,
+      "difficulty": "inferencia",
+      "explanation": "Cando volveu, «xa non había nin a moura nin o ouro»: a ocasión desapareceu e el quedou sen nada, por iso se arrepinte.",
+      "competency": "C2",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Relacionar indicios para deducir unha consecuencia implícita.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k2",
+      "text": "Que ensinanza se pode sacar da lenda da moura?",
+      "options": [
+       "Hai que pedir sempre canto máis mellor",
+       "Hai que fiarse sempre das mouras",
+       "Hai que evitar falar con descoñecidos",
+       "Hai que pensar antes de decidir"
+      ],
+      "correct": 3,
+      "difficulty": "inferencia",
+      "explanation": "O labrego respondeu «sen pensar» e despois dixo, arrepentido, que se escollera a mancheas polo menos tería algo: a historia ensina a reflexionar antes de decidir.",
+      "competency": "C2",
+      "secondary": [],
+      "level": "avanzada",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Extraer unha conclusión xustificada polo contido escoitado.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k3",
+      "text": "Cal é a idea principal do podcast?",
+      "options": [
+       "Contar a historia da radio escolar desde que naceu",
+       "Dar receitas típicas do Entroido para facer en casa",
+       "Compartir o que o alumnado investigou sobre as tradicións",
+       "Explicar como se prepara un programa de radio escolar"
+      ],
+      "correct": 2,
+      "difficulty": "facil",
+      "explanation": "Din que queren compartir o que investigaron sobre as tradicións e as lendas galegas para valorar e manter viva a cultura.",
+      "competency": "C3",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Distinguir o tema central dos detalles.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k4",
+      "text": "Cal sería o mellor título para este podcast?",
+      "options": [
+       "Receitas do Entroido para facer en casa",
+       "Tradicións galegas: Entroido, compadres e lendas de mouras",
+       "A historia da radio escolar desde o seu inicio",
+       "Concurso de debuxo do colexio"
+      ],
+      "correct": 1,
+      "difficulty": "facil",
+      "explanation": "Resume as tres partes: a palabra Entroido e as súas variantes, os compadres e comadres e a lenda de mouros e mouras.",
+      "competency": "C3",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Resumir o contido global nun título.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k5",
+      "text": "En que orde aparecen estes contidos no podcast?",
+      "options": [
+       "As variantes de «Entroido», os compadres e comadres e a lenda da moura",
+       "A lenda da moura, as variantes de «Entroido» e os compadres e comadres",
+       "Os compadres e comadres, a lenda da moura e as variantes de «Entroido»",
+       "A lenda da moura, os compadres e comadres e as variantes de «Entroido»"
+      ],
+      "correct": 0,
+      "difficulty": "facil",
+      "explanation": "Primeiro explican as variantes da palabra (quinto), logo os compadres e comadres (sexto) e por último a lenda (terceiro).",
+      "competency": "C4",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Ordenar as partes do discurso.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k6",
+      "text": "Que ocorre despois de que o labrego responda «a ferrados»?",
+      "options": [
+       "A moura dálle todo o ouro que quere e el vive feliz para sempre",
+       "O labrego cambia de idea e escolle a mancheas, así que a moura o axuda",
+       "A moura chama aos veciños do castro para que axuden ao labrego",
+       "A moura di que fora pola medida e, ao volver, el non atopa nada"
+      ],
+      "correct": 3,
+      "difficulty": "facil",
+      "explanation": "A lenda di: «A moura díxolle que fora pola medida. Cando o labrego volveu, xa non había nin a moura nin o ouro».",
+      "competency": "C4",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Seguir a secuencia temporal dos acontecementos.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k7",
+      "text": "Que significa «arrepentido» en «pensou arrepentido»?",
+      "options": [
+       "Moi contento co que escolleu",
+       "Con moita présa",
+       "Triste por unha decisión que tomou e que lamenta",
+       "Enfadado coa moura por mentirlle"
+      ],
+      "correct": 2,
+      "difficulty": "facil",
+      "explanation": "Despois de perder o ouro pensa «Se escollera a mancheas polo menos tería algo»: lamenta a súa decisión.",
+      "competency": "C5",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Deducir o significado dunha palabra polo contexto.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k8",
+      "text": "Que son os «compadriños e compadriñas» que se deseñaron?",
+      "options": [
+       "Persoas disfrazadas para o Entroido",
+       "Pequenos debuxos de compadres e comadres para colorear",
+       "Receitas típicas do Entroido",
+       "Lendas sobre mouros e mouras"
+      ],
+      "correct": 1,
+      "difficulty": "facil",
+      "explanation": "O texto di: «Deseñamos uns debuxos dos compadriños e compadriñas para que todo o colexio puidera colorealos». A terminación -iño/-iña indica a versión pequena.",
+      "competency": "C5",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Deducir o significado dunha palabra polo contexto.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k9",
+      "text": "Para que din Milet e Lucas que comparten esta investigación?",
+      "options": [
+       "Para que coñezamos e valoremos a cultura propia",
+       "Para gañar diñeiro vendendo o podcast a outras radios",
+       "Para criticar as tradicións antigas e deixalas de lado",
+       "Para ensinar a falar inglés ao alumnado do colexio"
+      ],
+      "correct": 0,
+      "difficulty": "facil",
+      "explanation": "Din: «Queremos que coñezades a cultura propia, axudándovos a valorala e mantela viva».",
+      "competency": "C6",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Identificar para que se comunica unha mensaxe.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k10",
+      "text": "Que sentimento amosa o labrego ao final da lenda?",
+      "options": [
+       "Alegría",
+       "Medo á moura",
+       "Aburrimento",
+       "Arrepentimento"
+      ],
+      "correct": 3,
+      "difficulty": "facil",
+      "explanation": "O texto di que o labrego «pensou arrepentido: Se escollera a mancheas polo menos tería algo».",
+      "competency": "C6",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Recoñecer emocións cando hai indicios suficientes.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     }
+    ],
+    [SEED_PODCAST_ID_3]: [
+     {
+      "id": "k1",
+      "text": "¿Qué se puede deducir de los podcasts anteriores de Andrés?",
+      "options": [
+       "Que trataban de libros, igual que este podcast",
+       "Que nunca llegó a publicar ninguno de ellos",
+       "Que hablaban de Brawl Stars y tenían seguidores",
+       "Que trataban de cocina y de recetas caseras"
+      ],
+      "correct": 2,
+      "difficulty": "inferencia",
+      "explanation": "Dice «ya sé lo que pensaréis: queríais el podcast de Brawl Stars»: sus oyentes esperaban ese tema porque seguían sus podcasts anteriores.",
+      "competency": "C2",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Relacionar indicios para deducir información no dicha literalmente.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k2",
+      "text": "¿Cuál es la idea principal del podcast?",
+      "options": [
+       "Explicar las reglas de Brawl Stars",
+       "Dos compañeros recomiendan libros y un manga para chicos de su edad",
+       "Contar la historia de la película del Titanic",
+       "Anunciar una obra de teatro del colegio"
+      ],
+      "correct": 1,
+      "difficulty": "facil",
+      "explanation": "Andrés y Víctor recomiendan El Señor de los Anillos, Los Juegos del Hambre, Guerra Mundial Z, El Detective Esqueleto y One Piece.",
+      "competency": "C3",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Distinguir el tema central de los detalles.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k3",
+      "text": "¿Cuál sería el mejor título para este podcast?",
+      "options": [
+       "Libros recomendados para la vuelta al cole",
+       "Guía de brawlers para ganar partidas",
+       "Cómo se hizo la película del Titanic",
+       "El Lago de los Cisnes en directo"
+      ],
+      "correct": 0,
+      "difficulty": "facil",
+      "explanation": "Resume el tema: es un podcast de libros, grabado en la vuelta al colegio. El Lago de los Cisnes aparece solo por un error al final.",
+      "competency": "C3",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Resumir el contenido global en un título.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k4",
+      "text": "¿En qué orden se recomiendan los títulos?",
+      "options": [
+       "Los Juegos del Hambre, El Señor de los Anillos, One Piece, Guerra Mundial Z y El Detective Esqueleto",
+       "Guerra Mundial Z, El Señor de los Anillos, Los Juegos del Hambre, One Piece y El Detective Esqueleto",
+       "One Piece, El Detective Esqueleto, Guerra Mundial Z, Los Juegos del Hambre y El Señor de los Anillos",
+       "El Señor de los Anillos, Los Juegos del Hambre, Guerra Mundial Z, El Detective Esqueleto y One Piece"
+      ],
+      "correct": 3,
+      "difficulty": "facil",
+      "explanation": "Víctor empieza con El Señor de los Anillos, sigue con Los Juegos del Hambre y Guerra Mundial Z, y Andrés cierra con El Detective Esqueleto y One Piece.",
+      "competency": "C4",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Ordenar una secuencia de elementos del discurso.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k5",
+      "text": "¿Cómo termina el podcast?",
+      "options": [
+       "Con una canción de despedida y un sorteo de libros",
+       "Con un sorteo de libros entre todos los oyentes del podcast",
+       "Se despiden, se equivocan con El Lago de los Cisnes y piden perdón",
+       "Con la reseña de una película sobre el Titanic y su historia"
+      ],
+      "correct": 2,
+      "difficulty": "facil",
+      "explanation": "Dicen «acabamos el podcast, y por favor vean esta transmisión de El Lago de los Cisnes» y enseguida rectifican: «No, esto no… perdón, perdón. El micro».",
+      "competency": "C4",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Reconocer la conclusión del discurso.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k6",
+      "text": "¿Qué significa «spoiler» en «no os digo más para no hacer spoiler»?",
+      "options": [
+       "Hacer un resumen muy corto del libro",
+       "Desvelar lo que pasa y quitar la sorpresa a quien no lo ha leído",
+       "Recomendar la película en lugar del libro",
+       "Leer en voz alta un capítulo"
+      ],
+      "correct": 1,
+      "difficulty": "facil",
+      "explanation": "Habla de un detective que es un esqueleto y añade «no os digo más»: no quiere contar lo que ocurre para que los oyentes lo descubran al leerlo.",
+      "competency": "C5",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Deducir el significado de una palabra por el contexto.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k7",
+      "text": "En «El Señor de los Anillos mola mucho», ¿qué significa «mola mucho»?",
+      "options": [
+       "Gusta mucho y está muy bien",
+       "Es muy largo y difícil",
+       "Da mucho miedo",
+       "Es muy antiguo"
+      ],
+      "correct": 0,
+      "difficulty": "facil",
+      "explanation": "Lo dice como recomendación, tras «todos son buenos»: «molar» es una expresión coloquial para decir que algo gusta o está muy bien.",
+      "competency": "C5",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Interpretar una expresión coloquial según el contexto.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k8",
+      "text": "¿Para qué dice Víctor «si creéis que lo podéis leer sin llevaros un susto»?",
+      "options": [
+       "Para recomendar un libro de risa",
+       "Para decir que el libro es muy corto",
+       "Para pedir que no lo lean",
+       "Para advertir de que Los Juegos del Hambre pueden asustar"
+      ],
+      "correct": 3,
+      "difficulty": "facil",
+      "explanation": "Acaba de recomendarlo por «aventuras, misterio, intriga y un poco de sangre» y añade «yo me llevé alguno»: avisa de que puede dar miedo.",
+      "competency": "C6",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Identificar la intención de quien habla (advertir).",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k9",
+      "text": "¿Qué pretende Andrés cuando dice de One Piece «leedlo si no lo habéis leído ya»?",
+      "options": [
+       "Advertir de que es peligroso",
+       "Pedir que lo devuelvan a la biblioteca",
+       "Animar a los oyentes a leerlo",
+       "Criticar el manga"
+      ],
+      "correct": 2,
+      "difficulty": "facil",
+      "explanation": "Tras describirlo como «cortito» y lleno de aventuras, pide «por favor, leedlo»: busca convencerles de que lo lean.",
+      "competency": "C6",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Identificar la intención comunicativa (convencer).",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     }
+    ],
+    [SEED_PODCAST_ID_4]: [
+     {
+      "id": "k1",
+      "text": "¿Qué se puede deducir de que Eric diga que no había bus para ir al colegio?",
+      "options": [
+       "Que en Cuba no existen colegios para los niños",
+       "Que a veces era difícil llegar al colegio por falta de transporte",
+       "Que Eric prefería no estudiar y faltar a clase",
+       "Que todos los niños iban en coche al colegio"
+      ],
+      "correct": 1,
+      "difficulty": "inferencia",
+      "explanation": "Eric no recomienda ir a Cuba «porque te levantabas y no había bus para ir al colegio»: la falta de bus dificultaba llegar a clase.",
+      "competency": "C2",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Deducir una consecuencia implícita a partir de un dato.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k2",
+      "text": "¿Por qué el padre de Sahani salía «protegido»?",
+      "options": [
+       "Porque había riesgo de que lo asaltaran en la calle",
+       "Porque hacía mucho frío en la calle por la mañana",
+       "Porque iba a una fiesta con mucha gente",
+       "Porque trabajaba como guardia en el colegio"
+      ],
+      "correct": 0,
+      "difficulty": "inferencia",
+      "explanation": "Sahani explica que si sales «sin nada… te asaltan. Por eso mi papá cada vez que salía, pues salía protegido».",
+      "competency": "C2",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Relacionar una causa con su consecuencia.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k3",
+      "text": "¿Cuál es la idea principal del programa?",
+      "options": [
+       "Aprender a cocinar platos cubanos paso a paso",
+       "Explicar cómo viajar en avión a Cuba",
+       "Contar la historia de los coches clásicos",
+       "Conocer Cuba a través de los recuerdos de dos niños que vivieron allí"
+      ],
+      "correct": 3,
+      "difficulty": "facil",
+      "explanation": "La presentadora dice que conocerán Cuba «a través de alguien que ha vivido allí» y al final que un país se conoce «a través de las historias y los recuerdos de las personas que han vivido allí».",
+      "competency": "C3",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Distinguir la idea principal de los detalles.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k4",
+      "text": "¿Cuál sería el mejor título para este episodio?",
+      "options": [
+       "Receta del arroz con frijoles",
+       "Cómo funcionan los coches antiguos",
+       "Vivir en Cuba: recuerdos de Eric y Sahani",
+       "Un viaje en avión por el Caribe"
+      ],
+      "correct": 2,
+      "difficulty": "facil",
+      "explanation": "Resume lo central: dos niños cuentan cómo era vivir en Cuba. La comida o los coches son solo detalles.",
+      "competency": "C3",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Resumir el contenido global en un título.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k5",
+      "text": "¿Qué pregunta hace la presentadora justo después de preguntar por el día a día en Cuba?",
+      "options": [
+       "Cuál era su comida favorita",
+       "Qué es lo que más les gusta de Cuba",
+       "Qué música escuchaban",
+       "Qué echan de menos de Cuba"
+      ],
+      "correct": 1,
+      "difficulty": "facil",
+      "explanation": "Tras preguntar «¿Cómo era un día normal?» pregunta «¿qué es lo que más te gusta de Cuba?»; la comida y la música vienen después.",
+      "competency": "C4",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Seguir la secuencia de las partes del discurso.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k6",
+      "text": "¿Cómo termina el programa?",
+      "options": [
+       "Resume el viaje, da las gracias y se despide hasta el próximo episodio",
+       "Con un concurso para ganar un viaje a Cuba con toda la familia",
+       "Con una entrevista a un nuevo invitado que llega al estudio",
+       "Sin despedida, de forma repentina, cortando el audio"
+      ],
+      "correct": 0,
+      "difficulty": "facil",
+      "explanation": "Dice «hasta aquí nuestro viaje de hoy», resume lo aprendido, da las gracias a Eric y Sahani y se despide hasta el próximo episodio.",
+      "competency": "C4",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Reconocer la conclusión del discurso.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k7",
+      "text": "En «solo los que tienen plata», ¿qué significa «plata»?",
+      "options": [
+       "Un metal para hacer joyas",
+       "Un coche",
+       "Una playa",
+       "Dinero"
+      ],
+      "correct": 3,
+      "difficulty": "facil",
+      "explanation": "Sahani explica que la mayoría de la gente no tiene coche, «solo los que tienen plata»: por el contexto, plata es dinero.",
+      "competency": "C5",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Deducir el significado de una palabra por el contexto.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k8",
+      "text": "¿Qué significa «bulla» en «había mucha, pero mucha bulla»?",
+      "options": [
+       "Silencio y tranquilidad",
+       "Mucho calor",
+       "Ruido y mucho jaleo de gente",
+       "Muchos coches"
+      ],
+      "correct": 2,
+      "difficulty": "facil",
+      "explanation": "Lo dice al hablar de las fiestas, a las que invitaban incluso a desconocidos: el contexto indica ruido y jaleo.",
+      "competency": "C5",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Deducir el significado de una palabra por el contexto.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k9",
+      "text": "¿Para qué cuenta la presentadora al principio cosas sobre Cuba, como su capital, el clima o la comida?",
+      "options": [
+       "Para convencer al público de que no viaje",
+       "Para presentar el país antes de entrevistar a los invitados",
+       "Para pedir ayuda a los oyentes",
+       "Para despedirse del programa"
+      ],
+      "correct": 1,
+      "difficulty": "facil",
+      "explanation": "Dice «preparamos las maletas porque viajamos a Cuba» y después presenta a Eric y Sahani: es una introducción informativa.",
+      "competency": "C6",
+      "secondary": [],
+      "level": "inicial",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Identificar para qué se comunica un mensaje (informar).",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     },
+     {
+      "id": "k10",
+      "text": "¿Qué sentimiento transmite Sahani cuando habla de sus compañeras y de La Habana?",
+      "options": [
+       "Nostalgia: las echa de menos",
+       "Enfado con sus compañeras",
+       "Indiferencia",
+       "Miedo a volver al colegio"
+      ],
+      "correct": 0,
+      "difficulty": "facil",
+      "explanation": "Dice «lo que más extraño es a mis compañeras… ah, y La Habana»: transmite nostalgia.",
+      "competency": "C6",
+      "secondary": [],
+      "level": "intermedia",
+      "classReviewed": false,
+      "format": "multiple_choice",
+      "evidence": "Reconocer emociones cuando hay indicios suficientes.",
+      "hint": "",
+      "distractors": [
+       "",
+       "",
+       "",
+       ""
+      ]
+     }
+    ]
+  };
+}
+async function upgradeSeedExtras(){
+  const extras = seedExtraQuestions();
+  for(const pid of Object.keys(extras)){
+    initFirebase();
+    const ref = _fbDb.collection('podcasts').doc(pid);
+    const doc = await ref.get();
+    if(!doc.exists) continue;
+    const data = doc.data();
+    if(data.seedExtrasVersion >= 1) continue;     // xa engadidas (ou o docente as xestionou)
+    const have = new Set((data.questions || []).map(q=>q.id));
+    const toAdd = extras[pid].filter(q=>!have.has(q.id));
+    await ref.update({ questions: [ ...(data.questions || []), ...toAdd ], seedExtrasVersion: 1, schemaVersion: 2 });
+  }
+}
+
 Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast()])
   .then(()=>upgradeSeedClassifications())
+  .then(()=>upgradeSeedExtras())
   .catch(err=>{ console.error('Erro na configuración inicial de Firebase:', err); })
   .then(()=>{ renderStudentList(); });
 </script>
