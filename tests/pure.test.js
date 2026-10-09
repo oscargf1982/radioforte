@@ -95,6 +95,11 @@ t('intento antiguo se resuelve por id/enunciado solo si la clasificación está 
   A.strictEqual(s.byComp.C2.n, 0);        // q2 sin revisar
   A.strictEqual(s.unclassified.n, 1);
 });
+t('un intento hecho con la pregunta sin revisar se atribuye cuando el docente la confirma después', ()=>{
+  const a = mk('a1','Noa',1,[ {qid:'q1',text:'T1',competency:null,isCorrect:true}, {qid:'q2',text:'T2',competency:null,isCorrect:true} ]);
+  const s = api.computeCompetencyStats([a], { p:pod });
+  A.strictEqual(s.byComp.C1.n, 1); A.strictEqual(s.byComp.C2.n, 0); A.strictEqual(s.unclassified.n, 1);
+});
 t('porcentajes y fiabilidad: n<3 insuficiente, 3-5 orientativo, >=6 fiable', ()=>{
   A.strictEqual(api.competencyStatus({n:0,correct:0}).key, 'sin_evidencia');
   A.strictEqual(api.competencyStatus({n:2,correct:2}).key, 'insuficiente');  // 100 % con 2 preguntas NO es dominio

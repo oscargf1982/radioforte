@@ -926,9 +926,8 @@ function competencyDistribution(questions){
 /* ---- Resolución de metadatos dun intento (novos e antigos) ---- */
 function resolveDetailMeta(detail, podcast){
   // Intento novo: a clasificación quedou gardada no propio intento (pode ser null = sen clasificar)
-  if(detail && detail.competency !== undefined){
-    return { competency: COMP_IDS.includes(detail.competency) ? detail.competency : null,
-             level: LEVEL_IDS.includes(detail.level) ? detail.level : null };
+  if(detail && COMP_IDS.includes(detail.competency)){
+    return { competency: detail.competency, level: LEVEL_IDS.includes(detail.level) ? detail.level : null };
   }
   // Intento antigo: busca a pregunta polo id ou, se non, polo enunciado exacto.
   // Só se usa se a clasificación foi revisada polo docente.
