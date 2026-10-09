@@ -79,6 +79,20 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const cu = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('podcast existente: se añaden las nuevas y se respetan las ediciones del docente', cu.questions.length === 18 && cu.questions[0].text === 'EDITADA POR EL DOCENTE' && cu.questions[0].classReviewed === true);
 
+  // Fondo con la bandera del país
+  ok('semilla Cuba: lleva país CU', cuba.country === 'CU');
+  E(`openPlayer('seed-un-pais-en-podcast-cuba')`);
+  await waitFor(()=>activeView()==='view-student-player');
+  ok('país: la bandera aparece de fondo en el reproductor', $('#countryBg').classList.contains('show') && $('#countryBg svg') && $('#playerCountry').textContent.includes('Cuba'));
+  E(`goHome()`);
+  ok('país: el fondo desaparece en la portada', !$('#countryBg').classList.contains('show'));
+  E(`openPlayer('seed-ovello-dos-contos')`);
+  await waitFor(()=>activeView()==='view-student-player');
+  ok('podcast sin país: sin fondo ni insignia', !$('#countryBg').classList.contains('show') && $('#playerCountry').innerHTML === '');
+  E(`goHome()`);
+  const flagsOk = E(`Object.keys(COUNTRIES)`).filter(k=>['CU','PT','GB','RU','UA'].includes(k)).length === 5;
+  ok('banderas de Cuba, Portugal, Reino Unido, Rusia y Ucraína disponibles', flagsOk);
+
   // ---------- 2. Podcast antiguo ----------
   store.podcasts['legacy1'] = { createdAt: 5, title:'Antiguo', cycle:'2º ciclo', desc:'d', transcript:['Hola a todos','Adiós'], mimeType:'audio/mpeg', audioURL:'http://example.test/a.mp3',
     questions:[ { id:'a', text:'¿Qué saludo se oye?', options:['Hola','Bos días','Hello','Ciao'], correct:0, difficulty:'facil', explanation:'Se oye "Hola".' },
@@ -110,7 +124,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
 
   // ---------- 3. Editor: crear podcast nuevo con competencias ----------
   E(`goTeacherEditor()`);
-  set($('#pTitle'), 'Podcast nuevo'); set($('#pModality'), 'global'); set($('#pContext'), 'Hablaremos de animales.'); set($('#pAnticipation'), '¿Qué animales conoces?');
+  set($('#pTitle'), 'Podcast nuevo'); set($('#pModality'), 'global'); set($('#pCountry'), 'PT'); set($('#pContext'), 'Hablaremos de animales.'); set($('#pAnticipation'), '¿Qué animales conoces?');
   E(`pendingAudio = { name:'n.mp3', type:'audio/mpeg' }`);
   const fillBlock = (b, o)=>{
     set(b.querySelector('.q-text'), o.text);
@@ -156,6 +170,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   set($('#pTitle'), 'Podcast nuevo (editado)');
   await E(`savePodcast()`);
   const ed = store.podcasts[newId];
+  ok('editor: guarda el país del podcast', store.podcasts[newId].country === 'PT');
   ok('editar: título cambia y no se pierden preguntas ni metadatos', ed.title.includes('editado') && ed.questions.length === 2 && ed.questions[0].hint==='Piensa en bigotes' && ed.questions[1].competency==='C2' && ed.config.anticipation==='¿Qué animales conoces?');
   // editar un antiguo no borra sus preguntas
   await E(`editPodcast('legacy1')`);
