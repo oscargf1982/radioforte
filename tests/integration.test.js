@@ -54,7 +54,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const activeView = ()=>$('.view.active').id;
 
   // ---------- 1. Arranque y semillas ----------
-  ok('arranque: la app carga y crea los 7 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 7 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
+  ok('arranque: la app carga y crea los 8 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 8 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
   const cuba = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   const cres = cuba.reserveQuestions || [];
@@ -272,7 +272,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
 
   // ---------- 8. Regresión de funciones docentes ----------
   await E(`renderTeacherList()`);
-  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 9, String($$('#teacherPodcastList .podcast-card').length));
+  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 10, String($$('#teacherPodcastList .podcast-card').length));
   await E(`cloudSoftDeletePodcast('legacy1')`); ok('papelera: eliminar suave', store.podcasts['legacy1'].deleted === true);
   await E(`cloudRestorePodcast('legacy1')`); ok('papelera: restaurar', store.podcasts['legacy1'].deleted === false);
   await E(`printWorksheet('${newId}', true)`); ok('ficha imprimible con respuestas', $('#printSheet').textContent.includes('Clave de respostas'));
@@ -366,6 +366,18 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('Ramadán: transcripción sin anotaciones [..] y evidencias literales', !rm.transcript.some(l=>/\[|\]/.test(l)) && rm.questions.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>rm.transcript.join(' ').includes(m.slice(1,-1).replace(/\.$/,'')))));
     w.__saved.length = 0; await E(`downloadBooklet('seed-radio-forte-ramadan', true)`);
     ok('Ramadán: el cuadernillo PDF se genera', w.__saved.length === 1 && w.__saved[0].includes('ramad')); }
+
+  // ---------- 15. Venezuela ----------
+  { const ve = store.podcasts['seed-un-pais-en-podcast-venezuela'];
+    ok('Venezuela: país VE, bandera y audio enlazados', ve.country === 'VE' && E(`Object.keys(COUNTRIES).includes('VE')`) && E(`SEED_AUDIO_FILES['seed-un-pais-en-podcast-venezuela']`) === 'audio/venezuela_un_pais_en_podcast.mp3');
+    ok('Venezuela: 18 preguntas, 3 por competencia, sin verdadero/falso', ve.questions.length === 18 && E(`testBalance(${JSON.stringify(ve.questions)})`).ok && ve.questions.every(q=>q.options.length === 4 && q.format === 'multiple_choice'));
+    ok('Venezuela: al menos un tercio son de inferir', ve.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id)).length >= 6);
+    ok('Venezuela: transcripción sin marcas de tiempo ni [..] y evidencias literales', !ve.transcript.some(l=>/\[|\]|\d\d:\d\d:\d\d/.test(l)) && ve.questions.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>ve.transcript.join(' ').includes(m.slice(1,-1).replace(/\.$/,'')))));
+    E(`openPlayer('seed-un-pais-en-podcast-venezuela')`); await waitFor(()=>activeView()==='view-student-player');
+    ok('Venezuela: la bandera sale de fondo en el reproductor', $('#countryBg').classList.contains('show') && $('#playerCountry').textContent.includes('Venezuela'));
+    E(`goHome()`);
+    w.__saved.length = 0; await E(`downloadBooklet('seed-un-pais-en-podcast-venezuela', true)`);
+    ok('Venezuela: el cuadernillo PDF se genera', w.__saved.length === 1 && w.__saved[0].includes('venezuela')); }
 
   const bad = results.filter(r=>!r[1]).length;
   console.log(`\n${results.length - bad} superadas, ${bad} falladas`);

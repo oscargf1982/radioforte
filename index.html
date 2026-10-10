@@ -2757,6 +2757,522 @@ async function seedSeventhPodcast(){
   await cloudSavePodcast(record);
 }
 
+const SEED_PODCAST_ID_8 = 'seed-un-pais-en-podcast-venezuela';
+/* Un país en podcast: Venezuela (galego e castelán). Nace xa como test de 18 preguntas (3 por competencia) con competencias confirmadas.
+   Transcrición literal, só sen marcas de tempo, sen anotacións entre corchetes e repartida en liñas (sen cambiar palabras). */
+async function seedEighthPodcast(){
+  const existing = await cloudGetPodcast(SEED_PODCAST_ID_8);
+  if(existing && existing.transcript) return;
+  const record = {
+    id: SEED_PODCAST_ID_8,
+    createdAt: Date.now() - 200,
+    title: 'Un país en podcast: Venezuela',
+    cycle: '2º ciclo',
+    desc: 'Curiosidades de Venezuela (natureza, ríos, fervenza máis alta) e entrevista a Jade e Mailet, dúas alumnas de terceiro que coñecen o país.',
+    audioEmbedded: true,
+    mimeType: 'audio/mpeg',
+    fileName: 'venezuela_un_pais_en_podcast.mp3',
+    country: 'VE',
+    transcript: [
+  "O meu país é tan pequeno que cabe nos ollos dun neno. Bos días. Comezamos un novo programa de Un país en pocas. O meu país ten ceo azul e un galiño- Son Sara da clase de terceiro e hoxe vouvos falar de curiosidades de Venezuela.",
+  "Ademais, contamos coa colaboración de dúas nenas que coñecen as singularidades deste país, Jade e Mailet, de terceiro, que serán entrevistadas por Lucas e Víctor. Bos días, chicos e chicas.",
+  "Venezuela é un país situado en Sudamérica. Conta con aproximadamente vinte e oito millóns de habitantes. A súa capi-capital é Caracas. É un país que conta con moitas islas copicais.",
+  "Ademais, encóntrase a fervenza máis alta do mundo chamada Salto de Ángel, situada nun parque nacional denominado Ca-Canaima.",
+  "Xunto con este parque nacional hai outros quarenta e dous, polo que é un país que conta con moitísima natureza.",
+  "Tamén pose o segundo río máis longo de Sudamérica, Orinoco, cunha lonxitude de dous mil douscentos cincuenta quil-quilómetros. Caracterízase por ser o lugar onde hai máis tormentas eléctricas.",
+  "Habita nel o roedor máis grande do mundo, o capibara. Del viejo pío Alvarado, el turpial de los cardones, hizo tricolor su canto.",
+  "No se marchará- Agora doulle paso aos meus compañeiros e compañeiras para contarvos máis curiosidades de Venezuela. Ai. De su manantial.",
+  "Bos días, son Lucas e hoxe vamos a entrevistar a Jade, unha nena que coñece moi ben as curiosidades de Venezuela, un país único no mundo. ¿Cuál es la capital de tu país? Caracas. ¿Cuál es la ciudad en la, en la que nacistes?",
+  "Palo Negro. ¿Cuáles son los colores de tu bandera? Roxo, azul y amarillo. ¿Qué comida es típica de tu país? Arepas. ¿Cuál es tu lugar más bonito que has visitado en tu país? Ocumare, una ciudad en la costa con muchas playas.",
+  "Cuéntame alguna curiosidad de tu país. Habita el roedor más grande del mundo, capibara. ¿Qué es lo que más te gustó de tu país? Las playas. ¿A qué edad visitastes España? A los seis años. ¿Te gustaría volver a visitarlo? Sí.",
+  "Los cojos los do blendos y me los meto al bolsillo. No quiero corazón, no quiero corazón, no quiero corazón que vaya a llorar por mí. Ah.",
+  "Bos días, son Víctor e hoxe vamos a entrevistar a Mailet, unha nena que coño-- que coñece moi ben as curiosidades de Venezuela, un país único no mundo. Bos días, Mailet. Bos días, Víctor.",
+  "Os nosos oyentes están inquietos por coñecer as curiosidades deste país. Así que a primeira pregunta é: ¿cuál es la capital de tu país? Caracas. ¿Cuál es la ciudad en la que naciste? Rubia, en el estado de Táchira.",
+  "¿Cuáles son los colores de la bandera? Amarillo, azul y rojo. ¿Qué comida es la típica de tu país? Las arepas. ¿Cuál es el lugar más bonito que has visitado de tu país? Un parque nacional muy bonito y un centro comercial.",
+  "Cuéntame alguna curiosidad de tu país. En Venezuela está la cascada más alta y hay muchas islas tropicales. ¿Qué es lo que más te gusta de tu país? Mi colegio. ¿A qué edad viniste a España? A los cuatro años.",
+  "¿Te gustaría volver a visitarlo? Sí. En la guaraña se usan cuatro maracas y tambor. La, la, la, la, la. La, la, la, la. La, la, la, la, la, la, la. Ah. En los valles de Alta Gracia se canta la Marisela.",
+  "Radio Forte, a nova emisora de radio do CEIP Plurilingüe Monforte. Colexe novo para todos e todas. Sintonízanos para aprender moitas cousas connosco."
+],
+    questions: [
+  {
+    "id": "q1",
+    "text": "Que animal é o roedor máis grande do mundo?",
+    "options": [
+      "O turpial",
+      "O Orinoco",
+      "O capibara",
+      "O roedor de Canaima"
+    ],
+    "correct": 2,
+    "difficulty": "facil",
+    "explanation": "O podcast di que en Venezuela vive o roedor máis grande do mundo, o capibara.",
+    "competency": "C1",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Habita nel o roedor máis grande do mundo, o capibara.»",
+    "hint": "",
+    "distractors": [
+      "Tentadora: é unha ave que sae na canción",
+      "Mestura: é un río, non un animal",
+      "",
+      "Inventada: non se di nada diso"
+    ]
+  },
+  {
+    "id": "q2",
+    "text": "Como se chama a fervenza máis alta do mundo?",
+    "options": [
+      "Salto de Ángel",
+      "Orinoco",
+      "Canaima",
+      "Ocumare"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "A fervenza máis alta do mundo chámase Salto de Ángel e está no parque nacional de Canaima.",
+    "competency": "C1",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«a fervenza máis alta do mundo chamada Salto de Ángel»",
+    "hint": "",
+    "distractors": [
+      "",
+      "Mestura: é o río máis longo de Venezuela",
+      "Tentadora: é o parque nacional onde está, non a fervenza",
+      "Mestura: é unha cidade da costa"
+    ]
+  },
+  {
+    "id": "q3",
+    "text": "Que comida típica nomean Jade e Mailet?",
+    "options": [
+      "A paella",
+      "As arepas",
+      "O pulpo",
+      "As empanadas"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "As dúas contestan que a comida típica do seu país son as arepas.",
+    "competency": "C1",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«¿Qué comida es típica de tu país? Arepas.» / «Las arepas.»",
+    "hint": "",
+    "distractors": [
+      "Inventada: non se di nada diso",
+      "",
+      "Inventada: non se di nada diso",
+      "Inventada: non se di nada diso"
+    ]
+  },
+  {
+    "id": "i1",
+    "text": "Que se deduce das idades en que Jade e Mailet chegaron a España?",
+    "options": [
+      "Que viñeron con doce anos",
+      "Que naceron en España",
+      "Que non queren volver a Venezuela",
+      "Que eran moi pequenas cando chegaron"
+    ],
+    "correct": 3,
+    "difficulty": "inferencia",
+    "explanation": "Jade chegou aos seis anos e Mailet aos catro: eran moi pequenas.",
+    "competency": "C2",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«¿A qué edad visitastes España? A los seis años.» / «¿A qué edad viniste a España? A los cuatro años.»",
+    "hint": "",
+    "distractors": [
+      "Contraria: din seis e catro anos",
+      "Contraria: naceron en Venezuela",
+      "Contraria: din que si lles gustaría volver",
+      ""
+    ]
+  },
+  {
+    "id": "i2",
+    "text": "Que se deduce de que Jade nomee Ocumare e as praias?",
+    "options": [
+      "Que lle gustan moito as praias",
+      "Que non lle gusta o mar",
+      "Que Ocumare está no interior",
+      "Que só viu unha praia"
+    ],
+    "correct": 0,
+    "difficulty": "inferencia",
+    "explanation": "Di que o seu lugar máis bonito é Ocumare, na costa con moitas praias, e que o que máis lle gustou foron as praias.",
+    "competency": "C2",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Ocumare, una ciudad en la costa con muchas playas.» / «¿Qué es lo que más te gustó de tu país? Las playas.»",
+    "hint": "",
+    "distractors": [
+      "",
+      "Contraria: Ocumare ten moitas praias e dixo que lle gustaron",
+      "Contraria: di que está na costa",
+      "Contraria: di que ten moitas praias"
+    ]
+  },
+  {
+    "id": "i3",
+    "text": "Que se deduce de que Mailet diga que o que máis lle gusta é o seu colexio?",
+    "options": [
+      "Que non lle gusta Venezuela",
+      "Que non ten amigos",
+      "Que está contenta no colexio",
+      "Que quere cambiar de colexio"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Cando lle preguntan polo que máis lle gusta, responde «mi colegio»: ten boa experiencia nel.",
+    "competency": "C2",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«¿Qué es lo que más te gusta de tu país? Mi colegio.»",
+    "hint": "",
+    "distractors": [
+      "Esaxera: só di que o colexio é o que máis lle gusta",
+      "Inventada: non hai ningún indicio",
+      "",
+      "Contraria: di que é o que máis lle gusta"
+    ]
+  },
+  {
+    "id": "q4",
+    "text": "De que trata principalmente este programa?",
+    "options": [
+      "Dunha viaxe a Canaima",
+      "De curiosidades de Venezuela",
+      "Da historia de España",
+      "Dun concurso de cancións"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Sara di que vai falar de curiosidades de Venezuela e despois entrevistan a dúas nenas.",
+    "competency": "C3",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«hoxe vouvos falar de curiosidades de Venezuela.»",
+    "hint": "",
+    "distractors": [
+      "Tentadora: Canaima sae, pero é só unha curiosidade",
+      "",
+      "Inventada: non se di nada diso",
+      "Tentadora: hai música, pero non é o tema"
+    ]
+  },
+  {
+    "id": "q5",
+    "text": "Que explica Sara na súa parte do programa?",
+    "options": [
+      "Datos e curiosidades da natureza de Venezuela",
+      "A vida dos seus amigos",
+      "Receitas de comida típica",
+      "Como falar español en Venezuela"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "Sara conta onde está Venezuela, a capital, a fervenza, os parques, o río e o animal máis grande.",
+    "competency": "C3",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Venezuela é un país situado en Sudamérica.» / «Ademais, encóntrase a fervenza máis alta do mundo»",
+    "hint": "",
+    "distractors": [
+      "",
+      "Mestura: iso vén nas entrevistas",
+      "Inventada: non se di nada diso",
+      "Inventada: non se di nada diso"
+    ]
+  },
+  {
+    "id": "i4",
+    "text": "Cal é o mellor resumo do que conta Sara?",
+    "options": [
+      "Venezuela é un país sen ríos nin parques",
+      "Venezuela só ten cidades moi grandes",
+      "Venezuela ten moita natureza e cousas moi grandes",
+      "Venezuela é un país moi pequeno"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Fala da fervenza máis alta, dun río moi longo, dun animal enorme e di que é un país con moitísima natureza.",
+    "competency": "C3",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«é un país que conta con moitísima natureza.» / «a fervenza máis alta do mundo» / «o roedor máis grande do mundo»",
+    "hint": "",
+    "distractors": [
+      "Contraria: fala do Orinoco e de moitos parques",
+      "Contraria: fala sobre todo de natureza",
+      "",
+      "Tentadora: o país pode soar pequeno, pero fala de récords"
+    ]
+  },
+  {
+    "id": "q6",
+    "text": "Quen presenta as curiosidades ao principio do programa?",
+    "options": [
+      "Lucas",
+      "Víctor",
+      "Jade",
+      "Sara"
+    ],
+    "correct": 3,
+    "difficulty": "facil",
+    "explanation": "Sara presenta o programa e di que falará das curiosidades de Venezuela.",
+    "competency": "C4",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Son Sara da clase de terceiro e hoxe vouvos falar de curiosidades de Venezuela.»",
+    "hint": "",
+    "distractors": [
+      "Mestura: Lucas fai unha entrevista máis tarde",
+      "Mestura: Víctor fai unha entrevista máis tarde",
+      "Mestura: Jade é entrevistada",
+      ""
+    ]
+  },
+  {
+    "id": "q7",
+    "text": "Que fai Sara despois de dar os seus datos?",
+    "options": [
+      "Remata o programa",
+      "Dá paso aos compañeiros e compañeiras",
+      "Canta unha canción ela soa",
+      "Entrevista a Jade"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Sara dá paso aos compañeiros para que contén máis curiosidades; despois veñen as entrevistas.",
+    "competency": "C4",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Agora doulle paso aos meus compañeiros e compañeiras para contarvos máis curiosidades de Venezuela.»",
+    "hint": "",
+    "distractors": [
+      "Contraria: aínda faltan as entrevistas",
+      "",
+      "Tentadora: hai cancións, pero non é o que fai",
+      "Mestura: entrevistan Lucas e Víctor"
+    ]
+  },
+  {
+    "id": "q8",
+    "text": "Cal é a primeira pregunta nas dúas entrevistas?",
+    "options": [
+      "Cal é a capital do seu país",
+      "Que cor ten a súa bandeira",
+      "A que idade visitaron España",
+      "Que comida é típica do seu país"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "Tanto a Jade como a Mailet pregúntanlles primeiro pola capital: Caracas.",
+    "competency": "C4",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«¿Cuál es la capital de tu país? Caracas.»",
+    "hint": "",
+    "distractors": [
+      "",
+      "Mestura: vén máis tarde",
+      "Mestura: vén case ao final",
+      "Mestura: vén despois"
+    ]
+  },
+  {
+    "id": "q9",
+    "text": "Que significa «singularidades» en «coñecen as singularidades deste país»?",
+    "options": [
+      "Cousas moi antigas",
+      "Cousas moi baratas",
+      "Cousas especiais que o fan distinto",
+      "Cousas que ninguén coñece nunca"
+    ],
+    "correct": 2,
+    "difficulty": "facil",
+    "explanation": "As nenas coñecen o que fai especial e diferente a Venezuela.",
+    "competency": "C5",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«dúas nenas que coñecen as singularidades deste país»",
+    "hint": "",
+    "distractors": [
+      "Inventada: non se di nada diso",
+      "Inventada: non se di nada diso",
+      "",
+      "Esaxera: elas si as coñecen"
+    ]
+  },
+  {
+    "id": "i5",
+    "text": "Que significa «fervenza», se Mailet di «cascada»?",
+    "options": [
+      "Un río moi largo",
+      "Auga que cae desde moi alto",
+      "Unha illa tropical",
+      "Un parque nacional"
+    ],
+    "correct": 1,
+    "difficulty": "inferencia",
+    "explanation": "Sara di «fervenza máis alta» e Mailet di «cascada máis alta»: é a mesma cousa.",
+    "competency": "C5",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«a fervenza máis alta do mundo chamada Salto de Ángel» / «En Venezuela está la cascada más alta»",
+    "hint": "",
+    "distractors": [
+      "Mestura: o Orinoco é un río, non unha fervenza",
+      "",
+      "Mestura: tamén sae, pero é outra cousa",
+      "Mestura: Canaima é un parque nacional"
+    ]
+  },
+  {
+    "id": "i6",
+    "text": "Que quere dicir «un país único no mundo»?",
+    "options": [
+      "Que ten un só habitante",
+      "Que é o país máis pequeno",
+      "Que só ten unha cidade",
+      "Que non hai outro igual"
+    ],
+    "correct": 3,
+    "difficulty": "inferencia",
+    "explanation": "Os entrevistadores falan do país con admiración: é especial e diferente a calquera outro.",
+    "competency": "C5",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«un país único no mundo»",
+    "hint": "",
+    "distractors": [
+      "Absurda: non ten sentido",
+      "Contraria: Venezuela ten moitos habitantes e moita natureza",
+      "Inventada: non se di nada diso",
+      ""
+    ]
+  },
+  {
+    "id": "i7",
+    "text": "Para que fan Lucas e Víctor estas entrevistas?",
+    "options": [
+      "Para aprender inglés",
+      "Para que os oíntes coñezan mellor Venezuela",
+      "Para vender produtos de Venezuela",
+      "Para escoller o mellor cantante"
+    ],
+    "correct": 1,
+    "difficulty": "inferencia",
+    "explanation": "Víctor di que os oíntes están inquietos por coñecer as curiosidades do país.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Os nosos oyentes están inquietos por coñecer as curiosidades deste país.»",
+    "hint": "",
+    "distractors": [
+      "Inventada: non se di nada diso",
+      "",
+      "Inventada: non se di nada diso",
+      "Inventada: non se di nada diso"
+    ]
+  },
+  {
+    "id": "i8",
+    "text": "Por que Sara conta datos como o Salto de Ángel e os parques nacionais?",
+    "options": [
+      "Para amosar que Venezuela ten moita natureza",
+      "Para pedir axuda para os parques",
+      "Para que a xente non visite Venezuela",
+      "Para falar da súa familia"
+    ],
+    "correct": 0,
+    "difficulty": "inferencia",
+    "explanation": "Despois de dar eses datos di que é un país con moitísima natureza: quere mostralo.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«polo que é un país que conta con moitísima natureza.»",
+    "hint": "",
+    "distractors": [
+      "",
+      "Inventada: non se di nada diso",
+      "Contraria: son datos positivos",
+      "Inventada: non se di nada diso"
+    ]
+  },
+  {
+    "id": "i9",
+    "text": "Que amosa Jade cando di que si lle gustaría volver a Venezuela?",
+    "options": [
+      "Que está enfadada con España",
+      "Que non lembra nada de alí",
+      "Que ten cariño ao seu país",
+      "Que ten medo de viaxar"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Fala con agrado de Ocumare, das praias e das arepas e quere volver: sente cariño polo seu país.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«¿Te gustaría volver a visitarlo? Sí.» / «Las playas.»",
+    "hint": "",
+    "distractors": [
+      "Inventada: non hai ningún indicio",
+      "Contraria: nomea sitios e comidas",
+      "",
+      "Inventada: non se di nada diso"
+    ]
+  }
+],
+    reserveQuestions: [],
+    config: { modality: 'revision', showPre: true, showReview: true, showCompetencyLabels: true,
+      context: 'Vas escoitar un programa sobre Venezuela, un país de Sudamérica, e dúas entrevistas a nenas que coñecen ben o país.',
+      anticipation: 'Onde pensas que está Venezuela? Que animais ou paisaxes crees que hai alí?' },
+    seedTestVersion: 1,
+    schemaVersion: 2
+  };
+  await cloudSavePodcast(record);
+}
+
 const SEED_PODCAST_ID_4 = 'seed-un-pais-en-podcast-cuba';
 
 const SEED_PODCAST_ID_5 = 'seed-un-pais-en-podcast-filipinas';
@@ -3632,6 +4148,7 @@ const COUNTRIES = {
   PE:{ name:'Perú', svg: flagSvg('0 0 60 40', `<rect width="60" height="40" fill="#fff"/><rect width="20" height="40" fill="#D91023"/><rect x="40" width="20" height="40" fill="#D91023"/>`) },
   CO:{ name:'Colombia', svg: flagSvg('0 0 60 40', `<rect width="60" height="20" fill="#FCD116"/><rect y="20" width="60" height="10" fill="#003893"/><rect y="30" width="60" height="10" fill="#CE1126"/>`) },
   PH:{ name:'Filipinas', svg: flagSvg('0 0 60 30', `<rect width="60" height="15" fill="#0038A8"/><rect y="15" width="60" height="15" fill="#CE1126"/><polygon points="0,0 26,15 0,30" fill="#fff"/><circle cx="8.5" cy="15" r="2.6" fill="#FCD116"/><polygon points="${starPts(3.2,4.6,2.4)}" fill="#FCD116"/><polygon points="${starPts(3.2,25.4,2.4)}" fill="#FCD116"/><polygon points="${starPts(22,15,2.4,90)}" fill="#FCD116"/>`) },
+  VE:{ name:'Venezuela', svg: flagSvg('0 0 60 40', `<rect width="60" height="13.34" fill="#FCE300"/><rect y="13.33" width="60" height="13.34" fill="#00247D"/><rect y="26.66" width="60" height="13.34" fill="#CF142B"/>` + [0,1,2,3,4,5,6,7].map(i=>{ const a=(-160+i*20)*Math.PI/180; return `<polygon points="${starPts(30+11*Math.cos(a),28+11*Math.sin(a),1.7)}" fill="#fff"/>`; }).join('')) },
   GAL:{ name:'Galicia', svg: flagSvg('0 0 60 40', `<rect width="60" height="40" fill="#fff"/><polygon points="0,40 0,32 52,0 60,0 60,8 8,40" fill="#009FE3" transform="translate(0,0)"/>`) }
 };
 function countryOptionsHtml(sel){
@@ -4738,7 +5255,8 @@ const SEED_AUDIO_FILES = {
   [SEED_PODCAST_ID_4]: 'audio/cuba_en_podcast.mp3',
   [SEED_PODCAST_ID_5]: 'audio/filipinas_yanni_en_podcast.mp3',
   [SEED_PODCAST_ID_6]: 'audio/senegal_un_pais_en_podcast.mp3',
-  [SEED_PODCAST_ID_7]: 'audio/ramadan_radio_forte.mp3'
+  [SEED_PODCAST_ID_7]: 'audio/ramadan_radio_forte.mp3',
+  [SEED_PODCAST_ID_8]: 'audio/venezuela_un_pais_en_podcast.mp3'
 };
 function resolveAudioSource(podcast){
   if(SEED_AUDIO_FILES[podcast.id]) return { url: SEED_AUDIO_FILES[podcast.id] };
@@ -7346,7 +7864,7 @@ async function upgradeSeedCountry(){
   if(doc.exists && doc.data().country === undefined) await ref.update({ country: 'CU' });
 }
 
-Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast()])
+Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast()])
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
   .then(()=>upgradeSeedInference())
