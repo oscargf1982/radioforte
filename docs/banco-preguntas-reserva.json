@@ -627,7 +627,7 @@
    },
    {
     "id": "q4",
-    "text": "¿Y Sahani, en qué lugar vivía?",
+    "text": "¿Y Sajani, en qué lugar vivía?",
     "options": [
      "En Holguín",
      "En Alamar, un lugar de La Habana",
@@ -636,7 +636,7 @@
     ],
     "correct": 1,
     "difficulty": "facil",
-    "explanation": "Sahani dice \"yo vivía en Alamar, que es un lugar de La Habana\".",
+    "explanation": "Sajani dice \"yo vivía en Alamar, que es un lugar de La Habana\".",
     "competency": "C1",
     "secondary": [],
     "classReviewed": false,
@@ -652,7 +652,7 @@
    },
    {
     "id": "q6",
-    "text": "Según Sahani, ¿cuántas asignaturas le daban en el colegio en Cuba?",
+    "text": "Según Sajani, ¿cuántas asignaturas le daban en el colegio en Cuba?",
     "options": [
      "Muchas, más de cinco",
      "Solo dos: Lengua Castellana y Matemáticas",
@@ -661,7 +661,7 @@
     ],
     "correct": 1,
     "difficulty": "facil",
-    "explanation": "Sahani explica que en el colegio \"no te daban tantas asignaturas, solo prácticamente dos: Lengua Castellana y Matemáticas\".",
+    "explanation": "Sajani explica que en el colegio \"no te daban tantas asignaturas, solo prácticamente dos: Lengua Castellana y Matemáticas\".",
     "competency": "C1",
     "secondary": [],
     "classReviewed": false,
@@ -677,7 +677,7 @@
    },
    {
     "id": "q7",
-    "text": "¿Por qué Sahani dice que en Cuba casi nadie tiene coche?",
+    "text": "¿Por qué Sajani dice que en Cuba casi nadie tiene coche?",
     "options": [
      "Porque están prohibidos los coches",
      "Porque la mayoría de la gente no tiene dinero para tener coche, solo los que tienen \"plata\"",
@@ -686,7 +686,7 @@
     ],
     "correct": 1,
     "difficulty": "inferencia",
-    "explanation": "Sahani explica que \"los cubanos... no siempre tenemos coches, solo los que tienen plata. La mayoría de las personas que son de Cuba no tienen coche\".",
+    "explanation": "Sajani explica que \"los cubanos... no siempre tenemos coches, solo los que tienen plata. La mayoría de las personas que son de Cuba no tienen coche\".",
     "competency": null,
     "secondary": [],
     "classReviewed": false,
@@ -702,7 +702,7 @@
    },
    {
     "id": "q8",
-    "text": "¿Qué le recomienda Sahani a un niño de España que viajara a Cuba?",
+    "text": "¿Qué le recomienda Sajani a un niño de España que viajara a Cuba?",
     "options": [
      "Salir de noche sin dinero",
      "Visitar el centro comercial de La Habana y las playas, mejor al amanecer o al anochecer",
@@ -711,7 +711,7 @@
     ],
     "correct": 1,
     "difficulty": "inferencia",
-    "explanation": "Sahani recomienda \"que vayan al centro comercial de La Habana y a las playas\" y que, si van a la playa, sea \"al amanecer o al anochecer\", cuando \"el agua está calientita y está todo muy tranquilo\".",
+    "explanation": "Sajani recomienda \"que vayan al centro comercial de La Habana y a las playas\" y que, si van a la playa, sea \"al amanecer o al anochecer\", cuando \"el agua está calientita y está todo muy tranquilo\".",
     "competency": null,
     "secondary": [],
     "classReviewed": false,
@@ -779,7 +779,7 @@
    },
    {
     "id": "k10",
-    "text": "¿Qué sentimiento transmite Sahani cuando habla de sus compañeras y de La Habana?",
+    "text": "¿Qué sentimiento transmite Sajani cuando habla de sus compañeras y de La Habana?",
     "options": [
      "Nostalgia: las echa de menos",
      "Enfado con sus compañeras",

@@ -58,7 +58,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const cuba = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   const cres = cuba.reserveQuestions || [];
-  ok('semilla: las preguntas de reserva conservan las originales ambiguas (sin competencia) y no se pierden', cres.length === 8 && cres.filter(q=>q.id==='q7' || q.id==='q8').every(q=>q.competency === null));
+  ok('semilla: las preguntas de reserva conservan las originales ambiguas (sin competencia) y no se pierden', cres.length === 7 && cres.filter(q=>q.id==='q7' || q.id==='q8').every(q=>q.competency === null));
   ok('semilla: no se guardan campos derivados (nivel/suggested) en las originales', [...cuba.questions, ...cres].filter(q=>/^q\d+$/.test(q.id)).every(q=>q.levelDerived===undefined && q.suggestedCompetency===undefined && q.level===undefined));
 
   // Cada podcast precargado: test de 18 preguntas, 3 de cada competencia, ordenadas C1→C6, revisadas y bien formadas
@@ -83,10 +83,10 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     delete store.podcasts['seed-un-pais-en-podcast-cuba'].reserveQuestions;
     ['seedExtrasVersion','seedInferenceVersion','seedTestVersion'].forEach(k=>delete store.podcasts['seed-un-pais-en-podcast-cuba'][k]);
     await E(`upgradeSeedExtras()`);
-    ok('podcast existente: +10 propuestas y se respeta la edición del docente', store.podcasts['seed-un-pais-en-podcast-cuba'].questions.length === 18 && store.podcasts['seed-un-pais-en-podcast-cuba'].questions.find(q=>q.id==='q2').text === 'EDITADA POR EL DOCENTE');
+    ok('podcast existente: +9 propuestas y se respeta la edición del docente', store.podcasts['seed-un-pais-en-podcast-cuba'].questions.length === 17 && store.podcasts['seed-un-pais-en-podcast-cuba'].questions.find(q=>q.id==='q2').text === 'EDITADA POR EL DOCENTE');
     await E(`upgradeSeedInference()`); await E(`upgradeSeedTest18()`);
     const cu = store.podcasts['seed-un-pais-en-podcast-cuba'];
-    ok('podcast existente: queda en 18 (3 por competencia), la edición del docente se conserva y lo demás va a reserva', cu.questions.length === 18 && cu.questions.find(q=>q.id==='q2').text === 'EDITADA POR EL DOCENTE' && cu.reserveQuestions.length === 8); }
+    ok('podcast existente: queda en 18 (3 por competencia), la edición del docente se conserva y lo demás va a reserva', cu.questions.length === 18 && cu.questions.find(q=>q.id==='q2').text === 'EDITADA POR EL DOCENTE' && cu.reserveQuestions.length === 7); }
 
   // Fondo con la bandera del país
   ok('semilla Cuba: lleva país CU', cuba.country === 'CU');
@@ -315,6 +315,26 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok(`escritas ${id}: as citas de evidencia son literais da transcrición`, lit);
     ok(`escritas ${id}: 4 opcións e posición da correcta variada`, mine.every(q=>q.options.length === 4) && new Set(mine.map(q=>q.correct)).size >= 3);
   }
+
+  // ---------- 11. Cuba: nombre Sajani y sin preguntas sobre el padre ----------
+  { const raw = JSON.stringify(store.podcasts['seed-un-pais-en-podcast-cuba']);
+    ok('Cuba: ya no queda "Sahani" en ningún sitio y el nombre es Sajani', !/sahani/i.test(raw) && raw.includes('Sajani'));
+    const mentions = q => /\b(padre|papá|papa)\b/i.test([q.text, ...q.options, q.explanation, q.evidence].join(' '));
+    const cc = store.podcasts['seed-un-pais-en-podcast-cuba'];
+    ok('Cuba: ninguna pregunta (test ni reserva) menciona al padre', !cc.questions.some(mentions) && !cc.reserveQuestions.some(mentions));
+    // documento antiguo ya guardado: con "Sahani" y la pregunta del padre dentro del test
+    const old = JSON.parse(JSON.stringify(cc).replace(/Sajani/g, 'Sahani'));
+    const dad = { id:'k2', text:'¿Por qué el padre de Sahani salía «protegido»?', options:['Porque había riesgo','Porque hacía frío','Porque iba a una fiesta','Porque era guardia'], correct:0, explanation:'Sahani cuenta que su papá salía protegido.', competency:'C2', secondary:[], level:'intermedia', classReviewed:true, format:'multiple_choice', evidence:'mi papá cada vez que salía', distractors:['','','',''] };
+    old.questions = old.questions.filter(q=>q.id !== 'k1').concat([dad]);   // C2: i2, i3, k2 ; k1 en la reserva
+    old.reserveQuestions = [...old.reserveQuestions, cc.questions.find(q=>q.id==='k1')];
+    delete old.seedCubaFixVersion;
+    store.podcasts['seed-un-pais-en-podcast-cuba'] = old;
+    await E(`upgradeSeedCubaFix()`);
+    const fx = store.podcasts['seed-un-pais-en-podcast-cuba'];
+    ok('Cuba (doc antiguo): Sahani→Sajani en transcripción, preguntas y reserva', !/sahani/i.test(JSON.stringify(fx)) && fx.transcript.some(l=>l.includes('Sajani')));
+    ok('Cuba (doc antiguo): la pregunta del padre desaparece y se repone otra de C2 (sigue 18, 3 por competencia)', !fx.questions.some(q=>q.id==='k2') && fx.questions.length === 18 && E(`testBalance(${JSON.stringify(fx.questions)})`).ok);
+    await E(`upgradeSeedCubaFix()`);
+    ok('Cuba: la corrección es idempotente', JSON.stringify(store.podcasts['seed-un-pais-en-podcast-cuba'].questions) === JSON.stringify(fx.questions)); }
 
   const bad = results.filter(r=>!r[1]).length;
   console.log(`\n${results.length - bad} superadas, ${bad} falladas`);
