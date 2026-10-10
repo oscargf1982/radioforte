@@ -48,6 +48,7 @@ JSPDF_PATH=/ruta/node_modules/jspdf JSDOM_PATH=/ruta/node_modules/jsdom node tes
 - Las propuestas de clasificación de los 4 podcasts precargados deben ser revisadas por el docente.
 
 ## Regla para generar preguntas
+> Actualización: cada test é de **18 preguntas, 3 por competencia** (ver `docs/estilo-proba-diagnostico.md`).
 Cada pregunta nueva debe llevar **una competencia principal (C1–C6)**, un nivel de dificultad, evidencia de aprendizaje y justificación basada en la transcripción real. Cada podcast debe tener **al menos 2 preguntas de cada competencia**. Los 4 podcasts precargados incluyen ya preguntas adicionales (ids `k1…`) para cumplirlo; se añaden una sola vez (`seedExtrasVersion`) y no se tocan las preguntas editadas por el docente. Quedan como *propuesta* hasta que el docente las confirme.
 
 ## Estilo das preguntas e caderniño PDF

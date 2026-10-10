@@ -6,7 +6,7 @@ const src = html.split('/*PURE-START*/')[1].split('/*PURE-END*/')[0];
 const api = new Function(src + `
 return { COMP_IDS, COMPETENCIES, normalizeQuestion, normalizePodcast, validateQuestion, competencyDistribution,
   resolveDetailMeta, firstAttempts, computeCompetencyStats, competencyStatus, reliabilityOf, recommendPractice,
-  attemptCompetencyRows, attemptModality, attemptKind, levelsAreMixed, legacyLevel };`)();
+  attemptCompetencyRows, attemptModality, attemptKind, levelsAreMixed, legacyLevel, testBalance, TEST_TOTAL };`)();
 const A = require('assert');
 let pass = 0, fail = 0;
 function t(name, fn){ try{ fn(); pass++; console.log('  ok  ', name); }catch(e){ fail++; console.log('  FALLA', name, '\n       ', e.message); } }
@@ -146,6 +146,16 @@ t('filas por competencia de un intento', ()=>{
   const a = mk('a1','Noa',1,[ {competency:'C1',isCorrect:true},{competency:'C1',isCorrect:false},{competency:null,isCorrect:true} ]);
   const r = api.attemptCompetencyRows(a, { p:pod });
   A.deepStrictEqual(r.C1, {n:2,correct:1}); A.deepStrictEqual(r.SEN_CLASIFICAR, {n:1,correct:1});
+});
+
+t('testBalance: solo es correcto con 18 preguntas, 3 de cada competencia', ()=>{
+  const mk = (c,n)=>Array.from({length:n},()=>({competency:c}));
+  const ok = [].concat(...['C1','C2','C3','C4','C5','C6'].map(c=>mk(c,3)));
+  A.strictEqual(api.testBalance(ok).ok, true); A.strictEqual(api.TEST_TOTAL, 18);
+  const off = ok.slice(0,17).concat([{competency:'C1'}]);        // C1 x4, C6 x2
+  const b = api.testBalance(off); A.strictEqual(b.ok, false); A.deepStrictEqual(b.off.sort(), ['C1','C6']);
+  A.strictEqual(api.testBalance(ok.concat([{competency:null}])).ok, false);   // 19 y una sin competencia
+  A.strictEqual(api.testBalance([]).ok, false);
 });
 
 console.log(`\n${pass} superadas, ${fail} falladas`);

@@ -46,3 +46,10 @@ Regra para En Antena: unha pregunta inferencial só é válida se un adulto pode
 ## Regla de proporción (decidida polo director)
 En cada podcast, **polo menos un terzo das preguntas deben ser de inferir información** (non resolubles copiando unha frase), cubrindo: emoción ou actitude por indicios, causa/consecuencia, vantaxe, sentido figurado, frase parafraseada, valoración e intención. Sen verdadeiro/falso por agora.
 Os podcasts precargados levan unha serie `i1…i7` con estes tipos (marcador `seedInferenceVersion:1`); son **propostas sen confirmar**, con evidencia literal do audio e nota sobre cada distractor. Os tests comproban a proporción, a literalidade das citas e que a mellora non duplique preguntas.
+
+## Estrutura do test: 18 preguntas, 3 por competencia (decisión do director, 10/10/2026)
+- Cada podcast precargado ten un test de **18 preguntas: 3 de C1, 3 de C2, 3 de C3, 3 de C4, 3 de C5 e 3 de C6**, ordenadas C1→C6, para interpretar os resultados por competencia.
+- A competencia vese en cada pregunta (alumnado) e en cada recadro do **caderniño PDF**; as notas do docente indican a estrutura.
+- Cada podcast ten polo menos 6 de 18 preguntas de inferir (C2 máis as da serie `i`).
+- As preguntas que sobran non se borran: quedan no campo `reserveQuestions` do podcast (e copiadas en `docs/banco-preguntas-reserva.json`).
+- No editor, un aviso indica se o test está equilibrado (18, 3 por competencia) ou que competencias se desvían. A mellora `upgradeSeedTest18` (marcador `seedTestVersion:1`) respecta as edicións do docente nas preguntas que se manteñen.

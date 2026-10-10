@@ -859,7 +859,7 @@ function buildBookletPdf(JsPDF, podcast, opts){
   let cy = 158 + tl.length * lh(22) + 4;
   setF(13, 'normal'); doc.setTextColor(60);
   doc.text(String(podcast.cycle || ''), M+3, cy); cy += 7;
-  doc.text(qs.length + ' preguntas de resposta única', M+3, cy);
+  doc.text(qs.length + ' preguntas de resposta única' + (testBalance(qs).ok ? ' · 3 por competencia' : ''), M+3, cy);
   doc.setTextColor(0);
   box(M, 236, CW, 30, 0.4);
   setF(10.5, 'normal');
@@ -965,14 +965,17 @@ function buildBookletPdf(JsPDF, podcast, opts){
   qs.forEach((q,i)=>{
     const stemL = wrap(q.text, SZ, TW, 'bold');
     const optL = (q.options||[]).map(o=>wrap(o, SZ, TW-9, 'normal'));
-    let h = 6.2 + stemL.length*lh(SZ) + 2.6;
+    const tag = (opts.showCompetency !== false && q.competency && COMPETENCIES[q.competency] && (q.classReviewed || q.reviewed)) ? (q.competency + ' · ' + COMPETENCIES[q.competency].short) : '';
+    const TG = tag ? 4.6 : 0;
+    let h = 6.2 + TG + stemL.length*lh(SZ) + 2.6;
     optL.forEach(L=>{ h += L.length*lh(SZ) + 1.2; });
     h += 2.2 - lh(SZ);
     ensure(h + 5);
     box(M, y, CW, h, 0.4);
-    setF(22,'normal'); doc.text(String(i+1)+'.', NUMX, y+10.5);
-    setF(SZ,'bold'); doc.text(stemL, TXTX, y+6.2);
-    let oy = y + 6.2 + stemL.length*lh(SZ) + 2.6;
+    setF(22,'normal'); doc.text(String(i+1)+'.', NUMX, y+10.5+TG);
+    if(tag){ setF(8.5,'bold'); doc.setTextColor(80); doc.text(tag.toUpperCase(), TXTX, y+4.4); doc.setTextColor(0); }
+    setF(SZ,'bold'); doc.text(stemL, TXTX, y+6.2+TG);
+    let oy = y + 6.2 + TG + stemL.length*lh(SZ) + 2.6;
     optL.forEach((L,oi)=>{
       setF(SZ,'normal'); doc.text(LET[oi]+'.', TXTX+1, oy);
       doc.text(L, TXTX+9, oy);
@@ -995,7 +998,9 @@ function buildBookletPdf(JsPDF, podcast, opts){
     kv('Podcast', podcast.title || '');
     kv('Ciclo', String(podcast.cycle || ''));
     kv('Modalidade', MODALITY_LABELS[cfg.modality] || '—');
+    const tb = testBalance(qs);
     kv('Preguntas', String(qs.length) + ' · 1 punto por acerto, sen penalización por erro');
+    kv('Estrutura', tb.ok ? '18 preguntas, 3 de cada competencia (C1-C6): cada pregunta leva a súa competencia no recadro.' : 'Fóra da estrutura recomendada de 18 preguntas (3 por competencia): ' + tb.total + ' preguntas.');
     kv('Aplicación', 'Lectura do contexto (2 min) · 1.ª escoita · 1 min para responder · 2.ª escoita · repaso. Reproduce o audio desde En Antena.');
     y += 3;
     // Clave
@@ -1200,6 +1205,18 @@ function competencyDistribution(questions){
     }
   }
   return { counts, classified, pending, unreviewed, total: questions.length, warning };
+}
+
+/* ---- Estrutura do test: 18 preguntas, 3 por competencia (C1-C6) ---- */
+const TEST_PER_COMP = 3;
+const TEST_TOTAL = TEST_PER_COMP * COMP_IDS.length;
+function testBalance(questions){
+  const counts = {}; COMP_IDS.forEach(c=>counts[c]=0);
+  let withoutComp = 0;
+  (questions || []).forEach(q=>{ if(q && COMP_IDS.includes(q.competency)) counts[q.competency]++; else withoutComp++; });
+  const total = (questions || []).length;
+  const off = COMP_IDS.filter(c=>counts[c] !== TEST_PER_COMP);
+  return { total, counts, withoutComp, off, ok: total === TEST_TOTAL && off.length === 0 && withoutComp === 0 };
 }
 
 /* ---- Resolución de metadatos dun intento (novos e antigos) ---- */
@@ -2437,6 +2454,10 @@ function refreshEditorSummary(){
   const chips = COMP_IDS.map(c=>`<span class="comp-chip ${dist.counts[c]?'':'zero'}" title="${escapeHtml(COMPETENCIES[c].name)}">${c} · ${escapeHtml(COMPETENCIES[c].short)}: ${dist.counts[c]}</span>`).join('');
   let html = `<div class="comp-chips" role="list">${chips}<span class="comp-chip ${dist.pending?'':'zero'}">Pendentes: ${dist.pending}</span></div>`;
   if(dist.unreviewed) html += `<div class="notice info">${dist.unreviewed} pregunta(s) con clasificación proposta sen revisar. Non contan nos informes ata que as confirmes.</div>`;
+  const bal = testBalance(qs);
+  html += bal.ok
+    ? `<div class="notice info">✅ Test equilibrado: ${TEST_TOTAL} preguntas, ${TEST_PER_COMP} de cada competencia.</div>`
+    : `<div class="notice warn">🎯 Test recomendado: ${TEST_TOTAL} preguntas, ${TEST_PER_COMP} de cada competencia. Agora hai ${bal.total}${bal.off.length ? ' · fóra de equilibrio: ' + bal.off.map(c=>c + ' (' + bal.counts[c] + ')').join(', ') : ''}${bal.withoutComp ? ' · ' + bal.withoutComp + ' sen competencia' : ''}.</div>`;
   if(dist.warning) html += `<div class="notice warn">⚠️ ${escapeHtml(dist.warning)}</div>`;
   document.getElementById('compDistribution').innerHTML = html;
   applyCompFilter();
@@ -3401,7 +3422,7 @@ function questionCardsHtml(qs, cfg, selectFn, hintFn){
   return qs.map((q,qi)=>`
     <div class="q-card" role="group" aria-labelledby="qt-${hintFn}-${qi}">
       ${levelPillHtml(q)}
-      ${cfg && cfg.showCompetencyLabels && q.competency && q.classReviewed ? `<span class="comp-pill">${escapeHtml(COMPETENCIES[q.competency].kid)}</span>` : ''}
+      ${cfg && cfg.showCompetencyLabels && q.competency && q.classReviewed ? `<span class="comp-pill">${q.competency} · ${escapeHtml(COMPETENCIES[q.competency].short)}</span>` : ''}
       <div class="q-title" id="qt-${hintFn}-${qi}">${qi+1}. ${escapeHtml(q.text)}</div>
       <div class="opts" data-qi="${qi}" role="radiogroup" aria-labelledby="qt-${hintFn}-${qi}">
         ${q.options.map((opt,oi)=>`
@@ -5532,6 +5553,191 @@ async function upgradeSeedTextFixes(){
   if(changed) await ref.update({ questions });
 }
 
+/* ---- Test oficial de cada podcast precargado: 18 preguntas, 3 de cada competencia (C1-C6) ---- */
+const SEED_TEST_PLAN = {
+  [SEED_PODCAST_ID]:   { C1:['q1','q4','q8'], C2:['k1','i2','i3'], C3:['k2','k3','i6'], C4:['k4','k5','n1'], C5:['k6','i4','i5'], C6:['i1','k8','i7'] },
+  [SEED_PODCAST_ID_2]: { C1:['q2','q3','q6'], C2:['k1','i2','i3'], C3:['k3','k4','i6'], C4:['k5','k6','n1'], C5:['k7','i4','i5'], C6:['k9','i1','i7'] },
+  [SEED_PODCAST_ID_3]: { C1:['q1','q3','q8'], C2:['i2','i3','i5'], C3:['k2','k3','n1'], C4:['k4','k5','n2'], C5:['k6','k7','i4'], C6:['i1','i6','i7'] },
+  [SEED_PODCAST_ID_4]: { C1:['q2','q3','q5'], C2:['k2','i2','i3'], C3:['k3','k4','i6'], C4:['k5','k6','n1'], C5:['k7','i4','i5'], C6:['k9','i1','i7'] }
+};
+/* Preguntas escritas expresamente para completar as 3 de cada competencia (só con base na transcrición real). */
+function seedTestExtraQuestions(){
+  return {
+ [SEED_PODCAST_ID]: [
+  {
+   "id": "n1",
+   "text": "Que fan os presentadores antes de dar paso aos artistas do cole?",
+   "options": [
+    "Len un poema ilustrado e despídense do público",
+    "Saúdan, presentan o equipo e explican o tema do programa",
+    "Cantan o rap e repiten o lema final do Correlingua",
+    "Entrevistan o reporteiro Carlos sobre o seu traballo"
+   ],
+   "correct": 1,
+   "difficulty": "facil",
+   "explanation": "O programa comeza coa saudación, a presentación do equipo (Martín, Víctor, Selena, e Carlos como reporteiro) e o tema do día; só despois «imos coñecer a varios artistas do noso cole».",
+   "competency": "C4",
+   "secondary": [],
+   "level": "inicial",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Bos días a todas e todos. Comeza un novo programa da nosa radio escolar, vivir a Escola.» / «Hoxe falamos do Correlingua 2026...» / «E agora imos coñecer a varios artistas do noso cole...»",
+   "hint": "",
+   "distractors": [
+    "Mestura: o poema é dun artista e vén despois",
+    "",
+    "Mestura: o rap e o lema vén máis adiante",
+    "Tentadora: Carlos é nomeado, pero non o entrevistan"
+   ]
+  }
+ ],
+ [SEED_PODCAST_ID_2]: [
+  {
+   "id": "n1",
+   "text": "Como remata o podcast?",
+   "options": [
+    "Cunha nova lenda contada polo alumnado de sexto",
+    "Anunciando quen gañou o concurso Xosé Mosquera Pérez",
+    "Agradecen a escoita e din que contar historias mantén viva a cultura",
+    "Explicando como se fan os compadres con arame e témperas"
+   ],
+   "correct": 2,
+   "difficulty": "facil",
+   "explanation": "Despois da lenda, din que agardan que guste o percorrido polas tradicións, que seguir contando historias mantén viva a cultura, dan as grazas e despídense.",
+   "competency": "C4",
+   "secondary": [],
+   "level": "inicial",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«Agardamos que vos guste este percorrido polas nosas tradicións, polos contos e polo entroido galego.» / «Seguir contando historias é unha forma de manter viva a cultura. Moitas grazas por escoitarnos. Chao, adeus.»",
+   "hint": "",
+   "distractors": [
+    "Contraria: a lenda é do alumnado de terceiro e vén antes do final",
+    "Tentadora: o concurso aparece ao principio, pero non se anuncia gañador",
+    "",
+    "Mestura: iso pertence á parte de sexto, no medio"
+   ]
+  }
+ ],
+ [SEED_PODCAST_ID_3]: [
+  {
+   "id": "n1",
+   "text": "¿Cuál de estas frases resume mejor las recomendaciones de Víctor?",
+   "options": [
+    "Recomienda libros de aventuras, misterio y acción para gente de su edad",
+    "Recomienda solo libros de cocina y de deportes",
+    "Recomienda libros que ya han visto en el cine",
+    "Recomienda un único libro muy largo para todas las edades"
+   ],
+   "correct": 0,
+   "difficulty": "facil",
+   "explanation": "Víctor recomienda El Señor de los Anillos, Los Juegos del Hambre, Guerra Mundial Z, El Detective Esqueleto y One Piece: todos son de aventuras, misterio o acción, que es lo que resume la idea principal.",
+   "competency": "C3",
+   "secondary": [],
+   "level": "intermedia",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«...si os gustan las aventuras, el misterio, la intriga y un poco de sangre, recomiendo Los Juegos del Hambre.» / «Guerra Mundial Z. Es un libro muy guay, va de zombis.» / «Tambien queria recomendar, si os gustan las aventuras y el misterio, El Detective Esqueleto.»",
+   "hint": "",
+   "distractors": [
+    "",
+    "Contraria: ninguno de los libros es de cocina ni de deportes",
+    "Tentadora: habla de películas, pero no recomienda por eso",
+    "Contraria: recomienda varios libros"
+   ]
+  },
+  {
+   "id": "n2",
+   "text": "¿Qué ocurre justo después de que Andrés presente a Víctor?",
+   "options": [
+    "Víctor cuenta cómo termina El Señor de los Anillos",
+    "Andrés anuncia que ya tienen que terminar el podcast",
+    "Andrés recomienda One Piece él solo",
+    "Le pregunta qué libros recomienda para gente de su edad"
+   ],
+   "correct": 3,
+   "difficulty": "facil",
+   "explanation": "Tras decir que hoy está Víctor D., de su misma clase, Andrés le saluda y le pregunta qué libros recomienda para su edad.",
+   "competency": "C4",
+   "secondary": [],
+   "level": "inicial",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«...hoy esta con nosotros Victor D., de mi misma clase.» / «Hola, Victor, ?que libros recomiendas para gente de nuestra edad?»",
+   "hint": "",
+   "distractors": [
+    "Mezcla: habla de ese libro, pero después y sin contar el final",
+    "Mezcla: eso ocurre casi al final",
+    "Mezcla: One Piece lo recomienda más adelante",
+    ""
+   ]
+  }
+ ],
+ [SEED_PODCAST_ID_4]: [
+  {
+   "id": "n1",
+   "text": "¿Cómo empieza el programa?",
+   "options": [
+    "Con una entrevista a Eric sobre su comida favorita",
+    "Con la despedida de Eric y Sahani",
+    "Con música, y la presentadora presenta el programa y el viaje a Cuba",
+    "Con un anuncio del próximo episodio de otro país"
+   ],
+   "correct": 2,
+   "difficulty": "facil",
+   "explanation": "Se oye una música de inicio y la presentadora da la bienvenida a «Un país en podcast» y anuncia que hoy viajan a Cuba, antes de presentar a los invitados.",
+   "competency": "C4",
+   "secondary": [],
+   "level": "inicial",
+   "classReviewed": false,
+   "format": "multiple_choice",
+   "evidence": "«(Música de inicio)» / «Hola, hola. Bienvenidos a Un país en podcast...» / «Hoy nos vamos hasta una isla del mar Caribe. Preparamos las maletas porque viajamos a Cuba.»",
+   "hint": "",
+   "distractors": [
+    "Mezcla: esa pregunta llega mucho más tarde",
+    "Contraria: la despedida es al final",
+    "",
+    "Mezcla: lo del próximo episodio se dice al terminar"
+   ]
+  }
+ ]
+};
+}
+/* Deixa cada podcast precargado cun test de 18 preguntas (3 por competencia), ordenadas C1→C6 e xa clasificadas.
+   As demais pasan a `reserveQuestions` (non se perde nada). Respecta o que o docente editase nas preguntas que se manteñen. */
+async function upgradeSeedTest18(){
+  const extra = seedTestExtraQuestions();
+  for(const pid of Object.keys(SEED_TEST_PLAN)){
+    initFirebase();
+    const ref = _fbDb.collection('podcasts').doc(pid);
+    const doc = await ref.get();
+    if(!doc.exists) continue;
+    const data = doc.data();
+    if(data.seedTestVersion >= 1) continue;
+    const stored = new Map((data.questions || []).map(q=>[q.id, q]));
+    const keep = [], keepIds = new Set();
+    for(const comp of COMP_IDS){
+      for(const id of SEED_TEST_PLAN[pid][comp]){
+        const base = stored.get(id) || (extra[pid] || []).find(q=>q.id === id);
+        if(!base) continue;
+        const q = { ...base };
+        if(!(stored.has(id) && q.classReviewed && q.competency && q.competency !== comp)){ q.competency = comp; }
+        q.classReviewed = true;
+        keep.push(q); keepIds.add(id);
+      }
+    }
+    const isSeedId = id => /^[qkin]\d+$/.test(id);
+    const dropped = (data.questions || []).filter(q=>!keepIds.has(q.id) && isSeedId(q.id));
+    const custom = (data.questions || []).filter(q=>!keepIds.has(q.id) && !isSeedId(q.id));   // preguntas creadas polo docente
+    const config = { ...(data.config || {}), showCompetencyLabels: true };
+    await ref.update({
+      questions: [ ...keep, ...custom ],
+      reserveQuestions: [ ...(data.reserveQuestions || []), ...dropped ],
+      config, seedTestVersion: 1, schemaVersion: 2
+    });
+  }
+}
+
 async function upgradeSeedCountry(){
   initFirebase();
   const ref = _fbDb.collection('podcasts').doc(SEED_PODCAST_ID_4);
@@ -5543,6 +5749,7 @@ Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seed
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
   .then(()=>upgradeSeedInference())
+  .then(()=>upgradeSeedTest18())
   .then(()=>upgradeSeedCountry())
   .then(()=>upgradeSeedTextFixes())
   .catch(err=>{ console.error('Erro na configuración inicial de Firebase:', err); })

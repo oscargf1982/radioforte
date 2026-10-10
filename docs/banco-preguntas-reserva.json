@@ -1,0 +1,808 @@
+{
+ "seed-correlingua-2026": {
+  "title": "Correlingua 2026 · Vivir a Escola",
+  "reserveQuestions": [
+   {
+    "id": "q2",
+    "text": "De que tema especial fala o programa de hoxe?",
+    "options": [
+     "Do Nadal",
+     "Do Correlingua 2026",
+     "Dun partido de fútbol",
+     "Da prehistoria"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Anuncian directamente: \"Hoxe falamos do Correlingua 2026, unha edición moi especial\".",
+    "competency": null,
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q3",
+    "text": "Segundo o programa, que se fai este ano ademais de \"correr pola lingua\"?",
+    "options": [
+     "Tamén se crea en galego",
+     "Tamén se traduce ao inglés",
+     "Só se fala de deporte",
+     "Nada máis"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "Dise expresamente que \"este ano non só se corre pola lingua, tamén se crea en galego\".",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q5",
+    "text": "Cales destas palabras aparecen no poema como exemplos de palabras galegas fermosas?",
+    "options": [
+     "Agarimo, tenrura, morriña",
+     "Fútbol, cesta, roda",
+     "Ordenador, teléfono, internet",
+     "Mesa, cadeira, porta"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "Explica que \"escollín palabras galegas que transmiten emocións como agarimo, tenrura ou morriña\".",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q6",
+    "text": "Que fai o segundo estudante para amosar que o galego tamén pode soar moderno?",
+    "options": [
+     "Un rap",
+     "Un poema",
+     "Unha obra de teatro",
+     "Un debuxo"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "O propio estudante o anuncia: \"Eu preparei un pequeno rapego\" e despois interprétao no programa.",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q7",
+    "text": "Na mini historia do terceiro estudante, que lles pasa ás palabras galegas?",
+    "options": [
+     "Desaparecen e hai que recuperalas falando galego",
+     "Vólvense máis grandes",
+     "Cambian de cor",
+     "Convértense en música"
+    ],
+    "correct": 0,
+    "difficulty": "inferencia",
+    "explanation": "A historia conta que \"as palabras galegas desaparecen e os nenos teñen que recuperalas falando máis galego\", como metáfora de que a lingua se debilita se non se usa.",
+    "competency": "C2",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "k7",
+    "text": "Que significa «tesouro» en «estamos coidando un tesouro colectivo»?",
+    "options": [
+     "Un cofre con moedas escondido no colexio",
+     "Un xogo que se garda nun caixón",
+     "Un premio que só gaña unha persoa",
+     "Algo moi valioso que pertence a todas as persoas"
+    ],
+    "correct": 3,
+    "difficulty": "facil",
+    "explanation": "Fala da lingua, da cultura e da identidade: é unha forma figurada de dicir que a lingua é algo moi valioso que compartimos todos.",
+    "competency": "C5",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Interpretar unha expresión figurada axeitada á idade.",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   },
+   {
+    "id": "k9",
+    "text": "Que actitude amosan os presentadores e os artistas cara ao galego?",
+    "options": [
+     "Indiferenza e desinterese total",
+     "Orgullo e cariño pola lingua",
+     "Vergoña de falalo en público",
+     "Aburrimento e ganas de rematar"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Din que hai que usalo «con orgullo», que lles «encanta» e que é un tesouro: amosan orgullo e cariño.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Recoñecer actitudes cando hai indicios suficientes.",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   }
+  ]
+ },
+ "seed-ovello-dos-contos": {
+  "title": "O Vello dos Contos · Radio Forte",
+  "reserveQuestions": [
+   {
+    "id": "q1",
+    "text": "Como se chama a radio escolar do CEIP Plurilingüe de Monforte de Lemos?",
+    "options": [
+     "Radio Vivir",
+     "Radio Forte",
+     "Radio Mosquera",
+     "Ondas do Cole"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Milet e Lucas preséntanse dicindo que falan \"desde Radio Forte, a Radio Escolar do CEIP Plurilingüe de Monforte de Lemos\".",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q4",
+    "text": "Que curso de primaria investigou as diferentes variantes da palabra \"Entroido\"?",
+    "options": [
+     "Terceiro",
+     "Cuarto",
+     "Quinto",
+     "Sexto"
+    ],
+    "correct": 2,
+    "difficulty": "facil",
+    "explanation": "Dise claramente: \"Esta foi a investigación realizada polo alumnado de quinto de primaria para Radio Forte\".",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q5",
+    "text": "Cal destas variantes é a máis estendida no interior de Lugo e Ourense, segundo a investigación?",
+    "options": [
+     "Entrudio",
+     "Antroilo",
+     "Antroido",
+     "Introido"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Entre as variantes documentadas, \"Antroido\" descríbese como \"moi estendida no interior de Lugo e Ourense\", fronte ás outras que son máis locais ou dialectais.",
+    "competency": null,
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q7",
+    "text": "En que se inspiraron para crear os compadres e as comadres?",
+    "options": [
+     "Nos animais do bosque",
+     "Nas figuras míticas dos mouros e das mouras",
+     "Nos personaxes de contos infantís",
+     "Nos deuses da mitoloxía grega"
+    ],
+    "correct": 1,
+    "difficulty": "inferencia",
+    "explanation": "Contan que os elaboraron \"inspirándonos nas figuras míticas dos mouros e das mouras\", conectando así cos contos que se narran despois no mesmo programa.",
+    "competency": null,
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q8",
+    "text": "Na lenda contada polo alumnado de terceiro, que lle pasou ao labrego cando pediu o ouro \"a ferrados\"?",
+    "options": [
+     "Recibiu moito máis ouro do esperado",
+     "A moura desapareceu co ouro e el quedou sen nada",
+     "Repartiu o ouro con todo o pobo",
+     "A moura convertiuse nunha árbore"
+    ],
+    "correct": 1,
+    "difficulty": "inferencia",
+    "explanation": "Cando o labrego volveu, \"xa non había nin a moura nin o ouro\", e el mesmo se lamenta: \"como escollín a ferrados agora non teño nada\".",
+    "competency": null,
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "k2",
+    "text": "Que ensinanza se pode sacar da lenda da moura?",
+    "options": [
+     "Hai que pedir sempre canto máis mellor",
+     "Hai que fiarse sempre das mouras",
+     "Hai que evitar falar con descoñecidos",
+     "Hai que pensar antes de decidir"
+    ],
+    "correct": 3,
+    "difficulty": "inferencia",
+    "explanation": "O labrego respondeu «sen pensar» e despois dixo, arrepentido, que se escollera a mancheas polo menos tería algo: a historia ensina a reflexionar antes de decidir.",
+    "competency": "C2",
+    "secondary": [],
+    "level": "avanzada",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Extraer unha conclusión xustificada polo contido escoitado.",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   },
+   {
+    "id": "k8",
+    "text": "Que son os «compadriños e compadriñas» que se deseñaron?",
+    "options": [
+     "Persoas disfrazadas para o Entroido",
+     "Pequenos debuxos de compadres e comadres para colorear",
+     "Receitas típicas do Entroido",
+     "Lendas sobre mouros e mouras"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "O texto di: «Deseñamos uns debuxos dos compadriños e compadriñas para que todo o colexio puidera colorealos». A terminación -iño/-iña indica a versión pequena.",
+    "competency": "C5",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Deducir o significado dunha palabra polo contexto.",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   },
+   {
+    "id": "k10",
+    "text": "Que sentimento amosa o labrego ao final da lenda?",
+    "options": [
+     "Alegría",
+     "Medo á moura",
+     "Aburrimento",
+     "Arrepentimento"
+    ],
+    "correct": 3,
+    "difficulty": "facil",
+    "explanation": "O texto di que o labrego «pensou arrepentido: Se escollera a mancheas polo menos tería algo».",
+    "competency": "C6",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Recoñecer emocións cando hai indicios suficientes.",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   }
+  ]
+ },
+ "seed-radio-libre-libros": {
+  "title": "Radio Libre: recomendacións de libros",
+  "reserveQuestions": [
+   {
+    "id": "q2",
+    "text": "?Sobre que tema trata este nuevo podcast, a diferencia de los anteriores (de Brawl Stars)?",
+    "options": [
+     "Videojuegos",
+     "Libros",
+     "Deportes",
+     "Musica"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Andres explica que \"ahora tenemos un nuevo podcast de libros\".",
+    "competency": null,
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q4",
+    "text": "Segun Victor, ?que tienen Los Juegos del Hambre que hizo que se llevara algun susto?",
+    "options": [
+     "Recetas de cocina",
+     "Poemas de amor",
+     "Aventuras, misterio, intriga y un poco de sangre",
+     "Solo comedia"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Victor dice que tiene \"aventuras, el misterio, la intriga, un poco de sangre\" y que el mismo se llevo algun susto leyendolo.",
+    "competency": null,
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q5",
+    "text": "?De que trata el libro \"Guerra Mundial Z\"?",
+    "options": [
+     "De piratas",
+     "De dinosaurios",
+     "De zombis",
+     "De guerra medieval"
+    ],
+    "correct": 2,
+    "difficulty": "facil",
+    "explanation": "Victor lo dice directamente: \"Guerra Mundial Z... va de zombies\".",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q6",
+    "text": "?Que tiene de especial el protagonista de \"El Detective Esqueleto\"?",
+    "options": [
+     "Es un mago",
+     "Es un esqueleto",
+     "Es un robot",
+     "Es un pirata"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Se explica que el libro \"va de un detective que es un esqueleto\".",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q7",
+    "text": "?Por que Andres no da mas detalles sobre \"El Detective Esqueleto\" y \"One Piece\"?",
+    "options": [
+     "Porque no se acuerda",
+     "Porque son libros aburridos",
+     "Para no hacer spoiler",
+     "Porque estan prohibidos"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Repite varias veces que no quiere contar mas \"para no hacer spoiler 100%\".",
+    "competency": "C2",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "k1",
+    "text": "¿Qué se puede deducir de los podcasts anteriores de Andrés?",
+    "options": [
+     "Que trataban de libros, igual que este podcast",
+     "Que nunca llegó a publicar ninguno de ellos",
+     "Que hablaban de Brawl Stars y tenían seguidores",
+     "Que trataban de cocina y de recetas caseras"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Dice «ya sé lo que pensaréis: queríais el podcast de Brawl Stars»: sus oyentes esperaban ese tema porque seguían sus podcasts anteriores.",
+    "competency": "C2",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Relacionar indicios para deducir información no dicha literalmente.",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   },
+   {
+    "id": "k8",
+    "text": "¿Para qué dice Víctor «si creéis que lo podéis leer sin llevaros un susto»?",
+    "options": [
+     "Para recomendar un libro de risa",
+     "Para decir que el libro es muy corto",
+     "Para pedir que no lo lean",
+     "Para advertir de que Los Juegos del Hambre pueden asustar"
+    ],
+    "correct": 3,
+    "difficulty": "facil",
+    "explanation": "Acaba de recomendarlo por «aventuras, misterio, intriga y un poco de sangre» y añade «yo me llevé alguno»: avisa de que puede dar miedo.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Identificar la intención de quien habla (advertir).",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   },
+   {
+    "id": "k9",
+    "text": "¿Qué pretende Andrés cuando dice de One Piece «leedlo si no lo habéis leído ya»?",
+    "options": [
+     "Advertir de que es peligroso",
+     "Pedir que lo devuelvan a la biblioteca",
+     "Animar a los oyentes a leerlo",
+     "Criticar el manga"
+    ],
+    "correct": 2,
+    "difficulty": "facil",
+    "explanation": "Tras describirlo como «cortito» y lleno de aventuras, pide «por favor, leedlo»: busca convencerles de que lo lean.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Identificar la intención comunicativa (convencer).",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   }
+  ]
+ },
+ "seed-un-pais-en-podcast-cuba": {
+  "title": "Un país en podcast: Cuba",
+  "reserveQuestions": [
+   {
+    "id": "q1",
+    "text": "¿Cómo se llama el programa de este podcast?",
+    "options": [
+     "Un país en podcast",
+     "Radio Libre",
+     "Correlingua",
+     "En Antena"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "La presentadora dice \"Bienvenidos a Un país en podcast, el programa en el que viajamos por el mundo\".",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q4",
+    "text": "¿Y Sahani, en qué lugar vivía?",
+    "options": [
+     "En Holguín",
+     "En Alamar, un lugar de La Habana",
+     "En Varadero",
+     "En Santiago de Cuba"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Sahani dice \"yo vivía en Alamar, que es un lugar de La Habana\".",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q6",
+    "text": "Según Sahani, ¿cuántas asignaturas le daban en el colegio en Cuba?",
+    "options": [
+     "Muchas, más de cinco",
+     "Solo dos: Lengua Castellana y Matemáticas",
+     "Solo Educación Física",
+     "Ninguna, no iba al colegio"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Sahani explica que en el colegio \"no te daban tantas asignaturas, solo prácticamente dos: Lengua Castellana y Matemáticas\".",
+    "competency": "C1",
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q7",
+    "text": "¿Por qué Sahani dice que en Cuba casi nadie tiene coche?",
+    "options": [
+     "Porque están prohibidos los coches",
+     "Porque la mayoría de la gente no tiene dinero para tener coche, solo los que tienen \"plata\"",
+     "Porque no hay carreteras en Cuba",
+     "Porque todo el mundo va en avión"
+    ],
+    "correct": 1,
+    "difficulty": "inferencia",
+    "explanation": "Sahani explica que \"los cubanos... no siempre tenemos coches, solo los que tienen plata. La mayoría de las personas que son de Cuba no tienen coche\".",
+    "competency": null,
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "q8",
+    "text": "¿Qué le recomienda Sahani a un niño de España que viajara a Cuba?",
+    "options": [
+     "Salir de noche sin dinero",
+     "Visitar el centro comercial de La Habana y las playas, mejor al amanecer o al anochecer",
+     "No ir nunca a la playa",
+     "Ir a esquiar a la montaña"
+    ],
+    "correct": 1,
+    "difficulty": "inferencia",
+    "explanation": "Sahani recomienda \"que vayan al centro comercial de La Habana y a las playas\" y que, si van a la playa, sea \"al amanecer o al anochecer\", cuando \"el agua está calientita y está todo muy tranquilo\".",
+    "competency": null,
+    "secondary": [],
+    "classReviewed": false,
+    "evidence": "",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "format": "multiple_choice"
+   },
+   {
+    "id": "k1",
+    "text": "¿Qué se puede deducir de que Eric diga que no había bus para ir al colegio?",
+    "options": [
+     "Que en Cuba no existen colegios para los niños",
+     "Que a veces era difícil llegar al colegio por falta de transporte",
+     "Que Eric prefería no estudiar y faltar a clase",
+     "Que todos los niños iban en coche al colegio"
+    ],
+    "correct": 1,
+    "difficulty": "inferencia",
+    "explanation": "Eric no recomienda ir a Cuba «porque te levantabas y no había bus para ir al colegio»: la falta de bus dificultaba llegar a clase.",
+    "competency": "C2",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Deducir una consecuencia implícita a partir de un dato.",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   },
+   {
+    "id": "k8",
+    "text": "¿Qué significa «bulla» en «había mucha, pero mucha bulla»?",
+    "options": [
+     "Silencio y tranquilidad",
+     "Mucho calor",
+     "Ruido y mucho jaleo de gente",
+     "Muchos coches"
+    ],
+    "correct": 2,
+    "difficulty": "facil",
+    "explanation": "Lo dice al hablar de las fiestas, a las que invitaban incluso a desconocidos: el contexto indica ruido y jaleo.",
+    "competency": "C5",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Deducir el significado de una palabra por el contexto.",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   },
+   {
+    "id": "k10",
+    "text": "¿Qué sentimiento transmite Sahani cuando habla de sus compañeras y de La Habana?",
+    "options": [
+     "Nostalgia: las echa de menos",
+     "Enfado con sus compañeras",
+     "Indiferencia",
+     "Miedo a volver al colegio"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "Dice «lo que más extraño es a mis compañeras… ah, y La Habana»: transmite nostalgia.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": false,
+    "format": "multiple_choice",
+    "evidence": "Reconocer emociones cuando hay indicios suficientes.",
+    "hint": "",
+    "distractors": [
+     "",
+     "",
+     "",
+     ""
+    ]
+   }
+  ]
+ }
+}
