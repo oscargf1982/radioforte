@@ -54,7 +54,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const activeView = ()=>$('.view.active').id;
 
   // ---------- 1. Arranque y semillas ----------
-  ok('arranque: la app carga y crea los 5 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 5 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
+  ok('arranque: la app carga y crea los 6 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 6 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
   const cuba = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   const cres = cuba.reserveQuestions || [];
@@ -272,7 +272,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
 
   // ---------- 8. Regresión de funciones docentes ----------
   await E(`renderTeacherList()`);
-  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 7, String($$('#teacherPodcastList .podcast-card').length));
+  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 8, String($$('#teacherPodcastList .podcast-card').length));
   await E(`cloudSoftDeletePodcast('legacy1')`); ok('papelera: eliminar suave', store.podcasts['legacy1'].deleted === true);
   await E(`cloudRestorePodcast('legacy1')`); ok('papelera: restaurar', store.podcasts['legacy1'].deleted === false);
   await E(`printWorksheet('${newId}', true)`); ok('ficha imprimible con respuestas', $('#printSheet').textContent.includes('Clave de respostas'));
@@ -347,6 +347,16 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     E(`goHome()`);
     w.__saved.length = 0; await E(`downloadBooklet('seed-un-pais-en-podcast-filipinas', true)`);
     ok('Filipinas: el cuadernillo PDF se genera con 18 preguntas', w.__saved.length === 1 && w.__saved[0].includes('filipinas')); }
+
+  // ---------- 13. Senegal ----------
+  { const sn = store.podcasts['seed-un-pais-en-podcast-senegal'];
+    ok('Senegal: país SN, bandera y audio enlazados', sn.country === 'SN' && E(`Object.keys(COUNTRIES).includes('SN')`) && E(`SEED_AUDIO_FILES['seed-un-pais-en-podcast-senegal']`) === 'audio/senegal_un_pais_en_podcast.mp3');
+    ok('Senegal: 18 preguntas, 3 por competencia, sin verdadero/falso', sn.questions.length === 18 && E(`testBalance(${JSON.stringify(sn.questions)})`).ok && sn.questions.every(q=>q.options.length === 4 && q.format === 'multiple_choice'));
+    ok('Senegal: al menos un tercio son de inferir', sn.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id)).length >= 6);
+    ok('Senegal: sin anotaciones [..] ni preguntas sobre el padre', !sn.transcript.some(l=>/\[|\]/.test(l)) && !sn.questions.some(q=>/\b(pai|padre)\b/i.test(JSON.stringify(q))));
+    ok('Senegal: cada cita de evidencia sale literal de la transcrición', sn.questions.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>sn.transcript.join(' ').includes(m.slice(1,-1).replace(/\.$/,'')))));
+    w.__saved.length = 0; await E(`downloadBooklet('seed-un-pais-en-podcast-senegal', true)`);
+    ok('Senegal: el cuadernillo PDF se genera', w.__saved.length === 1 && w.__saved[0].includes('senegal')); }
 
   const bad = results.filter(r=>!r[1]).length;
   console.log(`\n${results.length - bad} superadas, ${bad} falladas`);

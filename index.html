@@ -1696,6 +1696,549 @@ async function seedThirdPodcast(){
   await cloudSavePodcast(record);
 }
 
+const SEED_PODCAST_ID_6 = 'seed-un-pais-en-podcast-senegal';
+/* Un país en podcast: Senegal (galego). Nace xa como test de 18 preguntas (3 por competencia) con competencias confirmadas.
+   Transcrición literal, só sen as anotacións musicais entre corchetes e sen liñas baleiras. Sen preguntas sobre o pai de Agua. */
+async function seedSixthPodcast(){
+  const existing = await cloudGetPodcast(SEED_PODCAST_ID_6);
+  if(existing && existing.transcript) return;
+  const record = {
+    id: SEED_PODCAST_ID_6,
+    createdAt: Date.now() - 400,
+    title: 'Un país en podcast: Senegal',
+    cycle: '2º ciclo',
+    desc: 'Datos e curiosidades sobre Senegal e entrevista a Agua, unha compañeira que foi visitar a súa familia: comida, xogos, clima e viaxes.',
+    audioEmbedded: true,
+    mimeType: 'audio/mpeg',
+    fileName: 'senegal_un_pais_en_podcast.mp3',
+    country: 'SN',
+    transcript: [
+  "O meu país é tan pequeno que cabe nos ollos dun neno.",
+  "O meu país nunca remata. Por iso non sae nos mapas.",
+  "Un país en podcast. O meu país ten ceo azul e unha nube que o atravesa.",
+  "Azul é o mar polo solpor e de noite as froitas.",
+  "Benvidos e benvidas a Un país en podcast.",
+  "No programa de hoxe imos falar dun país que se atopa na costa oeste africana: Senegal.",
+  "Ademais, tamén es-entrevistaremos á nosa compañeira Agua, que foi hai uns meses a visitar a súa familia e agora sabe sobre ese país aínda máis do que xa sabía.",
+  "Comezou Adriana Isabela a contar datos sobre Senegal.",
+  "Senegal é un país de África Occidental que ten unha superficie de cento noventa e seis mil setecentos dez quilómetros cadrados.",
+  "Senegal ten aproximadamente dezaoito millóns eightocentos quince mil corenta e catro habitantes.",
+  "Senegal é un país con distintas relixións, pero o noventa e cinco por cento de musulmans.",
+  "En Senegal hai outros países completos como e Gambia.",
+  "Os ríos Senegal, Gambia e Casamance desembocan todos n-no Atlántico.",
+  "Deixamos os datos de lado e imos con curiosidades sobre Senegal.",
+  "Traenos Dora Étnica e Agua esta información.",
+  "É un país rico en ouro, petróleo, gas natural e moitos minerais.",
+  "Os gríos son uns artistas que transmiten a tradición oral.",
+  "Nas boutiques cómprase comida, non roupa.",
+  "Hai un lago rosa que cambia de tonos de rosa segundo a temporada.",
+  "Isto é porque ten moito sal. Ten dez veces máis que a auga do mar.",
+  "Senegal ama o fútbol, pero o deporte nacional é a loita libre, que se practica en prazas, pobos e aldeas.",
+  "Case todos os nenos usan unha cadea arredor do seu pescozo, nun brazo ou arredor da cabeza.",
+  "A illa de Gorée foi o mercado máis grande de escravos de África, pero xa falamos sobre ela no programa sobre o Día de Paz, que tamén Agua nos falara del.",
+  "Si, é certo, quen tiña interés que vaia a ver o programa.",
+  "Damos paso á entrevista que os nenos lle fixeron a Agua.",
+  "Cal é a comida tradicional? O arroz con peixe, pero sempre os pratos levan arroz.",
+  "O peixe é lóxico porque hai moito mar. Hai un monumento en Senegal?",
+  "Sí, o Monumento do Renacemento. Cantos tíos ou tías tes parte da túa nai ou de-- ou do teu pai?",
+  "Do meu pai, oito, e da miña nai, tres. Cal é a capital de Senegal?",
+  "Dakar. Coñézoa ben porque o meu pai é de alí.",
+  "Como se chama o presidente? Bassirou Dioumaye Diakhar Faye.",
+  "Como se chama o rei? Non hai rei, é unha república.",
+  "Cal foi a túa primeira viaxe? Fai cinco anos, eu dous mil dezaoito.",
+  "Era moi pequena e non lembro case nada. Por iso este ano foi máis importante para mí, porque botaba de menos a miña familia.",
+  "Senegal está en costa ou en interior? Está en costa.",
+  "E os lugares donde son os meus pais tamén están en costa.",
+  "Dakar e Ndar. Cantos curmásters? Teño dez de diferentes idades.",
+  "A cales xogos xogabas en Senegal? Son os mesmos que xogabas en España?",
+  "Non lembro ben. Máis ou menos. Os mesmos correr, correr, pilla, pilla, escondite...",
+  "Tes algún tío ou tía en España? Sí, teño dous tíos, un en Ourense e outro en Monforte, pero as súas familias aínda están en Senegal.",
+  "Que hora fai en Senegal? Faí calor ou frío?",
+  "Máis de vinte e cinco graos. Sempre vai moito calor.",
+  "Por que os teus pais viñeron a España? Por traballo, para atopar traballo.",
+  "E eu, Jade, os despedimos este programa, Un país en podcast.",
+  "Esperemos que vos guste. Ata a outra. Ata a outra."
+],
+    questions: [
+  {
+    "id": "q1",
+    "text": "De que cor é o lago que sae no podcast?",
+    "options": [
+      "Azul",
+      "Verde",
+      "Rosa",
+      "Vermello"
+    ],
+    "correct": 2,
+    "difficulty": "facil",
+    "explanation": "O podcast di que hai un lago rosa que cambia de tons segundo a estación.",
+    "competency": "C1",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Hai un lago rosa que cambia de tonos de rosa segundo a temporada.»",
+    "hint": "",
+    "distractors": [
+      "Inventada: non se di nada diso",
+      "Inventada: non se di nada diso",
+      "",
+      "Tentadora: o rosa cambia de tons, pero non é vermello"
+    ]
+  },
+  {
+    "id": "q2",
+    "text": "Cal é o deporte nacional de Senegal?",
+    "options": [
+      "A loita libre",
+      "O fútbol",
+      "O baloncesto",
+      "A natación"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "O deporte nacional é a loita libre, que se practica en prazas, pobos e aldeas.",
+    "competency": "C1",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Senegal ama o fútbol, pero o deporte nacional é a loita libre»",
+    "hint": "",
+    "distractors": [
+      "",
+      "Tentadora: Senegal ama o fútbol, pero non é o deporte nacional",
+      "Inventada: non se di nada diso",
+      "Inventada: non se di nada diso"
+    ]
+  },
+  {
+    "id": "q3",
+    "text": "Cal é a capital de Senegal?",
+    "options": [
+      "Gorée",
+      "Dakar",
+      "Gambia",
+      "Casamance"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Agua di cal é a capital de Senegal.",
+    "competency": "C1",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Cal é a capital de Senegal? Dakar.»",
+    "hint": "",
+    "distractors": [
+      "Tentadora: é unha illa famosa, pero non é a capital",
+      "",
+      "Mestura: é outro país, que está dentro de Senegal",
+      "Mestura: é un dos ríos que se nomean"
+    ]
+  },
+  {
+    "id": "i1",
+    "text": "Por que a segunda viaxe foi máis importante para Agua?",
+    "options": [
+      "Porque era a primeira vez que viaxaba",
+      "Porque quería coñecer a capital",
+      "Porque tiña que facer un traballo",
+      "Porque botaba de menos a súa familia"
+    ],
+    "correct": 3,
+    "difficulty": "inferencia",
+    "explanation": "Na primeira viaxe era moi pequena e non lembra case nada; por iso nesta botaba de menos a familia e foi máis importante.",
+    "competency": "C2",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Era moi pequena e non lembro case nada. Por iso este ano foi máis importante para mí, porque botaba de menos a miña familia.»",
+    "hint": "",
+    "distractors": [
+      "Contraria: a primeira viaxe foi hai cinco anos",
+      "Inventada: non se di nada diso",
+      "Inventada: non se di nada diso",
+      ""
+    ]
+  },
+  {
+    "id": "i2",
+    "text": "Por que di Agua que é lóxico comer peixe en Senegal?",
+    "options": [
+      "Porque non hai carne",
+      "Porque o peixe é moi barato",
+      "Porque hai moito mar",
+      "Porque hai moitos lagos rosas"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Senegal está na costa; por iso é lóxico que haxa moito peixe.",
+    "competency": "C2",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«O peixe é lóxico porque hai moito mar.» / «Está en costa.»",
+    "hint": "",
+    "distractors": [
+      "Inventada: non se di nada diso",
+      "Inventada: non se falou de prezos",
+      "",
+      "Mestura: o lago rosa ten sal, pero non é o motivo"
+    ]
+  },
+  {
+    "id": "i3",
+    "text": "Que se deduce de «Nas boutiques cómprase comida, non roupa»?",
+    "options": [
+      "Que alí «boutique» é unha tenda de comida",
+      "Que en Senegal non hai roupa",
+      "Que a roupa é moi cara",
+      "Que as boutiques son mercados de peixe"
+    ],
+    "correct": 0,
+    "difficulty": "inferencia",
+    "explanation": "A frase di que nas boutiques se compra comida: aquí pensamos nunha tenda de roupa, pero alí son tendas de alimentos.",
+    "competency": "C2",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Nas boutiques cómprase comida, non roupa.»",
+    "hint": "",
+    "distractors": [
+      "",
+      "Esaxera: non se di que non haxa roupa",
+      "Inventada: non se falou de prezos",
+      "Esaxera: só se di que se compra comida"
+    ]
+  },
+  {
+    "id": "q4",
+    "text": "De que falan os datos do principio do podcast?",
+    "options": [
+      "Da familia de Agua",
+      "De como é Senegal e onde está",
+      "Dos xogos dos nenos",
+      "Das cancións tradicionais"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "Os datos explican onde está Senegal, canto mide, canta xente vive, as relixións e os ríos.",
+    "competency": "C3",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Senegal é un país de África Occidental que ten unha superficie de cento noventa e seis mil setecentos dez quilómetros cadrados.»",
+    "hint": "",
+    "distractors": [
+      "Mestura: iso vén na entrevista",
+      "",
+      "Mestura: iso vén na entrevista",
+      "Tentadora: soa música, pero non é o tema dos datos"
+    ]
+  },
+  {
+    "id": "q5",
+    "text": "Cal é a idea principal da entrevista a Agua?",
+    "options": [
+      "Agua explica como xogar á loita libre",
+      "Agua fala só da comida do cole",
+      "Agua conta como é a vida en España",
+      "Agua conta como é Senegal e a súa familia"
+    ],
+    "correct": 3,
+    "difficulty": "facil",
+    "explanation": "Os nenos e nenas pregúntanlle polo país, a comida, a capital, os xogos, o tempo e os seus familiares.",
+    "competency": "C3",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Cal é a comida tradicional?» / «Senegal está en costa ou en interior?» / «Que hora fai en Senegal? Faí calor ou frío?»",
+    "hint": "",
+    "distractors": [
+      "Mestura: a loita libre sae nas curiosidades",
+      "Inventada: non se di nada diso",
+      "Tentadora: fala de España un pouco, pero o tema é Senegal",
+      ""
+    ]
+  },
+  {
+    "id": "i4",
+    "text": "Cal é o mellor resumo da parte das curiosidades?",
+    "options": [
+      "Senegal é un país moi pequeno e moi frío",
+      "En Senegal só se practica o fútbol",
+      "Senegal ten cousas moi sorprendentes e distintas das nosas",
+      "En Senegal ninguén usa roupa nin cadeas"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "As curiosidades falan de gríos, boutiques de comida, un lago rosa e a loita libre: cousas moi distintas das nosas.",
+    "competency": "C3",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Os gríos son uns artistas que transmiten a tradición oral.» / «Hai un lago rosa» / «o deporte nacional é a loita libre»",
+    "hint": "",
+    "distractors": [
+      "Contraria: di que sempre vai moito calor",
+      "Contraria: o deporte nacional é a loita libre",
+      "",
+      "Esaxera: os nenos usan cadeas e fálase de roupa"
+    ]
+  },
+  {
+    "id": "q6",
+    "text": "Que parte vén primeiro, despois da presentación?",
+    "options": [
+      "Os datos sobre Senegal",
+      "A entrevista a Agua",
+      "As curiosidades",
+      "A despedida"
+    ],
+    "correct": 0,
+    "difficulty": "facil",
+    "explanation": "Despois da presentación, Adriana Isabela conta os datos; despois veñen as curiosidades e a entrevista.",
+    "competency": "C4",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Comezou Adriana Isabela a contar datos sobre Senegal.» / «Deixamos os datos de lado e imos con curiosidades sobre Senegal.»",
+    "hint": "",
+    "distractors": [
+      "",
+      "Mestura: vén máis tarde",
+      "Mestura: vén despois dos datos",
+      "Contraria: vén ao final"
+    ]
+  },
+  {
+    "id": "q7",
+    "text": "Que vén despois das curiosidades?",
+    "options": [
+      "Os datos da superficie",
+      "Un debate sobre fútbol",
+      "A entrevista a Agua",
+      "A presentación do programa"
+    ],
+    "correct": 2,
+    "difficulty": "facil",
+    "explanation": "Despois das curiosidades, o programa dá paso á entrevista que os nenos fixeron a Agua.",
+    "competency": "C4",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Damos paso á entrevista que os nenos lle fixeron a Agua.»",
+    "hint": "",
+    "distractors": [
+      "Contraria: os datos veñen antes",
+      "Inventada: non se di nada diso",
+      "",
+      "Contraria: a presentación está ao principio"
+    ]
+  },
+  {
+    "id": "q8",
+    "text": "Cal é a primeira pregunta da entrevista?",
+    "options": [
+      "Cal é a capital de Senegal?",
+      "Cal é a comida tradicional?",
+      "Que hora fai en Senegal?",
+      "Por que os teus pais viñeron a España?"
+    ],
+    "correct": 1,
+    "difficulty": "facil",
+    "explanation": "A primeira pregunta é pola comida tradicional; a última, polo motivo de vir a España.",
+    "competency": "C4",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Cal é a comida tradicional? O arroz con peixe»",
+    "hint": "",
+    "distractors": [
+      "Mestura: vén máis tarde",
+      "",
+      "Mestura: vén máis tarde",
+      "Mestura: é a última pregunta"
+    ]
+  },
+  {
+    "id": "q9",
+    "text": "Que significa «desembocan» en «Os ríos desembocan no Atlántico»?",
+    "options": [
+      "Que os ríos nacen no mar",
+      "Que os ríos se secan",
+      "Que os ríos son moi fríos",
+      "Que os ríos chegan ao mar"
+    ],
+    "correct": 3,
+    "difficulty": "facil",
+    "explanation": "Desembocar é chegar ao mar: os tres ríos acaban no océano Atlántico.",
+    "competency": "C5",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Os ríos Senegal, Gambia e Casamance desembocan todos n-no Atlántico.»",
+    "hint": "",
+    "distractors": [
+      "Contraria: é ao revés",
+      "Inventada: non se di nada diso",
+      "Inventada: non se di nada diso",
+      ""
+    ]
+  },
+  {
+    "id": "i5",
+    "text": "Que quere dicir Agua con «botaba de menos a miña familia»?",
+    "options": [
+      "Que tiña menos familia ca antes",
+      "Que lle faltaba a súa familia",
+      "Que a súa familia era pequena",
+      "Que quería marchar da súa familia"
+    ],
+    "correct": 1,
+    "difficulty": "inferencia",
+    "explanation": "«Botar de menos» significa lembrar a alguén e querer estar con el ou ela.",
+    "competency": "C5",
+    "secondary": [],
+    "level": "inicial",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«este ano foi máis importante para mí, porque botaba de menos a miña familia.»",
+    "hint": "",
+    "distractors": [
+      "Literal: toma «de menos» como cantidade",
+      "",
+      "Tentadora: fala de moitos tíos e curmáns",
+      "Contraria: quere estar con ela"
+    ]
+  },
+  {
+    "id": "i6",
+    "text": "Que son os gríos, segundo o podcast?",
+    "options": [
+      "Artistas que pintan cadros",
+      "Loitadores moi famosos",
+      "Artistas que contan a tradición de boca en boca",
+      "Músicos que fan cancións en inglés"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Di que son artistas que transmiten a tradición oral, é dicir, o que se conta falando.",
+    "competency": "C5",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«Os gríos son uns artistas que transmiten a tradición oral.»",
+    "hint": "",
+    "distractors": [
+      "Inventada: non se di nada diso",
+      "Tentadora: a loita libre é o deporte nacional",
+      "",
+      "Inventada: non se di nada diso"
+    ]
+  },
+  {
+    "id": "i7",
+    "text": "Por que entrevistan a Agua neste programa?",
+    "options": [
+      "Porque visitou Senegal e coñece ben o país",
+      "Porque é a directora da radio",
+      "Porque nunca estivo en Senegal",
+      "Porque gañou un premio de fútbol"
+    ],
+    "correct": 0,
+    "difficulty": "inferencia",
+    "explanation": "Preséntana como compañeira que foi visitar a súa familia e que sabe aínda máis de Senegal.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«foi hai uns meses a visitar a súa familia e agora sabe sobre ese país aínda máis do que xa sabía.»",
+    "hint": "",
+    "distractors": [
+      "",
+      "Inventada: non se di nada diso",
+      "Contraria: foi visitar a súa familia",
+      "Inventada: non se di nada diso"
+    ]
+  },
+  {
+    "id": "i8",
+    "text": "Para que din «quen tiña interese que vaia a ver o programa»?",
+    "options": [
+      "Para pedir que apaguen a radio",
+      "Para invitar a escoitar outro programa",
+      "Para despedir o programa de hoxe",
+      "Para dicir que Gorée non existe"
+    ],
+    "correct": 1,
+    "difficulty": "inferencia",
+    "explanation": "Despois de falar de Gorée, convidan a quen queira saber máis a ver o programa do Día da Paz.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«xa falamos sobre ela no programa sobre o Día de Paz» / «quen tiña interés que vaia a ver o programa.»",
+    "hint": "",
+    "distractors": [
+      "Inventada: non se di nada diso",
+      "",
+      "Tentadora: o programa remata máis tarde",
+      "Contraria: falan de Gorée e dan máis información"
+    ]
+  },
+  {
+    "id": "i9",
+    "text": "Que sente Agua pola súa familia de Senegal?",
+    "options": [
+      "Está enfadada con ela",
+      "Non lembra nada dela",
+      "Quérea moito e bótaa de menos",
+      "Ten medo de visitala"
+    ],
+    "correct": 2,
+    "difficulty": "inferencia",
+    "explanation": "Di que botaba de menos a súa familia e que a viaxe deste ano foi moi importante: sente cariño e morriña.",
+    "competency": "C6",
+    "secondary": [],
+    "level": "intermedia",
+    "classReviewed": true,
+    "format": "multiple_choice",
+    "evidence": "«este ano foi máis importante para mí, porque botaba de menos a miña familia.»",
+    "hint": "",
+    "distractors": [
+      "Inventada: non hai ningún indicio",
+      "Tentadora: da primeira viaxe lembra pouco, pero agora non",
+      "",
+      "Inventada: non se di nada diso"
+    ]
+  }
+],
+    reserveQuestions: [],
+    config: { modality: 'revision', showPre: true, showReview: true, showCompetencyLabels: true,
+      context: 'Vas escoitar un programa sobre Senegal, un país de África, e unha entrevista a Agua, unha compañeira que foi visitar a súa familia.',
+      anticipation: 'Onde pensas que está Senegal? Que cousas che gustaría saber dese país?' },
+    seedTestVersion: 1,
+    schemaVersion: 2
+  };
+  await cloudSavePodcast(record);
+}
+
 const SEED_PODCAST_ID_4 = 'seed-un-pais-en-podcast-cuba';
 
 const SEED_PODCAST_ID_5 = 'seed-un-pais-en-podcast-filipinas';
@@ -3675,7 +4218,8 @@ const SEED_AUDIO_FILES = {
   [SEED_PODCAST_ID_2]: 'audio/ovellodoscontos-radioforte-ivoox176066521.mp3',
   [SEED_PODCAST_ID_3]: 'audio/radiolibrerecomendacionslibros-radioforte-ivoox180360541.mp3',
   [SEED_PODCAST_ID_4]: 'audio/cuba_en_podcast.mp3',
-  [SEED_PODCAST_ID_5]: 'audio/filipinas_yanni_en_podcast.mp3'
+  [SEED_PODCAST_ID_5]: 'audio/filipinas_yanni_en_podcast.mp3',
+  [SEED_PODCAST_ID_6]: 'audio/senegal_un_pais_en_podcast.mp3'
 };
 function resolveAudioSource(podcast){
   if(SEED_AUDIO_FILES[podcast.id]) return { url: SEED_AUDIO_FILES[podcast.id] };
@@ -6283,7 +6827,7 @@ async function upgradeSeedCountry(){
   if(doc.exists && doc.data().country === undefined) await ref.update({ country: 'CU' });
 }
 
-Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast()])
+Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast()])
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
   .then(()=>upgradeSeedInference())
