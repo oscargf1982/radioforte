@@ -54,7 +54,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const activeView = ()=>$('.view.active').id;
 
   // ---------- 1. Arranque y semillas ----------
-  ok('arranque: la app carga y crea los 4 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 4 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
+  ok('arranque: la app carga y crea los 5 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 5 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
   const cuba = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   const cres = cuba.reserveQuestions || [];
@@ -71,7 +71,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok(`test ${id}: ordenadas por competencia C1→C6 y clasificadas (revisadas)`, p.questions.map(q=>q.competency).join('') === 'C1C1C1C2C2C2C3C3C3C4C4C4C5C5C5C6C6C6' && p.questions.every(q=>q.classReviewed === true));
     ok(`test ${id}: ids únicos y preguntas válidas`, new Set(p.questions.map(q=>q.id)).size === p.questions.length && p.questions.every(q=>q.options.length === 4 && q.options[q.correct] && q.explanation));
     ok(`test ${id}: las etiquetas de competencia están activadas`, p.config.showCompetencyLabels === true);
-    ok(`test ${id}: nada se pierde (las que sobran van a reserva sin duplicar ids)`, p.reserveQuestions.length > 0 && !p.reserveQuestions.some(r=>p.questions.some(q=>q.id === r.id)));
+    ok(`test ${id}: nada se pierde (las que sobran van a reserva sin duplicar ids)`, Array.isArray(p.reserveQuestions) && !p.reserveQuestions.some(r=>p.questions.some(q=>q.id === r.id)));
   }
   const nBefore0 = JSON.stringify(Object.values(store.podcasts).map(p=>p.questions.length));
   await E(`upgradeSeedExtras()`); await E(`upgradeSeedInference()`); await E(`upgradeSeedTest18()`);
@@ -272,7 +272,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
 
   // ---------- 8. Regresión de funciones docentes ----------
   await E(`renderTeacherList()`);
-  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 6, String($$('#teacherPodcastList .podcast-card').length));
+  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 7, String($$('#teacherPodcastList .podcast-card').length));
   await E(`cloudSoftDeletePodcast('legacy1')`); ok('papelera: eliminar suave', store.podcasts['legacy1'].deleted === true);
   await E(`cloudRestorePodcast('legacy1')`); ok('papelera: restaurar', store.podcasts['legacy1'].deleted === false);
   await E(`printWorksheet('${newId}', true)`); ok('ficha imprimible con respuestas', $('#printSheet').textContent.includes('Clave de respostas'));
@@ -335,6 +335,18 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('Cuba (doc antiguo): la pregunta del padre desaparece y se repone otra de C2 (sigue 18, 3 por competencia)', !fx.questions.some(q=>q.id==='k2') && fx.questions.length === 18 && E(`testBalance(${JSON.stringify(fx.questions)})`).ok);
     await E(`upgradeSeedCubaFix()`);
     ok('Cuba: la corrección es idempotente', JSON.stringify(store.podcasts['seed-un-pais-en-podcast-cuba'].questions) === JSON.stringify(fx.questions)); }
+
+  // ---------- 12. Podcast en inglés: Filipinas ----------
+  { const ph = store.podcasts['seed-un-pais-en-podcast-filipinas'];
+    ok('Filipinas: país PH, 2º ciclo, modalidad con revisión', ph.country === 'PH' && ph.cycle === '2º ciclo' && ph.config.modality === 'revision');
+    ok('Filipinas: transcripción con la corrección "Monforte de Lemos" y sin anotaciones editoriales', ph.transcript.some(l=>l.includes('She come to Monforte de Lemos help us learn English')) && !ph.transcript.some(l=>/Morto demos|^\[|^Pregunta:|^Respuesta:/.test(l)) && ph.transcript.length === 34);
+    ok('Filipinas: audio enlazado y bandera disponible', E(`SEED_AUDIO_FILES['seed-un-pais-en-podcast-filipinas']`) === 'audio/filipinas_yanni_en_podcast.mp3' && E(`Object.keys(COUNTRIES).includes('PH')`));
+    ok('Filipinas: preguntas en inglés sencillo (enunciados cortos y opciones cortas)', ph.questions.every(q=>q.text.split(/\s+/).length <= 16 && q.options.every(o=>o.split(/\s+/).length <= 11)));
+    E(`openPlayer('seed-un-pais-en-podcast-filipinas')`); await waitFor(()=>activeView()==='view-student-player');
+    ok('Filipinas: la bandera sale de fondo en el reproductor', $('#countryBg').classList.contains('show') && $('#playerCountry').textContent.includes('Filipinas'));
+    E(`goHome()`);
+    w.__saved.length = 0; await E(`downloadBooklet('seed-un-pais-en-podcast-filipinas', true)`);
+    ok('Filipinas: el cuadernillo PDF se genera con 18 preguntas', w.__saved.length === 1 && w.__saved[0].includes('filipinas')); }
 
   const bad = results.filter(r=>!r[1]).length;
   console.log(`\n${results.length - bad} superadas, ${bad} falladas`);
