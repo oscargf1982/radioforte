@@ -54,7 +54,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const activeView = ()=>$('.view.active').id;
 
   // ---------- 1. Arranque y semillas ----------
-  ok('arranque: la app carga y crea los 6 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 6 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
+  ok('arranque: la app carga y crea los 7 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 7 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
   const cuba = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   const cres = cuba.reserveQuestions || [];
@@ -272,7 +272,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
 
   // ---------- 8. Regresión de funciones docentes ----------
   await E(`renderTeacherList()`);
-  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 8, String($$('#teacherPodcastList .podcast-card').length));
+  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 9, String($$('#teacherPodcastList .podcast-card').length));
   await E(`cloudSoftDeletePodcast('legacy1')`); ok('papelera: eliminar suave', store.podcasts['legacy1'].deleted === true);
   await E(`cloudRestorePodcast('legacy1')`); ok('papelera: restaurar', store.podcasts['legacy1'].deleted === false);
   await E(`printWorksheet('${newId}', true)`); ok('ficha imprimible con respuestas', $('#printSheet').textContent.includes('Clave de respostas'));
@@ -357,6 +357,15 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('Senegal: cada cita de evidencia sale literal de la transcrición', sn.questions.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>sn.transcript.join(' ').includes(m.slice(1,-1).replace(/\.$/,'')))));
     w.__saved.length = 0; await E(`downloadBooklet('seed-un-pais-en-podcast-senegal', true)`);
     ok('Senegal: el cuadernillo PDF se genera', w.__saved.length === 1 && w.__saved[0].includes('senegal')); }
+
+  // ---------- 14. Radio Forte: Ramadán ----------
+  { const rm = store.podcasts['seed-radio-forte-ramadan'];
+    ok('Ramadán: 3º ciclo, audio enlazado y modalidad con revisión', rm.cycle === '3º ciclo' && rm.config.modality === 'revision' && E(`SEED_AUDIO_FILES['seed-radio-forte-ramadan']`) === 'audio/ramadan_radio_forte.mp3');
+    ok('Ramadán: 18 preguntas, 3 por competencia, sin verdadero/falso', rm.questions.length === 18 && E(`testBalance(${JSON.stringify(rm.questions)})`).ok && rm.questions.every(q=>q.options.length === 4 && q.format === 'multiple_choice'));
+    ok('Ramadán: al menos un tercio son de inferir', rm.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id)).length >= 6);
+    ok('Ramadán: transcripción sin anotaciones [..] y evidencias literales', !rm.transcript.some(l=>/\[|\]/.test(l)) && rm.questions.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>rm.transcript.join(' ').includes(m.slice(1,-1).replace(/\.$/,'')))));
+    w.__saved.length = 0; await E(`downloadBooklet('seed-radio-forte-ramadan', true)`);
+    ok('Ramadán: el cuadernillo PDF se genera', w.__saved.length === 1 && w.__saved[0].includes('ramad')); }
 
   const bad = results.filter(r=>!r[1]).length;
   console.log(`\n${results.length - bad} superadas, ${bad} falladas`);
