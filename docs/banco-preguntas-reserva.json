@@ -727,16 +727,16 @@
    },
    {
     "id": "k1",
-    "text": "¿Qué se puede deducir de que Eric diga que no había bus para ir al colegio?",
+    "text": "¿Qué se puede deducir de que Erick diga que no había bus para ir al colegio?",
     "options": [
      "Que en Cuba no existen colegios para los niños",
      "Que a veces era difícil llegar al colegio por falta de transporte",
-     "Que Eric prefería no estudiar y faltar a clase",
+     "Que Erick prefería no estudiar y faltar a clase",
      "Que todos los niños iban en coche al colegio"
     ],
     "correct": 1,
     "difficulty": "inferencia",
-    "explanation": "Eric no recomienda ir a Cuba «porque te levantabas y no había bus para ir al colegio»: la falta de bus dificultaba llegar a clase.",
+    "explanation": "Erick no recomienda ir a Cuba «porque te levantabas y no había bus para ir al colegio»: la falta de bus dificultaba llegar a clase.",
     "competency": "C2",
     "secondary": [],
     "level": "intermedia",

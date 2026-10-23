@@ -471,6 +471,17 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('banco: upgradeSeedPool es idempotente', JSON.stringify(store.podcasts[id]) === snapPool);
     E(`goHome()`); }
 
+  // ---------- Nomes propios corrixidos (Awa, Janni, Erick) ----------
+  { const all = id => JSON.stringify(store.podcasts[id]);
+    ok('nomes: Senegal di Awa, Filipinas Janni e Cuba Erick (sen as grafías antigas)', /\bAwa\b/.test(all('seed-un-pais-en-podcast-senegal')) && !/\bAgua\b/.test(all('seed-un-pais-en-podcast-senegal')) && /\bJanni\b/.test(all('seed-un-pais-en-podcast-filipinas')) && !/\bYanni\b/.test(all('seed-un-pais-en-podcast-filipinas')) && /\bErick\b/.test(all('seed-un-pais-en-podcast-cuba')) && !/\bEric\b/.test(all('seed-un-pais-en-podcast-cuba')));
+    // documentos xa gardados coa grafía antiga => a actualización séguea corrixindo
+    store.podcasts['seed-un-pais-en-podcast-senegal'].transcript[0] += ' Agua.';
+    store.podcasts['seed-un-pais-en-podcast-cuba'].questions[0].text += ' Eric';
+    store.podcasts['seed-un-pais-en-podcast-filipinas'].desc += ' Yanni';
+    await E(`upgradeSeedNames()`);
+    ok('nomes: upgradeSeedNames corrixe documentos antigos sen tocar Erick', store.podcasts['seed-un-pais-en-podcast-senegal'].transcript[0].endsWith(' Awa.') && store.podcasts['seed-un-pais-en-podcast-cuba'].questions[0].text.endsWith(' Erick') && !/Erickk/.test(all('seed-un-pais-en-podcast-cuba')) && store.podcasts['seed-un-pais-en-podcast-filipinas'].desc.endsWith(' Janni'));
+  }
+
   const bad = results.filter(r=>!r[1]).length;
   console.log(`\n${results.length - bad} superadas, ${bad} falladas`);
   if(errors.length) console.log('Errores de la página:', errors.slice(0,5));
