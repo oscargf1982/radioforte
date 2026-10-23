@@ -508,6 +508,19 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     E(`goHome()`);
   }
 
+  // ---------- Samaín: audio cortado no 1:59 (sen despedida nin créditos) ----------
+  { const sm = () => store.podcasts['seed-radio-forte-samain'];
+    const txt = () => sm().transcript.join(' ');
+    ok('samaín: a transcrición remata no truco e trato (sen despedida nin créditos)', txt().endsWith('as bromas dos pequenos.') && !/Cantas cousas|Gracias a todos|Créditos|Rodríguez/.test(txt()));
+    ok('samaín: ningunha pregunta cita a despedida', ![...sm().questions, ...sm().reserveQuestions].some(q=>/Cantas cousas|Gracias a todos|Un saúdo/.test(q.evidence) || /final do podcast|agradecen/.test(q.text)));
+    // documento antigo (con despedida) => a actualización corríxeo sen tocar as preguntas editadas polo docente
+    const old = sm(); old.transcript.push('Cantas cousas hemos aprendido sobre o Samaín. Gracias a todos os nosos oíntes.');
+    old.reserveQuestions.find(q=>q.id==='r15').text = 'Como remata o programa?';
+    old.questions.find(q=>q.id==='q1').text = 'Pregunta editada polo docente';
+    delete old.seedSamainCutVersion; await E(`upgradeSeedSamainCut()`);
+    ok('samaín: upgradeSeedSamainCut quita a despedida, repón as preguntas e respecta as edicións', !/Cantas cousas/.test(txt()) && sm().reserveQuestions.find(q=>q.id==='r15').text.includes('último tema') && sm().questions.find(q=>q.id==='q1').text === 'Pregunta editada polo docente' && sm().seedSamainCutVersion === 1);
+  }
+
   // ---------- Nomes propios corrixidos (Awa, Janni, Erick) ----------
   { const all = id => JSON.stringify(store.podcasts[id]);
     ok('nomes: Senegal di Awa, Filipinas Janni e Cuba Erick (sen as grafías antigas)', /\bAwa\b/.test(all('seed-un-pais-en-podcast-senegal')) && !/\bAgua\b/.test(all('seed-un-pais-en-podcast-senegal')) && /\bJanni\b/.test(all('seed-un-pais-en-podcast-filipinas')) && !/\bYanni\b/.test(all('seed-un-pais-en-podcast-filipinas')) && /\bErick\b/.test(all('seed-un-pais-en-podcast-cuba')) && !/\bEric\b/.test(all('seed-un-pais-en-podcast-cuba')));
