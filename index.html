@@ -440,6 +440,11 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
 .country-badge{display:inline-flex; align-items:center; gap:8px; font-weight:800; font-size:.85rem; margin-bottom:6px;}
 .country-badge svg{width:34px; height:23px; border-radius:4px; box-shadow:0 0 0 1.5px rgba(46,41,58,.35);}
 .player-card .btn-ghost{color:#fff; border-color:rgba(255,255,255,.7); background:rgba(255,255,255,.08);}
+.cat-bar{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 16px; justify-content:center;}
+.cat-chip{border:2px solid var(--navy); background:#fff; color:var(--navy); border-radius:999px; padding:8px 14px; font:inherit; font-weight:800; font-size:.92rem; cursor:pointer;}
+.cat-chip .n{opacity:.7; font-weight:700; margin-left:4px;}
+.cat-chip[aria-pressed="true"]{background:var(--navy); color:#fff;}
+.cat-chip:focus-visible{outline:3px solid var(--coral); outline-offset:2px;}
 .fb-block{margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid #E7E3F0;}
 .fb-block:last-child{border-bottom:0; margin-bottom:0;}
 .fb-q{font-weight:800; color:var(--navy); margin-bottom:8px;}
@@ -487,6 +492,7 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
       <p>Escolle un podcast do teu cole para escoitalo e responder ás preguntas.</p>
       <p style="margin-top:6px; color:var(--coral); font-weight:800;">🏆 Responde ben e rápido para subir na clasificación!</p>
     </div>
+    <div id="categoryBar" class="cat-bar" role="group" aria-label="Categorías de podcasts"></div>
     <div id="studentPodcastList"></div>
   </div>
 
@@ -525,6 +531,10 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
             <option value="3º ciclo">3º ciclo (10-12 anos)</option>
           </select>
         </div>
+      </div>
+      <div class="field">
+        <label>Categorías (aparecen como botóns na páxina principal)</label>
+        <div id="pCategories" style="display:flex; flex-wrap:wrap; gap:6px 16px;"></div>
       </div>
       <div class="field">
         <label>Descrición (opcional)</label>
@@ -1435,6 +1445,30 @@ function summarizeFeedback(list){
     g.items.forEach(fb=>{ dificultade[fb.ratings.dificultade]++; });
     return { podcastId: g.podcastId, podcastTitle: g.podcastTitle, n: g.items.length, avg, dificultade };
   }).sort((a,b)=>a.podcastTitle.localeCompare(b.podcastTitle));
+}
+
+/* ---- Categorías de podcasts (botóns da páxina principal). Un podcast pode estar en varias. ---- */
+const PODCAST_CATEGORIES = [
+  { id:'pais',      label:'Un país en podcast',    emoji:'🌍' },
+  { id:'contos',    label:'Contos e lendas',       emoji:'📖' },
+  { id:'infantil',  label:'Infantil e 1º ciclo',   emoji:'🧸' },
+  { id:'ingles',    label:'En inglés',             emoji:'🇬🇧' },
+  { id:'libros',    label:'Libros e lectura',      emoji:'📚' },
+  { id:'cultura',   label:'Cultura e tradicións',  emoji:'🎉' },
+  { id:'galego',    label:'Lingua galega',         emoji:'🗣️' }
+];
+const CATEGORY_IDS = PODCAST_CATEGORIES.map(c=>c.id);
+function normalizeCategories(list){
+  return CATEGORY_IDS.filter(id=>Array.isArray(list) && list.includes(id));
+}
+function podcastsInCategory(podcasts, cat){
+  if(!cat || cat === 'todos') return podcasts.slice();
+  return podcasts.filter(p=>normalizeCategories(p.categories).includes(cat));
+}
+function categoryCounts(podcasts){
+  const out = { todos: podcasts.length };
+  CATEGORY_IDS.forEach(id=>{ out[id] = podcastsInCategory(podcasts, id).length; });
+  return out;
 }
 /*PURE-END*/
 </script>
@@ -3404,6 +3438,7 @@ async function seedNinthPodcast(){
     createdAt: Date.now() - 100,
     title: 'Un país en podcast: República Checa',
     cycle: '3º ciclo',
+    categories: ['pais'],
     desc: 'Entrevista a Eddie, auxiliar de conversa de inglés procedente da República Checa: o país, Praga, o idioma checo, a súa vida en Monforte e a morriña.',
     audioEmbedded: true,
     mimeType: 'audio/mpeg',
@@ -4386,6 +4421,7 @@ async function seedTenthPodcast(){
     createdAt: Date.now() - 50,
     title: 'Radio Forte: Ricitos de Oro',
     cycle: 'Infantil e 1º ciclo',
+    categories: ['contos','infantil'],
     desc: 'Conto de Ricitos de Oro e os tres osos, lido por Rocío e Sofía. Preguntas moi sinxelas para Infantil e primeiro ciclo.',
     audioEmbedded: true,
     mimeType: 'audio/mpeg',
@@ -6459,12 +6495,18 @@ function fillConfigForm(cfg){
   document.getElementById('pRandomReserve').checked = cfg.randomizeReserve !== false;
   updateModalityHint();
 }
+function renderCategoryCheckboxes(selected){
+  const sel = normalizeCategories(selected);
+  document.getElementById('pCategories').innerHTML = PODCAST_CATEGORIES.map(c=>`<label style="display:inline-flex; align-items:center; gap:6px; font-weight:600;"><input type="checkbox" class="pCat" value="${c.id}" ${sel.includes(c.id) ? 'checked' : ''}> ${c.emoji} ${escapeHtml(c.label)}</label>`).join('');
+}
+function selectedCategories(){ return [...document.querySelectorAll('#pCategories .pCat:checked')].map(i=>i.value); }
 function goTeacherEditor(){
   editingId = null;
   pendingAudio = null;
   document.getElementById('editorTitle').textContent = 'Novo podcast';
   document.getElementById('pTitle').value = '';
   document.getElementById('pCycle').value = '2º ciclo';
+  renderCategoryCheckboxes([]);
   document.getElementById('pDesc').value = '';
   document.getElementById('pAudio').value = '';
   document.getElementById('pTranscript').value = '';
@@ -6485,6 +6527,7 @@ async function editPodcast(id){
   document.getElementById('editorTitle').textContent = 'Editar podcast';
   document.getElementById('pTitle').value = p.title;
   document.getElementById('pCycle').value = p.cycle;
+  renderCategoryCheckboxes(p.categories);
   document.getElementById('pDesc').value = p.desc || '';
   document.getElementById('pAudio').value = '';
   document.getElementById('pTranscript').value = (p.transcript || []).join('\n');
@@ -6771,6 +6814,7 @@ async function savePodcast(){
   }
   record.title = title;
   record.cycle = cycle;
+  record.categories = normalizeCategories(selectedCategories());
   record.desc = desc;
   record.questions = questions;
   record.transcript = transcript;
@@ -7240,6 +7284,19 @@ async function renderStudentList(){
     if(!!b.isWeeklyChallenge !== !!a.isWeeklyChallenge) return (b.isWeeklyChallenge?1:0) - (a.isWeeklyChallenge?1:0);
     return b.createdAt-a.createdAt;
   });
+  studentPodcasts = podcasts;
+  drawStudentList();
+}
+let studentPodcasts = [], activeCategory = 'todos';
+function setCategory(id){ activeCategory = id; drawStudentList(); }
+function drawStudentList(){
+  const wrap = document.getElementById('studentPodcastList');
+  const bar = document.getElementById('categoryBar');
+  const counts = categoryCounts(studentPodcasts);
+  if(activeCategory !== 'todos' && !counts[activeCategory]) activeCategory = 'todos';
+  const chips = [{ id:'todos', label:'Todos', emoji:'🎧' }, ...PODCAST_CATEGORIES.filter(c=>counts[c.id] > 0)];
+  bar.innerHTML = chips.length > 2 ? chips.map(c=>`<button type="button" class="cat-chip" aria-pressed="${activeCategory === c.id}" onclick="setCategory('${c.id}')">${c.emoji} ${escapeHtml(c.label)}<span class="n">${counts[c.id]}</span></button>`).join('') : '';
+  const podcasts = podcastsInCategory(studentPodcasts, activeCategory);
   wrap.innerHTML = podcasts.map(p=>`
     <div class="podcast-card ${p.isWeeklyChallenge ? 'weekly-card' : ''}">
       <div class="cassette">🎧</div>
@@ -9814,6 +9871,31 @@ async function upgradeSeedTextFixes(){
   if(changed) await ref.update({ questions });
 }
 
+/* Categorías dos podcasts precargados (botóns da páxina principal). Só se asignan se o podcast aínda non ten `categories`
+   (así respecta o que o docente cambie no editor). Idempotente. */
+const SEED_CATEGORIES = {
+  [SEED_PODCAST_ID]:   ['galego'],
+  [SEED_PODCAST_ID_2]: ['contos','cultura','galego'],
+  [SEED_PODCAST_ID_3]: ['libros'],
+  [SEED_PODCAST_ID_4]: ['pais'],
+  [SEED_PODCAST_ID_5]: ['pais','ingles'],
+  [SEED_PODCAST_ID_6]: ['pais'],
+  [SEED_PODCAST_ID_7]: ['cultura'],
+  [SEED_PODCAST_ID_8]: ['pais'],
+  [SEED_PODCAST_ID_9]: ['pais'],
+  [SEED_PODCAST_ID_10]: ['contos','infantil']
+};
+async function upgradeSeedCategories(){
+  initFirebase();
+  for(const pid of Object.keys(SEED_CATEGORIES)){
+    const ref = _fbDb.collection('podcasts').doc(pid);
+    const doc = await ref.get();
+    if(!doc.exists) continue;
+    if(doc.data().categories !== undefined) continue;
+    await ref.update({ categories: SEED_CATEGORIES[pid] });
+  }
+}
+
 /* Corrección de nomes propios nos podcasts precargados: Agua→Awa e gríos→griots (Senegal), Yanni→Janni (Filipinas), Eric→Erick (Cuba).
    Substitúe o texto nos documentos xa gardados (transcrición, preguntas, reserva, descrición e contexto). Idempotente. */
 const SEED_NAME_FIXES = {
@@ -10118,6 +10200,7 @@ Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seed
   .then(()=>upgradeSeedTest12())
   .then(()=>upgradeSeedPool())
   .then(()=>upgradeSeedNames())
+  .then(()=>upgradeSeedCategories())
   .catch(err=>{ console.error('Erro na configuración inicial de Firebase:', err); })
   .then(()=>{ renderStudentList(); });
 </script>

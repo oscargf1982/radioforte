@@ -471,6 +471,31 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('banco: upgradeSeedPool es idempotente', JSON.stringify(store.podcasts[id]) === snapPool);
     E(`goHome()`); }
 
+  // ---------- Categorías na páxina principal ----------
+  { E(`goHome()`); await E(`renderStudentList()`);
+    const chips = () => $$('#categoryBar .cat-chip');
+    const cards = () => $$('#studentPodcastList .podcast-card');
+    ok('categorías: hay botones con Todos y las categorías con podcasts (con recuento)', chips().length >= 6 && chips()[0].textContent.includes('Todos') && chips().some(c=>c.textContent.includes('Un país en podcast') && c.textContent.includes('5')));
+    const nAll = cards().length;
+    E(`setCategory('pais')`);
+    ok('categorías: Un país en podcast muestra solo los 5 países', cards().length === 5 && cards().every(c=>c.textContent.includes('Un país en podcast')) && chips().find(c=>c.getAttribute('aria-pressed')==='true').textContent.includes('Un país'));
+    E(`setCategory('infantil')`);
+    ok('categorías: Infantil muestra Ricitos de Oro', cards().length === 1 && cards()[0].textContent.includes('Ricitos de Oro'));
+    E(`setCategory('contos')`);
+    ok('categorías: Contos incluye O Vello dos Contos y Ricitos (un podcast en varias categorías)', cards().length === 2);
+    E(`setCategory('ingles')`);
+    ok('categorías: En inglés muestra Filipinas', cards().length === 1 && cards()[0].textContent.includes('Filipinas'));
+    E(`setCategory('todos')`);
+    ok('categorías: Todos vuelve a mostrar todo', cards().length === nAll && nAll >= 10);
+    ok('categorías: los podcasts precargados quedan clasificados al actualizar', Object.entries(store.podcasts).filter(([id])=>id.startsWith('seed-')).every(([,p])=>Array.isArray(p.categories) && p.categories.length >= 1));
+    // el editor guarda las categorías elegidas y no pisa las del docente en la actualización
+    store.podcasts['seed-radio-libre-libros'].categories = ['cultura']; await E(`upgradeSeedCategories()`);
+    ok('categorías: la actualización no pisa lo que el docente cambió', JSON.stringify(store.podcasts['seed-radio-libre-libros'].categories) === '["cultura"]');
+    E(`goTeacherEditor()`);
+    ok('categorías: el editor ofrece una casilla por categoría', $$('#pCategories .pCat').length === 7);
+    E(`goHome()`);
+  }
+
   // ---------- Nomes propios corrixidos (Awa, Janni, Erick) ----------
   { const all = id => JSON.stringify(store.podcasts[id]);
     ok('nomes: Senegal di Awa, Filipinas Janni e Cuba Erick (sen as grafías antigas)', /\bAwa\b/.test(all('seed-un-pais-en-podcast-senegal')) && !/\bAgua\b/.test(all('seed-un-pais-en-podcast-senegal')) && /\bJanni\b/.test(all('seed-un-pais-en-podcast-filipinas')) && !/\bYanni\b/.test(all('seed-un-pais-en-podcast-filipinas')) && /\bErick\b/.test(all('seed-un-pais-en-podcast-cuba')) && !/\bEric\b/.test(all('seed-un-pais-en-podcast-cuba')));

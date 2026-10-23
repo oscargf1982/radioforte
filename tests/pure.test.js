@@ -6,7 +6,7 @@ const src = html.split('/*PURE-START*/')[1].split('/*PURE-END*/')[0];
 const api = new Function(src + `
 return { COMP_IDS, COMPETENCIES, normalizeQuestion, normalizePodcast, validateQuestion, competencyDistribution,
   resolveDetailMeta, firstAttempts, computeCompetencyStats, competencyStatus, reliabilityOf, recommendPractice,
-  attemptCompetencyRows, attemptModality, attemptKind, levelsAreMixed, legacyLevel, testBalance, TEST_TOTAL, pickTestQuestions, reserveEligible, TEST_PLAN, feedbackKey, feedbackComplete, summarizeFeedback };`)();
+  attemptCompetencyRows, attemptModality, attemptKind, levelsAreMixed, legacyLevel, testBalance, TEST_TOTAL, pickTestQuestions, reserveEligible, TEST_PLAN, feedbackKey, feedbackComplete, summarizeFeedback, normalizeCategories, podcastsInCategory, categoryCounts, PODCAST_CATEGORIES };`)();
 const A = require('assert');
 let pass = 0, fail = 0;
 function t(name, fn){ try{ fn(); pass++; console.log('  ok  ', name); }catch(e){ fail++; console.log('  FALLA', name, '\n       ', e.message); } }
@@ -170,6 +170,14 @@ t('feedback: clave por podcast y clase sin tildes, completitud y resumen', ()=>{
   const sm = api.summarizeFeedback([{ podcastId:'p1', podcastTitle:'P', ratings:r }, { podcastId:'p1', podcastTitle:'P', ratings:{ ...r, interese:4, dificultade:'dificiles' } }, { podcastId:'p1', ratings:{ interese:1 } }]);
   A.strictEqual(sm.length, 1); A.strictEqual(sm[0].n, 2); A.strictEqual(sm[0].avg.interese, 4.5);
   A.deepStrictEqual(sm[0].dificultade, { faciles:0, adecuadas:1, dificiles:1 });
+});
+t('categorías: normaliza, filtra y cuenta (un podcast puede estar en varias)', ()=>{
+  A.deepStrictEqual(api.normalizeCategories(['infantil','xx','pais','pais']), ['pais','infantil']);
+  A.deepStrictEqual(api.normalizeCategories(undefined), []);
+  const ps = [{ id:'a', categories:['pais','ingles'] }, { id:'b', categories:['contos','infantil'] }, { id:'c' }];
+  A.deepStrictEqual(api.podcastsInCategory(ps,'pais').map(p=>p.id), ['a']);
+  A.deepStrictEqual(api.podcastsInCategory(ps,'todos').map(p=>p.id), ['a','b','c']);
+  const c = api.categoryCounts(ps); A.strictEqual(c.todos,3); A.strictEqual(c.ingles,1); A.strictEqual(c.libros,0);
 });
 t('pickTestQuestions: baraja por competencia entre test y reserva revisada, respetando la estructura', ()=>{
   const mkq = (id,c,rev=true)=>({ id, text:'T'+id, options:['a','b','c','d'], correct:0, explanation:'x', competency:c, classReviewed:rev });
