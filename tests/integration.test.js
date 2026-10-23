@@ -54,7 +54,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const activeView = ()=>$('.view.active').id;
 
   // ---------- 1. Arranque y semillas ----------
-  ok('arranque: la app carga y crea los 8 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 8 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
+  ok('arranque: la app carga y crea los 9 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 9 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
   const cuba = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   const cres = cuba.reserveQuestions || [];
@@ -296,7 +296,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
 
   // ---------- 8. Regresión de funciones docentes ----------
   await E(`renderTeacherList()`);
-  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 10, String($$('#teacherPodcastList .podcast-card').length));
+  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 11, String($$('#teacherPodcastList .podcast-card').length));
   await E(`cloudSoftDeletePodcast('legacy1')`); ok('papelera: eliminar suave', store.podcasts['legacy1'].deleted === true);
   await E(`cloudRestorePodcast('legacy1')`); ok('papelera: restaurar', store.podcasts['legacy1'].deleted === false);
   await E(`printWorksheet('${newId}', true)`); ok('ficha imprimible con respuestas', $('#printSheet').textContent.includes('Clave de respostas'));
@@ -330,9 +330,9 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   // ---------- 10. Preguntas de inferir (>= 1/3 de cada test) ----------
   for(const id of seedIds){
     const p = store.podcasts[id];
-    const inf = p.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id));
+    const inf = p.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id) || q.difficulty === 'inferencia');
     ok(`inferencia ${id}: polo menos un terzo das 12 preguntas son de inferir (${inf.length}/12)`, inf.length * 3 >= p.questions.length);
-    const mine = p.questions.filter(q=>/^[in]\d+$/.test(q.id));
+    const mine = p.questions.filter(q=>/^[in]\d+$/.test(q.id) || /^q\d+$/.test(q.id) && id.endsWith('republica-checa'));
     ok(`escritas ${id}: con evidencia, xustificación e nota por distractor (${mine.length})`, mine.length >= 5 && mine.every(q=>q.classReviewed === true && q.competency && q.evidence && q.explanation && q.distractors.filter(Boolean).length === 3 && q.distractors[q.correct] === ''));
     const transcript = p.transcript.join(' ').replace(/[«»"“”]/g,'').replace(/\s+/g,' ').toLowerCase();
     const lit = mine.every(q=>q.evidence.split(' / ').every(part=>part.split('...').every(fr=>{ const f = fr.replace(/[«»"“”]/g,'').replace(/\s+/g,' ').trim().replace(/\.$/,'').toLowerCase(); return f.length < 4 || transcript.includes(f); })));
@@ -452,11 +452,11 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
       const pool = [...p.questions, ...(p.reserveQuestions || [])].map(q=>E(`normalizeQuestion(${JSON.stringify(q)})`)).filter(q=>E(`reserveEligible(${JSON.stringify(q)})`));
       const cnt = {}; ['C1','C2','C3','C4','C5','C6'].forEach(c=>cnt[c] = pool.filter(q=>q.competency === c).length);
       ok(`banco ${id}: 6 preguntas revisadas por competencia`, ['C1','C2','C3','C4','C5','C6'].every(c=>cnt[c] === 6), JSON.stringify(cnt));
-      const nuevas = [...p.questions, ...(p.reserveQuestions || [])].filter(q=>/^r\d+$/.test(q.id));
-      ok(`banco ${id}: 18 preguntas nuevas (3 por competencia), ids únicos, 4 opciones, sin verdadero/falso`, nuevas.length === 18 && new Set(nuevas.map(q=>q.id)).size === 18 && ['C1','C2','C3','C4','C5','C6'].every(c=>nuevas.filter(q=>q.competency === c).length === 3) && nuevas.every(q=>q.options.length === 4 && new Set(q.options).size === 4 && q.options[q.correct] && q.distractors.length === 4 && q.distractors[q.correct] === '' && q.explanation && q.evidence && q.format === 'multiple_choice' && q.classReviewed === true));
+      const nuevas = [...p.questions, ...(p.reserveQuestions || [])].filter(q=>/^r\d+$/.test(q.id)); const NN = id.endsWith('republica-checa') ? 24 : 18;
+      ok(`banco ${id}: 18 preguntas nuevas (3 por competencia), ids únicos, 4 opciones, sin verdadero/falso`, nuevas.length === NN && new Set(nuevas.map(q=>q.id)).size === NN && (NN === 24 || ['C1','C2','C3','C4','C5','C6'].every(c=>nuevas.filter(q=>q.competency === c).length === 3)) && nuevas.every(q=>q.options.length === 4 && new Set(q.options).size === 4 && q.options[q.correct] && q.distractors.length === 4 && q.distractors[q.correct] === '' && q.explanation && q.evidence && q.format === 'multiple_choice' && q.classReviewed === true));
       const tr = nrm(p.transcript.join(' '));
       ok(`banco ${id}: cada cita de evidencia sale literal de la transcripción`, nuevas.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>m.slice(1,-1).split('...').every(part=>{ const z = nrm(part.trim().replace(/\.$/,'').trim()); return !z || tr.includes(z); }))));
-      ok(`banco ${id}: las respuestas correctas no se repiten entre preguntas nuevas del mismo enunciado`, new Set(nuevas.map(q=>q.text)).size === 18);
+      ok(`banco ${id}: las respuestas correctas no se repiten entre preguntas nuevas del mismo enunciado`, new Set(nuevas.map(q=>q.text)).size === NN);
     }
     ok('banco: ninguna pregunta nueva de Cuba ni de Senegal menciona al padre', ['seed-un-pais-en-podcast-cuba','seed-un-pais-en-podcast-senegal'].every(id=>!(store.podcasts[id].reserveQuestions || []).filter(q=>/^r\d+$/.test(q.id)).some(q=>/\b(padre|papá|papa|pai)\b/i.test(JSON.stringify(q)))));
     // muchas sesiones: salen más de 12 preguntas distintas, siempre 12 y con la estructura

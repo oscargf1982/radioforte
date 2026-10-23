@@ -3392,6 +3392,988 @@ async function seedEighthPodcast(){
   await cloudSavePodcast(record);
 }
 
+const SEED_PODCAST_ID_9 = 'seed-un-pais-en-podcast-republica-checa';
+/* Un país en podcast: República Checa. Entrevista a Eddie, auxiliar de conversa de inglés. Nace xa como test de 12 preguntas
+   (C1 2 · C2 3 · C3 2 · C4 1 · C5 2 · C6 2) e 24 de reserva (6 por competencia en total) para barallar en cada sesión. Transcrición literal sen as marcas de son. */
+async function seedNinthPodcast(){
+  const existing = await cloudGetPodcast(SEED_PODCAST_ID_9);
+  if(existing && existing.transcript) return;
+  const record = {
+    id: SEED_PODCAST_ID_9,
+    createdAt: Date.now() - 100,
+    title: 'Un país en podcast: República Checa',
+    cycle: '3º ciclo',
+    desc: 'Entrevista a Eddie, auxiliar de conversa de inglés procedente da República Checa: o país, Praga, o idioma checo, a súa vida en Monforte e a morriña.',
+    audioEmbedded: true,
+    mimeType: 'audio/mpeg',
+    fileName: 'republica_checa_un_pais_en_podcast.mp3',
+    country: 'CZ',
+    transcript: [
+      "O meu país é tan pequeno que cabe nos ollos dun neno. O meu país- Un país en podcast. Por iso sae nos mapas. O meu país. Bo día a Un país en post-- en podcast. Hoi-- hoxe falaremos dun país europeo, concretamente centroeuropeo, a República Checa. Situádela no mapa. Si? Non? Douvos unha axuda.",
+      "Atópase entre Alemaña, Polonia, Eslovaquia e Austria. Os oíntes máis maiores seguro que a estudaron na escola como República Checoslovaca, pero des-- pero desde o ano 1993 son dous países independentes, República Checa e República Eslovaca.",
+      "Temos hoxe connosco como in-- convidado a Eddie, procedente da República Checa e quen nos vai a contar cousas interesantes sobre o seu país. Bo día, Eddie, como estás? Bo día, estou ben.",
+      "A capital da República Checa é Praga, unha cidade á beira do río Moldava, con máis ou menos un con trinta e seis millóns de habitantes, o que o converte na cidade máis poboada do país. Estiveches en Praga, Eddie? Sí, muchísimas veces. Es la ciudad capital de la República Checa.",
+      "Hay mucho que ver en Praga y recomendaría que os vayáis ahí si vais a la República Checa. Hay muchos edificios históricos, ah, muchos puen-- ah, muchos puentes históricos, eh, parques, eh, es una ciudad muy bonita y la comida está muy rica también. Que idioma falas na República Checa?",
+      "Bueno, en la República Checa se habla checo, un idioma muy difícil de aprender para extranjeros. Eh, es un lenguaje no derivado del latín, eh, sino pertenece a su propio grupo de lenguajes eslavos. Ah, por tanto, para españoles y, y portugueses es muy difícil de aprender y entender.",
+      "Pero tiene influencia o han fluido otros idiomas. Por ejemplo, la palabra robot viene de la República Checa. Poderías decir algo en checo o recitar algún poema? Bueno, puedo decir: \"Dobrý den, jmenuji se Eddie\", que significa: \"Buenos días, me llamo Eddie\".",
+      "Entón, ti aquí no colexio eres auxiliar de conversa de inglés. Como é posible que fales tan tamén inglés se non eres dun país de fala inglesa? Yo hablo también inglés porque vivía muchos años en Inglaterra, desde pequeño.",
+      "Nos mudamos con mi familia ahí por el trabajo de mis padres y bueno, fui al colegio allí hasta, bueno, unos veinte años fui al colegio allí. Entonces, pasé mucho tiempo. Que era o máis difícil para ti de adaptarte a un novo país?",
+      "Bueno, lo más difícil para mí fue dejar gente atrás, como mi familia, amigos. Ah, bueno, y otra cosa es adaptarte a otro idioma. Eh, todo el rato escuchas a otro idioma, tienes que, tienes que escuchar bien, eh, y concentrarte. Ahmm... E cal é a parte máis ilusionante de coñecer un novo lugar?",
+      "Lo más ilusionante para mí es estar perdido todo, todo el tiempo, porque siempre encuentras algo que no esperabas y estás sor-sorprendido siempre. Qué é o que máis che gusta de Monforte ou Galicia? Visitaches outras zonas de España? Pues en Monforte me encanta o puente romano, la historia aquí.",
+      "Eh, cerca de Monforte y en Galicia en general, la naturaleza es alucinante. Ah, los ríos, el mar, la costa, eh, es, es muy impresionante. La gente es muy, muy agradable y, y bueno, me, me gusta mucho. Bueno, soamente precisar que a Ponte Romana, aunque lla chamamos romana, é medieval.",
+      "Que é o que máis te sorprende do noso país? Lo que me más sorprende, eh, pues aquí en Monforte es, es la niebla. Hay mucha niebla aquí, pero todo el rato casi. Cal é a moeda da República Checa? Eh, moneda es koruna, se llama koruna. Y un euro vale vinte y cinco korunas. Botas de menos o teu país?",
+      "Que estratexias empregas para afrontar a morriña? Sí, claro que echo de menos mi país. Eh, bueno, pero por suerte hay aplicaciones como WhatsApp y siempre me puedo poner en comunicación con, con mi familia, mis amigos. Moitas grazas, Eddie, polo teu tempo e polas túas respostas.",
+      "Agora sabemos un pouco máis dun novo país e da túa vida, que tamén é moi interesante. Moitas grazas a vos. Pechamos por hoxe Un país en podcast. Ata outra semana, radiooíntes. Que pasedes un feliz día."
+    ],
+    questions: [
+      {
+        "id": "q1",
+        "text": "Entre que países se atopa a República Checa?",
+        "options": [
+          "Francia, Italia, Suíza e Austria",
+          "Alemaña, Polonia, Eslovaquia e Austria",
+          "Portugal, España, Francia e Alemaña",
+          "Rusia, Ucraína, Polonia e Hungría"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "O presentador di que a República Checa está entre Alemaña, Polonia, Eslovaquia e Austria.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Atópase entre Alemaña, Polonia, Eslovaquia e Austria.»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Mestura: Portugal e España saen na conversa, pero non son veciños",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Como se chama a moeda da República Checa?",
+        "options": [
+          "O euro",
+          "O zloty",
+          "A koruna",
+          "A libra"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Eddie di que a moeda se chama koruna.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«moneda es koruna, se llama koruna.»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: o euro sae, pero só para comparalo coa moeda checa",
+          "Inventada: non se di nada diso",
+          "",
+          "Mestura: Inglaterra sae no programa, pero non a súa moeda"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Que se pode deducir de que Eddie diga que o checo é «un idioma muy difícil de aprender para extranjeros»?",
+        "options": [
+          "Que ninguén fala checo",
+          "Que é igual que o galego",
+          "Que só se aprende en Inglaterra",
+          "Que a quen fala español ou portugués lle custa moito aprendelo"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Eddie explica que o checo non vén do latín e que por iso é moi difícil para españois e portugueses.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«un idioma muy difícil de aprender para extranjeros»",
+        "hint": "",
+        "distractors": [
+          "Contraria: é o idioma do país",
+          "Contraria: di que non deriva do latín",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Que se pode deducir de que Eddie diga que a palabra «robot» vén da República Checa?",
+        "options": [
+          "Que o checo deixou palabras noutros idiomas",
+          "Que robot é unha palabra inglesa",
+          "Que en Chequia só falan de máquinas",
+          "Que o checo deriva do latín"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Se «robot» vén de Chequia, o checo influíu noutras linguas.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Por ejemplo, la palabra robot viene de la República Checa.»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria: di que vén do checo",
+          "Inventada: non se di nada diso",
+          "Contraria: di que non deriva do latín"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Que se pode deducir de que o presentador aclare que a Ponte Romana «é medieval»?",
+        "options": [
+          "Que se enfadou con Eddie",
+          "Que quere corrixir un dato con precisión",
+          "Que a ponte xa non existe",
+          "Que Eddie non sabe nada de historia"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "O presentador di que lle chaman romana, pero precisa que é medieval: engade un dato máis exacto.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«a Ponte Romana, aunque lla chamamos romana, é medieval»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso",
+          "Contraria: Eddie fala con gusto da historia"
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Cal é o mellor resumo do programa?",
+        "options": [
+          "Un debate sobre as pontes de Praga",
+          "Unha clase de inglés co auxiliar",
+          "Eddie, un auxiliar checo, conta como é o seu país e como é a súa vida en Monforte",
+          "Unha viaxe en autobús por Galicia"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "O programa presenta a Eddie, que nos conta cousas da República Checa e da súa experiencia en Monforte.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«procedente da República Checa e quen nos vai a contar cousas interesantes sobre o seu país»",
+        "hint": "",
+        "distractors": [
+          "Mestura: Praga e as pontes saen, pero non son o tema principal",
+          "Mestura: Eddie é auxiliar de conversa, pero non é unha clase",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "Que idea resume mellor o que Eddie di sobre vivir noutro país?",
+        "options": [
+          "Que adaptarse é sempre moi fácil",
+          "Que o único importante é a comida",
+          "Que non merece a pena viaxar",
+          "Hai cousas difíciles, como deixar a familia e o idioma, pero tamén cousas ilusionantes"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Eddie conta o difícil (familia, amigos, idioma) e o ilusionante (descubrir cousas inesperadas).",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«lo más difícil para mí fue dejar gente atrás» / «Lo más ilusionante para mí es estar perdido todo, todo el tiempo»",
+        "hint": "",
+        "distractors": [
+          "Contraria: di que o máis difícil foi deixar a xente atrás",
+          "Inventada: non se di nada diso",
+          "Contraria: di que o máis ilusionante é descubrir cousas",
+          ""
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "De que se fala xusto antes de preguntar pola moeda da República Checa?",
+        "options": [
+          "Do que máis sorprende a Eddie de Monforte: a néboa",
+          "Da capital, Praga",
+          "Do idioma checo",
+          "De como botaba de menos a familia"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Primeiro pregúntanlle o que máis lle sorprende e fala da néboa; despois, pola moeda.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Lo que me más sorprende» / «Cal é a moeda da República Checa?»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Tentadora: vén ao comezo do programa",
+          "Tentadora: vén ao comezo do programa",
+          "Tentadora: vén despois, ao final"
+        ]
+      },
+      {
+        "id": "q9",
+        "text": "Que significa «morriña» en «afrontar a morriña»?",
+        "options": [
+          "Medo á néboa",
+          "Tristeza por botar de menos a casa e a xente",
+          "Cansazo de viaxar",
+          "Ganas de comer"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "No contexto, a morriña é o que se sente ao botar de menos o seu país, a familia e os amigos.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Que estratexias empregas para afrontar a morriña?»",
+        "hint": "",
+        "distractors": [
+          "Mestura: a néboa sae noutra pregunta",
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q10",
+        "text": "Que quere dicir Eddie cando di que a natureza de Galicia é «alucinante»?",
+        "options": [
+          "Que é aburrida",
+          "Que é perigosa",
+          "Que é incrible, moi impresionante",
+          "Que é moi pequena"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "«Alucinante» aquí é algo incrible; despois di que os ríos, o mar e a costa son «muy impresionante».",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«la naturaleza es alucinante»",
+        "hint": "",
+        "distractors": [
+          "Contraria: engade que é muy impresionante",
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q11",
+        "text": "Con que intención di Eddie que recomendaría ir a Praga?",
+        "options": [
+          "Avisar de que Praga é perigosa",
+          "Dicir que Praga é moi aburrida",
+          "Pedir diñeiro para viaxar",
+          "Animar os oíntes a visitar Praga"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Despois de falar dos edificios, pontes e parques, recomenda ir: quere animar a visitala.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«recomendaría que os vayáis ahí si vais a la República Checa»",
+        "hint": "",
+        "distractors": [
+          "Contraria: di que é unha cidade moi bonita",
+          "Contraria: di que hai moito que ver",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "q12",
+        "text": "Con que intención explica o presentador que os oíntes maiores estudaron o país como «República Checoslovaca»?",
+        "options": [
+          "Para situar o país e explicar que antes era un só",
+          "Para criticar os dous países",
+          "Para falar da moeda",
+          "Para preguntar a idade de Eddie"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Explica o cambio de nome para que os oíntes entendan que desde 1993 son dous países independentes.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«estudaron na escola como República Checoslovaca» / «son dous países independentes, República Checa e República Eslovaca»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Inventada: non se di nada diso",
+          "Mestura: a moeda sae máis adiante",
+          "Inventada: non se di nada diso"
+        ]
+      }
+    ],
+    reserveQuestions: [
+      {
+        "id": "r1",
+        "text": "Que cidade é a capital da República Checa?",
+        "options": [
+          "Varsovia",
+          "Viena",
+          "Berlín",
+          "Praga"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "O presentador di que a capital é Praga.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«A capital da República Checa é Praga»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: Polonia é veciña, pero a capital é outra",
+          "Tentadora: Austria é veciña, pero a capital é outra",
+          "Tentadora: Alemaña é veciña, pero a capital é outra",
+          ""
+        ]
+      },
+      {
+        "id": "r2",
+        "text": "A beira de que río está Praga?",
+        "options": [
+          "O Moldava",
+          "O Danubio",
+          "O Miño",
+          "O Sena"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Praga é unha cidade á beira do río Moldava.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«unha cidade á beira do río Moldava»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r3",
+        "text": "Cantas korunas vale un euro, segundo Eddie?",
+        "options": [
+          "Dúas",
+          "Vinte e cinco",
+          "Cen",
+          "Unha"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "Eddie di que un euro vale vinte e cinco korunas.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Y un euro vale vinte y cinco korunas.»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r4",
+        "text": "Cantos anos foi Eddie ao colexio en Inglaterra?",
+        "options": [
+          "Uns dous",
+          "Só un verán",
+          "Uns vinte",
+          "Toda a vida en Monforte"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Eddie di que foi ao colexio alí uns vinte anos.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«unos veinte años fui al colegio allí»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "",
+          "Contraria: viviu en Inglaterra, non en Monforte"
+        ]
+      },
+      {
+        "id": "r5",
+        "text": "Que se pode deducir de que a Eddie lle sorprenda tanto a néboa de Monforte?",
+        "options": [
+          "Que en Monforte nunca hai néboa",
+          "Que a néboa lle dá medo",
+          "Que prefire a néboa a todo",
+          "Que na súa terra non é tan habitual"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Se lle sorprende é porque para el é algo novo; e di que aquí hai moita casi sempre.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Hay mucha niebla aquí, pero todo el rato casi.»",
+        "hint": "",
+        "distractors": [
+          "Contraria: di que hai moita",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "r6",
+        "text": "Que se pode deducir de que Eddie use aplicacións como WhatsApp?",
+        "options": [
+          "Que así se sente máis preto da familia e dos amigos",
+          "Que prefire non falar con eles",
+          "Que non botou de menos a ninguén",
+          "Que só usa o móbil para xogar"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Usa WhatsApp para falar coa familia e os amigos e sobrelevar a morriña.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«hay aplicaciones como WhatsApp y siempre me puedo poner en comunicación con, con mi familia, mis amigos»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria: di que as usa para comunicarse",
+          "Contraria: di que si bota de menos o seu país",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r7",
+        "text": "Que se pode deducir de que o presentador fale de República Checoslovaca e de 1993?",
+        "options": [
+          "Que sempre foron dous países",
+          "Que antes de 1993 era un só país",
+          "Que o nome cambiou por moda",
+          "Que Eddie naceu en Eslovaquia"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Ao dicir que desde 1993 son dous países independentes, deducimos que antes era un só.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Os oíntes máis maiores seguro que a estudaron na escola como República Checoslovaca»",
+        "hint": "",
+        "distractors": [
+          "Contraria: desde 1993 son dous",
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r8",
+        "text": "Cal sería un bo título para a parte final da entrevista?",
+        "options": [
+          "A moeda e os prezos",
+          "O idioma checo",
+          "A morriña e a comunicación coa familia",
+          "Os edificios de Praga"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Ao final pregúntanlle se bota de menos o seu país e como o leva.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Botas de menos o teu país?» / «hay aplicaciones como WhatsApp»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: sae antes, non ao final",
+          "Tentadora: sae ao comezo",
+          "",
+          "Tentadora: sae ao comezo"
+        ]
+      },
+      {
+        "id": "r9",
+        "text": "Que idea resume mellor o que Eddie conta do idioma checo?",
+        "options": [
+          "É igual que o galego",
+          "Deriva do latín como o español",
+          "Aprende en poucos días",
+          "É moi difícil para quen fala español ou portugués, porque ten a súa propia familia eslava"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Eddie explica que o checo pertence ao grupo das linguas eslavas e que é difícil para os falantes de español e portugués.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«sino pertenece a su propio grupo de lenguajes eslavos»",
+        "hint": "",
+        "distractors": [
+          "Contraria: non deriva do latín",
+          "Contraria: di que non deriva do latín",
+          "Contraria: di que é moi difícil",
+          ""
+        ]
+      },
+      {
+        "id": "r10",
+        "text": "Que idea resume mellor o que Eddie di de Galicia?",
+        "options": [
+          "Que lle gustan a natureza, a historia e a xente",
+          "Que só lle gusta a comida",
+          "Que non lle gusta nada",
+          "Que lle gusta só a néboa"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Eddie destaca a ponte e a historia de Monforte, a natureza de Galicia e a xente agradable.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«la naturaleza es alucinante» / «La gente es muy, muy agradable»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Inventada: non se di nada diso",
+          "Contraria: di que lle gusta moito",
+          "Tentadora: a néboa sorpréndeo, pero non é o que máis lle gusta"
+        ]
+      },
+      {
+        "id": "r11",
+        "text": "Que ideas principais ten a primeira parte do programa?",
+        "options": [
+          "Só falan da moeda",
+          "Presentan o país, onde está, a súa capital e a Eddie",
+          "Só preguntan pola morriña",
+          "Só falan de inglés"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "No comezo situán o país no mapa, nomean os veciños, a capital e presentan a Eddie.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Atópase entre Alemaña, Polonia, Eslovaquia e Austria.» / «A capital da República Checa é Praga»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: a moeda sae máis adiante",
+          "",
+          "Tentadora: sae ao final",
+          "Mestura: o inglés sae despois"
+        ]
+      },
+      {
+        "id": "r12",
+        "text": "Que se presenta primeiro no programa?",
+        "options": [
+          "A moeda koruna",
+          "A morriña",
+          "A República Checa e onde está",
+          "A néboa de Monforte"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "O programa comeza dicindo de que país vai falar e situándoo no mapa.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«hoxe falaremos dun país europeo, concretamente centroeuropeo, a República Checa»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: vén despois",
+          "Tentadora: vén ao final",
+          "",
+          "Tentadora: vén no medio"
+        ]
+      },
+      {
+        "id": "r13",
+        "text": "De que se fala xusto despois de preguntarlle a Eddie se estivo en Praga?",
+        "options": [
+          "Da moeda",
+          "Da morriña",
+          "Da néboa",
+          "Do idioma que se fala na República Checa"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "Despois de Praga, o presentador pregunta que idioma se fala.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Estiveches en Praga, Eddie?» / «Que idioma falas na República Checa?»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: vén moito despois",
+          "Tentadora: vén ao final",
+          "Tentadora: vén máis adiante",
+          ""
+        ]
+      },
+      {
+        "id": "r14",
+        "text": "Que vén xusto despois de que Eddie diga unha frase en checo?",
+        "options": [
+          "Pregúntanlle por que fala inglés sendo checo",
+          "A pregunta pola moeda",
+          "A despedida do programa",
+          "A pregunta pola néboa"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Despois da frase en checo, o presentador comenta que é auxiliar de inglés e pregúntalle como fala tan ben inglés.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Bueno, puedo decir» / «auxiliar de conversa de inglés»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Tentadora: vén moito máis adiante",
+          "Tentadora: vén ao final",
+          "Tentadora: vén despois"
+        ]
+      },
+      {
+        "id": "r15",
+        "text": "Que pregunta fai o presentador ao final, antes de despedirse?",
+        "options": [
+          "Cal é a moeda",
+          "Se bota de menos o seu país e como afronta a morriña",
+          "Que idioma fala",
+          "Se estivo en Praga"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "As últimas preguntas son se bota de menos o seu país e que fai contra a morriña.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Botas de menos o teu país? Que estratexias empregas para afrontar a morriña?»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: vén antes",
+          "",
+          "Tentadora: vén ao comezo",
+          "Tentadora: vén ao comezo"
+        ]
+      },
+      {
+        "id": "r16",
+        "text": "Como están ordenadas estas partes do programa?",
+        "options": [
+          "A despedida, o idioma, Praga e a vida de Eddie",
+          "A vida de Eddie, o idioma, Praga e a despedida",
+          "O país e Praga, o idioma, a vida de Eddie e a despedida",
+          "O idioma, a despedida, Praga e a vida de Eddie"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Primeiro presentan o país e Praga, despois o idioma, logo a vida de Eddie e finalmente despídense.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Que idioma falas na República Checa?» / «Botas de menos o teu país?» / «Ata outra semana, radiooíntes»",
+        "hint": "",
+        "distractors": [
+          "Contraria: a despedida vén ao final",
+          "Contraria: primeiro se presenta o país",
+          "",
+          "Contraria: a despedida vén ao final"
+        ]
+      },
+      {
+        "id": "r17",
+        "text": "Que significa «moeda» en «Cal é a moeda da República Checa?»",
+        "options": [
+          "A bandeira do país",
+          "O idioma do país",
+          "A capital do país",
+          "O diñeiro que se usa no país"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "A resposta é koruna, que é o diñeiro que se usa na República Checa.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Cal é a moeda da República Checa?»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Mestura: o idioma pregúntase antes",
+          "Mestura: a capital dise ao comezo",
+          ""
+        ]
+      },
+      {
+        "id": "r18",
+        "text": "Que quere dicir que Praga é a cidade «máis poboada» do país?",
+        "options": [
+          "A que ten máis habitantes",
+          "A máis antiga",
+          "A máis grande en superficie",
+          "A que ten máis pontes"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "«Poboada» refírese á xente que vive nela; Praga é a que ten máis habitantes.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«o que o converte na cidade máis poboada do país»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Inventada: non se di nada diso",
+          "Tentadora: poboada fala de habitantes, non de superficie",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r19",
+        "text": "Que significa «auxiliar de conversa» no colexio?",
+        "options": [
+          "Un profesor de música",
+          "Unha persoa que axuda a practicar a conversación en inglés",
+          "Un cociñeiro do comedor",
+          "Un condutor de autobús"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Eddie é auxiliar de conversa de inglés: axuda a falar inglés no colexio.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«ti aquí no colexio eres auxiliar de conversa de inglés»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r20",
+        "text": "Que quere dicir «convidado» en «convidado a Eddie»?",
+        "options": [
+          "Persoa que presenta o programa",
+          "Compañeiro de clase",
+          "Persoa invitada ao programa",
+          "Veciño de Monforte"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Un convidado é quen é invitado a participar no programa.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«convidado a Eddie»",
+        "hint": "",
+        "distractors": [
+          "Contraria: presentan outras persoas",
+          "Inventada: non se di nada diso",
+          "",
+          "Mestura: Eddie vive en Monforte, pero non se chama así"
+        ]
+      },
+      {
+        "id": "r21",
+        "text": "Con que intención pregunta o presentador «Situádela no mapa. Si? Non?»?",
+        "options": [
+          "Para examinar a Eddie",
+          "Para criticar o mapa",
+          "Para rematar o programa",
+          "Para implicar os oíntes e axudalos a imaxinar onde está o país"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Fai unha pregunta aos oíntes e dálles unha axuda para participar.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Situádela no mapa. Si? Non? Douvos unha axuda.»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "Contraria: é o comezo",
+          ""
+        ]
+      },
+      {
+        "id": "r22",
+        "text": "Para que serve que Eddie diga unha frase en checo e a traduza?",
+        "options": [
+          "Para que os oíntes coñezan unha frase en checo e a entendan",
+          "Para ensinar a escribir en checo",
+          "Para despedirse",
+          "Para criticar o checo"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Primeiro pídenlle que diga algo en checo e despois traduce: así coñecemos o idioma.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Bueno, puedo decir» / «Buenos días, me llamo Eddie»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Inventada: non se di nada diso",
+          "Contraria: é o comezo da entrevista",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r23",
+        "text": "Con que intención di Eddie que en Monforte lle encanta a ponte e a historia?",
+        "options": [
+          "Para criticar a ponte",
+          "Para mostrar que lle gusta a historia da vila",
+          "Para pedir que a arranxen",
+          "Para falar da súa familia"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Responde ao que lle gusta de Monforte e destaca a ponte e a historia.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«me encanta o puente romano, la historia aquí»",
+        "hint": "",
+        "distractors": [
+          "Contraria: di que lle encanta",
+          "",
+          "Inventada: non se di nada diso",
+          "Mestura: a familia sae noutra pregunta"
+        ]
+      },
+      {
+        "id": "r24",
+        "text": "Con que intención remata o presentador dicindo «Ata outra semana, radiooíntes»?",
+        "options": [
+          "Presentar un novo convidado",
+          "Pedir que chamen á radio",
+          "Despedir o programa e anunciar que haberá máis",
+          "Preguntar pola moeda"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "É a despedida: pecha o programa e anuncia o seguinte.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Ata outra semana, radiooíntes»",
+        "hint": "",
+        "distractors": [
+          "Contraria: é o final",
+          "Inventada: non se di nada diso",
+          "",
+          "Mestura: a moeda sae antes"
+        ]
+      }
+    ],
+    config: { modality: 'revision', showPre: true, showReview: true, showCompetencyLabels: true,
+      context: 'Vas escoitar un programa sobre a República Checa, un país de Europa central, e unha entrevista a Eddie, o auxiliar de conversa de inglés do colexio.',
+      anticipation: 'Onde pensas que está a República Checa? Que idioma crees que falan? Que lle preguntarías a alguén que viviu en varios países?' },
+    seedTestVersion: 1, seedTest12Version: 1, seedPoolVersion: 1,
+    schemaVersion: 2
+  };
+  await cloudSavePodcast(record);
+}
+
 const SEED_PODCAST_ID_4 = 'seed-un-pais-en-podcast-cuba';
 
 const SEED_PODCAST_ID_5 = 'seed-un-pais-en-podcast-filipinas';
@@ -4268,6 +5250,7 @@ const COUNTRIES = {
   CO:{ name:'Colombia', svg: flagSvg('0 0 60 40', `<rect width="60" height="20" fill="#FCD116"/><rect y="20" width="60" height="10" fill="#003893"/><rect y="30" width="60" height="10" fill="#CE1126"/>`) },
   PH:{ name:'Filipinas', svg: flagSvg('0 0 60 30', `<rect width="60" height="15" fill="#0038A8"/><rect y="15" width="60" height="15" fill="#CE1126"/><polygon points="0,0 26,15 0,30" fill="#fff"/><circle cx="8.5" cy="15" r="2.6" fill="#FCD116"/><polygon points="${starPts(3.2,4.6,2.4)}" fill="#FCD116"/><polygon points="${starPts(3.2,25.4,2.4)}" fill="#FCD116"/><polygon points="${starPts(22,15,2.4,90)}" fill="#FCD116"/>`) },
   VE:{ name:'Venezuela', svg: flagSvg('0 0 60 40', `<rect width="60" height="13.34" fill="#FCE300"/><rect y="13.33" width="60" height="13.34" fill="#00247D"/><rect y="26.66" width="60" height="13.34" fill="#CF142B"/>` + [0,1,2,3,4,5,6,7].map(i=>{ const a=(-160+i*20)*Math.PI/180; return `<polygon points="${starPts(30+11*Math.cos(a),28+11*Math.sin(a),1.7)}" fill="#fff"/>`; }).join('')) },
+  CZ:{ name:'República Checa', svg: flagSvg('0 0 60 40', `<rect width="60" height="20" fill="#fff"/><rect y="20" width="60" height="20" fill="#D7141A"/><polygon points="0,0 30,20 0,40" fill="#11457E"/>`) },
   GAL:{ name:'Galicia', svg: flagSvg('0 0 60 40', `<rect width="60" height="40" fill="#fff"/><polygon points="0,40 0,32 52,0 60,0 60,8 8,40" fill="#009FE3" transform="translate(0,0)"/>`) }
 };
 function countryOptionsHtml(sel){
@@ -5378,7 +6361,8 @@ const SEED_AUDIO_FILES = {
   [SEED_PODCAST_ID_5]: 'audio/filipinas_yanni_en_podcast.mp3',
   [SEED_PODCAST_ID_6]: 'audio/senegal_un_pais_en_podcast.mp3',
   [SEED_PODCAST_ID_7]: 'audio/ramadan_radio_forte.mp3',
-  [SEED_PODCAST_ID_8]: 'audio/venezuela_un_pais_en_podcast.mp3'
+  [SEED_PODCAST_ID_8]: 'audio/venezuela_un_pais_en_podcast.mp3',
+  [SEED_PODCAST_ID_9]: 'audio/republica_checa_un_pais_en_podcast.mp3'
 };
 function resolveAudioSource(podcast){
   if(SEED_AUDIO_FILES[podcast.id]) return { url: SEED_AUDIO_FILES[podcast.id] };
@@ -8113,7 +9097,7 @@ async function upgradeSeedCountry(){
   if(doc.exists && doc.data().country === undefined) await ref.update({ country: 'CU' });
 }
 
-Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast()])
+Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast(), seedNinthPodcast()])
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
   .then(()=>upgradeSeedInference())
