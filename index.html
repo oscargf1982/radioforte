@@ -1710,7 +1710,8 @@ const PODCAST_CATEGORIES = [
   { id:'ingles',    label:'En inglés',             emoji:'🇬🇧' },
   { id:'libros',    label:'Libros e lectura',      emoji:'📚' },
   { id:'cultura',   label:'Cultura e tradicións',  emoji:'🎉' },
-  { id:'galego',    label:'Lingua galega',         emoji:'🗣️' }
+  { id:'galego',    label:'Lingua galega',         emoji:'🗣️' },
+  { id:'datas',     label:'Datas sinaladas',       emoji:'📅' }
 ];
 const CATEGORY_IDS = PODCAST_CATEGORIES.map(c=>c.id);
 function normalizeCategories(list){
@@ -5648,6 +5649,981 @@ async function seedTenthPodcast(){
   await cloudSavePodcast(record);
 }
 
+const SEED_PODCAST_ID_11 = 'seed-radio-forte-samain';
+/* Podcast sobre o Samaín (5.º B). Test de 12 preguntas (C1 2 · C2 3 · C3 2 · C4 1 · C5 2 · C6 2) e 24 de reserva (6 por competencia en total).
+   Transcrición literal sen as marcas de son e sen os créditos con nome e apelidos do alumnado; só se corrixiu «abundancia da cabazas» → «de cabazas». */
+async function seedEleventhPodcast(){
+  const existing = await cloudGetPodcast(SEED_PODCAST_ID_11);
+  if(existing && existing.transcript) return;
+  const record = {
+    id: SEED_PODCAST_ID_11,
+    createdAt: Date.now() - 20,
+    title: 'Radio Forte: o Samaín',
+    cycle: '3º ciclo',
+    categories: ['datas','cultura'],
+    desc: 'Alumnado de 5.º B explica curiosidades do Samaín: os chourizos de antes, a orixe das cabazas e a diferenza entre truco e trato.',
+    audioEmbedded: true,
+    mimeType: 'audio/mpeg',
+    fileName: 'samain_radio_forte.mp3',
+    country: '',
+    transcript: [
+      "Radio Forte, a nova emisora de radio do CEIP Plurilingüe Monforte. Colegio novo para todos e todas. Sintonízanos para aprender moitas cousas conosco. Comezamos? Comezamos.",
+      "Hola a todos, son Daniel e uns compañeiros de quinto B e vamos a falar do Samaín. No micro amarelo, Diego. Hola, boas. No micro verde, Juan. Hola a todos. No micro vermello, Mateo. Bos días.",
+      "Que nos podes decir sobre o Samaín, Diego? Antes, en vez de pedir dulces, pedíanse chourizos e tamén decían que Galicia era terra meiga xa que había un ser mitolóxico chamado Hércules e o Samaín é galego, non americano.",
+      "E ti que nos contas, Juan? A xente pensa que a tradición de facer cabazas no día des-- do Samaín é unha tradición galega. Non é unha tradición galega, é americana. En América había gran abundancia de cabazas.",
+      "Eles crían que es-- as estas espantaban o demo e as bruxas. E ti que nos contas, Mateo? Diferenzas entre o truco e trato.",
+      "Truco significa que aceptas que os nenos che cavan-- che fagan unha pequena, pequena broma a cambio de non darlles caramelos. En cambio, trato significa darlles caramelo para evitar as bromas dos pequenos.",
+      "Cantas cousas hemos aprendido sobre o Samaín. E todo isto nos despedimos. Gracias a todos os nosos oíntes. Un saúdo dende Monforte."
+    ],
+    questions: [
+      {
+        "id": "q1",
+        "text": "Que se pedía antes en lugar de doces, segundo Diego?",
+        "options": [
+          "Castañas",
+          "Cabazas",
+          "Moedas",
+          "Chourizos"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "Diego di que antes se pedían chourizos en vez de doces.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«en vez de pedir dulces, pedíanse chourizos»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Mestura: as cabazas saen noutra parte",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "De onde é a tradición de facer cabazas, segundo Juan?",
+        "options": [
+          "De América",
+          "De Galicia",
+          "De Hércules",
+          "Da Idade Media"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Juan di que non é unha tradición galega, é americana.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Non é unha tradición galega, é americana»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria: Juan di que non é galega",
+          "Mestura: Hércules sae na parte de Diego",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Que se pode deducir de que Juan diga que a xente «pensa» que as cabazas son galegas?",
+        "options": [
+          "Que todo o mundo sabe a verdade",
+          "Que moita xente se equivoca con esa tradición",
+          "Que as cabazas nunca se usaron",
+          "Que Juan non coñece o Samaín"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Se Juan o corrixe, é porque moita xente cre algo que non é certo.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«A xente pensa que a tradición de facer cabazas» / «Non é unha tradición galega, é americana»",
+        "hint": "",
+        "distractors": [
+          "Contraria: di que a xente pensa algo equivocado",
+          "",
+          "Inventada: non se di nada diso",
+          "Contraria: explica o seu orixe"
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Se alguén dá caramelos aos nenos para evitar bromas, que opción escolleu?",
+        "options": [
+          "O truco",
+          "Ningunha das dúas",
+          "O trato",
+          "As cabazas"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "No trato dáselles caramelo aos nenos para evitar as bromas.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«trato significa darlles caramelo para evitar as bromas dos pequenos»",
+        "hint": "",
+        "distractors": [
+          "Contraria: no truco non se dan caramelos",
+          "Contraria: escolle unha delas",
+          "",
+          "Mestura: as cabazas non son unha opción do xogo"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Que se pode deducir de que en América crían que as cabazas espantaban o demo?",
+        "options": [
+          "Que lles daban medo ás persoas",
+          "Que as comían só en inverno",
+          "Que as vendían nas feiras",
+          "Que as usaban para protexerse"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Se espantaban o demo e as bruxas, usábanse como protección.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«espantaban o demo e as bruxas»",
+        "hint": "",
+        "distractors": [
+          "Contraria: servían para espantar, non para asustar a xente",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Cal é a mellor idea principal do podcast?",
+        "options": [
+          "Explicar curiosidades e confusións sobre o Samaín",
+          "Ensinar a cociñar chourizos",
+          "Contar unha lenda de Hércules",
+          "Falar da vida nos Estados Unidos"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Os tres compañeiros explican o que sabían e o que corrixen do Samaín.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«vamos a falar do Samaín» / «Cantas cousas hemos aprendido sobre o Samaín»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Mestura: os chourizos son só un detalle",
+          "Mestura: Hércules sae só nun momento",
+          "Mestura: América sae só ao falar das cabazas"
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "Que idea resume mellor o que di Juan?",
+        "options": [
+          "As cabazas son unha tradición galega",
+          "As cabazas son unha tradición americana, non galega",
+          "Hai que dar caramelos aos nenos",
+          "O Samaín é americano"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Juan explica que facer cabazas vén de América.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Non é unha tradición galega, é americana» / «En América había gran abundancia de cabazas»",
+        "hint": "",
+        "distractors": [
+          "Contraria: di que non é galega",
+          "",
+          "Mestura: iso é do truco e trato",
+          "Mestura: iso non o di Juan"
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "Quen fala xusto despois de Juan?",
+        "options": [
+          "Diego",
+          "Daniel",
+          "Mateo",
+          "Ninguén"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Primeiro fala Diego, despois Juan e despois Mateo.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«E ti que nos contas, Juan?» / «E ti que nos contas, Mateo?»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: fala antes que Juan",
+          "Tentadora: presenta ao principio e despide ao final",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q9",
+        "text": "Que significa «espantaban» en «espantaban o demo e as bruxas»?",
+        "options": [
+          "Chamaban",
+          "Gardaban",
+          "Divertían",
+          "Facían fuxir"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Espantar é facer fuxir con medo.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«espantaban o demo e as bruxas»",
+        "hint": "",
+        "distractors": [
+          "Contraria",
+          "Inventada: non se di nada diso",
+          "Contraria",
+          ""
+        ]
+      },
+      {
+        "id": "q10",
+        "text": "Que significa «abundancia» en «gran abundancia de cabazas»?",
+        "options": [
+          "Moitísimas, de sobra",
+          "Poucas",
+          "Ningunha",
+          "Unha soa"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Abundancia é que hai moito de algo.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«gran abundancia de cabazas»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria",
+          "Contraria",
+          "Contraria"
+        ]
+      },
+      {
+        "id": "q11",
+        "text": "Para que explica Mateo a diferenza entre truco e trato?",
+        "options": [
+          "Para pedir caramelos",
+          "Para explicar as dúas opcións que se ofrecen aos nenos",
+          "Para criticar a festa",
+          "Para despedirse do programa"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Explica o que significa cada opción para que se entenda.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Diferenzas entre o truco e trato»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso",
+          "Contraria: a despedida vén despois"
+        ]
+      },
+      {
+        "id": "q12",
+        "text": "Para que di Juan que as cabazas son americanas?",
+        "options": [
+          "Para criticar a América",
+          "Para pedir cabazas",
+          "Para corrixir unha idea equivocada",
+          "Para falar do seu colexio"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Di que a xente pensa que é galega, pero non: corrixe a idea.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«A xente pensa que a tradición de facer cabazas» / «Non é unha tradición galega, é americana»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      }
+    ],
+    reserveQuestions: [
+      {
+        "id": "r1",
+        "text": "Quen presenta o programa?",
+        "options": [
+          "Diego",
+          "Daniel",
+          "Mateo",
+          "Juan"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "Daniel presenta o programa e os seus compañeiros.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«son Daniel e uns compañeiros de quinto B»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: Diego fala despois, no micro amarelo",
+          "",
+          "Tentadora: Mateo fala ao final, no micro vermello",
+          "Tentadora: Juan fala no micro verde"
+        ]
+      },
+      {
+        "id": "r2",
+        "text": "De que curso son os compañeiros?",
+        "options": [
+          "Terceiro A",
+          "Sexto B",
+          "Quinto B",
+          "Cuarto C"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Daniel di que son de quinto B.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«son Daniel e uns compañeiros de quinto B»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r3",
+        "text": "Que significa «truco», segundo Mateo?",
+        "options": [
+          "Dar caramelos para evitar bromas",
+          "Facer unha cabaza",
+          "Pedir chourizos",
+          "Aceptar unha pequena broma a cambio de non dar caramelos"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "No truco aceptas a broma a cambio de non dar caramelos.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Truco significa que aceptas que os nenos» / «a cambio de non darlles caramelos»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: iso é o trato",
+          "Mestura: as cabazas saen noutra parte",
+          "Mestura: iso sae na parte de Diego",
+          ""
+        ]
+      },
+      {
+        "id": "r4",
+        "text": "De que cor é o micro de Mateo?",
+        "options": [
+          "Vermello",
+          "Amarelo",
+          "Verde",
+          "Azul"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Mateo fala no micro vermello.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«No micro vermello, Mateo»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Tentadora: é o de Diego",
+          "Tentadora: é o de Juan",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r5",
+        "text": "Que se pode deducir de que antes se pedisen chourizos en vez de doces?",
+        "options": [
+          "Que sempre se pediu o mesmo",
+          "Que as tradicións cambian co tempo",
+          "Que os doces non existen",
+          "Que Galicia non ten tradicións"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Se antes pedían chourizos e agora doces, a tradición cambiou.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«en vez de pedir dulces, pedíanse chourizos»",
+        "hint": "",
+        "distractors": [
+          "Contraria: di que antes era distinto",
+          "",
+          "Inventada: non se di nada diso",
+          "Contraria: fala dunha tradición galega"
+        ]
+      },
+      {
+        "id": "r6",
+        "text": "Que se deduce de que Hércules sexa un «ser mitolóxico»?",
+        "options": [
+          "Que era un veciño de Monforte",
+          "Que existe hoxe",
+          "Que pertence aos mitos e ás lendas",
+          "Que vive en América"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Mitolóxico quere dicir dos mitos, das lendas.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«un ser mitolóxico chamado Hércules»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Contraria: é mitolóxico",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r7",
+        "text": "Se unha persoa non quere dar caramelos, que opción escolle?",
+        "options": [
+          "O trato, e dá moitos caramelos",
+          "Ningunha, e non pasa nada",
+          "Só as cabazas",
+          "O truco, e acepta unha pequena broma"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "No truco non se dan caramelos, pero se aceptan as bromas.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Truco significa que aceptas que os nenos» / «a cambio de non darlles caramelos»",
+        "hint": "",
+        "distractors": [
+          "Contraria: no trato si se dan",
+          "Contraria: nas dúas hai algo",
+          "Mestura: as cabazas non son unha opción",
+          ""
+        ]
+      },
+      {
+        "id": "r8",
+        "text": "Cal sería un bo título para o podcast?",
+        "options": [
+          "Samaín: tradicións e confusións",
+          "A festa dos chourizos",
+          "Hércules en Galicia",
+          "Un día no colexio"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Falan das tradicións do Samaín e de ideas equivocadas.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«vamos a falar do Samaín» / «Cantas cousas hemos aprendido sobre o Samaín»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Mestura: só é un detalle",
+          "Mestura: só sae nun momento",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r9",
+        "text": "Que resume mellor a parte de Diego?",
+        "options": [
+          "Que o Samaín é americano",
+          "Que o Samaín é galego e que antes se pedían chourizos",
+          "Que as cabazas espantan bruxas",
+          "Que hai que dar caramelos"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Diego fala do Samaín galego e dos chourizos.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«o Samaín é galego, non americano» / «en vez de pedir dulces, pedíanse chourizos»",
+        "hint": "",
+        "distractors": [
+          "Contraria: di que é galego",
+          "",
+          "Mestura: iso é de Juan",
+          "Mestura: iso é de Mateo"
+        ]
+      },
+      {
+        "id": "r10",
+        "text": "Que resume mellor a parte de Mateo?",
+        "options": [
+          "A orixe das cabazas",
+          "Os chourizos de antes",
+          "A diferenza entre truco e trato",
+          "A despedida do programa"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Mateo explica as dúas opcións: truco e trato.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Diferenzas entre o truco e trato»",
+        "hint": "",
+        "distractors": [
+          "Mestura: iso é de Juan",
+          "Mestura: iso é de Diego",
+          "",
+          "Contraria: vén despois"
+        ]
+      },
+      {
+        "id": "r11",
+        "text": "Que aprenden os compañeiros ao final do podcast?",
+        "options": [
+          "Que o Samaín non existe",
+          "Que as cabazas son galegas",
+          "Nada novo",
+          "Moitas cousas novas sobre o Samaín"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Din que aprenderon moitas cousas sobre o Samaín.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Cantas cousas hemos aprendido sobre o Samaín»",
+        "hint": "",
+        "distractors": [
+          "Contraria",
+          "Contraria: Juan di que non",
+          "Contraria: din que aprenderon moito",
+          ""
+        ]
+      },
+      {
+        "id": "r12",
+        "text": "Que se presenta primeiro no programa?",
+        "options": [
+          "Os compañeiros e o tema: o Samaín",
+          "O truco e trato",
+          "A despedida",
+          "As cabazas americanas"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Primeiro presentan quen son e de que van falar.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«No micro amarelo, Diego» / «vamos a falar do Samaín»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Tentadora: vén despois",
+          "Tentadora: vén ao final",
+          "Tentadora: vén despois"
+        ]
+      },
+      {
+        "id": "r13",
+        "text": "Quen fala primeiro despois da presentación?",
+        "options": [
+          "Juan",
+          "Diego",
+          "Mateo",
+          "Daniel"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "Primeiro responde Diego, que ten o micro amarelo.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«No micro amarelo, Diego. Hola, boas.» / «Que nos podes decir sobre o Samaín, Diego?»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: fala despois",
+          "",
+          "Tentadora: fala ao final",
+          "Tentadora: presenta o programa"
+        ]
+      },
+      {
+        "id": "r14",
+        "text": "De que se fala despois das cabazas?",
+        "options": [
+          "Dos chourizos",
+          "De Hércules",
+          "Do truco e trato",
+          "Da despedida"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Despois de Juan e as cabazas, Mateo fala do truco e trato.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«A xente pensa que a tradición de facer cabazas» / «Diferenzas entre o truco e trato»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: sae antes",
+          "Tentadora: sae antes",
+          "",
+          "Tentadora: vén despois do truco e trato"
+        ]
+      },
+      {
+        "id": "r15",
+        "text": "Como remata o programa?",
+        "options": [
+          "Co truco e trato",
+          "Coa historia de Hércules",
+          "Cunha pregunta a Daniel",
+          "Cos agradecementos e un saúdo dende Monforte"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "O final son os agradecementos e un saúdo.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Gracias a todos os nosos oíntes. Un saúdo dende Monforte.»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: vén antes",
+          "Tentadora: vén antes",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "r16",
+        "text": "Que vén primeiro, as cabazas ou o truco e trato?",
+        "options": [
+          "As cabazas",
+          "O truco e trato",
+          "Á vez as dúas",
+          "Ningunha"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Primeiro fala Juan das cabazas e despois Mateo do truco e trato.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«A xente pensa que a tradición de facer cabazas» / «Diferenzas entre o truco e trato»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Tentadora: vén despois",
+          "Inventada: non se di nada diso",
+          "Contraria: as dúas saen"
+        ]
+      },
+      {
+        "id": "r17",
+        "text": "Que quere dicir «terra meiga»?",
+        "options": [
+          "Terra con moita chuvia",
+          "Terra de meigas e de maxia",
+          "Terra de chourizos",
+          "Terra moi pequena"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Unha terra meiga é unha terra de meigas e misterio.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Galicia era terra meiga»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Mestura: os chourizos saen noutra frase",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r18",
+        "text": "Que significa «broma» en «unha pequena broma»?",
+        "options": [
+          "Un castigo moi grande",
+          "Un caramelo",
+          "Algo divertido que se fai para rirse",
+          "Unha cabaza"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Unha broma é algo gracioso que se fai a alguén.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«unha pequena, pequena broma»",
+        "hint": "",
+        "distractors": [
+          "Contraria: é pequena",
+          "Mestura: os caramelos son outra cousa",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r19",
+        "text": "Que é o «demo» do que falan?",
+        "options": [
+          "Un amigo",
+          "Un tipo de cabaza",
+          "Un caramelo",
+          "Un ser malo, o diaño"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "O demo é o diaño, un ser malo das historias.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«espantaban o demo e as bruxas»",
+        "hint": "",
+        "distractors": [
+          "Contraria",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "r20",
+        "text": "Que quere dicir «ser mitolóxico»?",
+        "options": [
+          "Un personaxe dos mitos e das lendas",
+          "Un veciño",
+          "Un animal",
+          "Un profesor"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Mitolóxico é dos mitos e das lendas antigas.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«un ser mitolóxico chamado Hércules»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r21",
+        "text": "Con que intención di Diego que o Samaín «é galego, non americano»?",
+        "options": [
+          "Criticar a América",
+          "Aclarar de onde vén o Samaín",
+          "Pedir caramelos",
+          "Despedirse do programa"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Quere que se saiba que o Samaín ten orixe galega.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«o Samaín é galego, non americano»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso",
+          "Contraria: é ao comezo"
+        ]
+      },
+      {
+        "id": "r22",
+        "text": "Para que agradecen ao final do podcast?",
+        "options": [
+          "Para comezar outro tema",
+          "Para pedir caramelos",
+          "Para despedirse e dar as grazas aos oíntes",
+          "Para corrixir a Juan"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "É a despedida: dan as grazas a quen escoitou.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Gracias a todos os nosos oíntes»",
+        "hint": "",
+        "distractors": [
+          "Contraria: é o final",
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r23",
+        "text": "Para que presentan o micro de cada un?",
+        "options": [
+          "Para pedir silencio",
+          "Para decorar o estudio",
+          "Para falar de cores",
+          "Para saber quen vai falar"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Cada neno ten un micro de cor e así se sabe quen fala.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«No micro amarelo, Diego» / «No micro verde, Juan» / «No micro vermello, Mateo»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "Mestura: as cores só axudan a distinguir",
+          ""
+        ]
+      },
+      {
+        "id": "r24",
+        "text": "Con que intención pregunta Daniel «E ti que nos contas, Juan?»?",
+        "options": [
+          "Dar a palabra a Juan",
+          "Despedirse",
+          "Corrixir a Diego",
+          "Pedir un caramelo"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Pregunta para que Juan explique o que sabe.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«E ti que nos contas, Juan?»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      }
+    ],
+    config: { modality: 'revision', showPre: true, showReview: true, showCompetencyLabels: true,
+      context: 'Vas escoitar un programa sobre o Samaín, a festa do 31 de outubro, contado por alumnado de quinto B.',
+      anticipation: 'Que sabes do Samaín? Que cres que é galego e que cres que vén doutros países?' },
+    seedTestVersion: 1, seedTest12Version: 1, seedPoolVersion: 1,
+    schemaVersion: 2
+  };
+  await cloudSavePodcast(record);
+}
+
 const SEED_PODCAST_ID_4 = 'seed-un-pais-en-podcast-cuba';
 
 const SEED_PODCAST_ID_5 = 'seed-un-pais-en-podcast-filipinas';
@@ -7658,7 +8634,8 @@ const SEED_AUDIO_FILES = {
   [SEED_PODCAST_ID_7]: 'audio/ramadan_radio_forte.mp3',
   [SEED_PODCAST_ID_8]: 'audio/venezuela_un_pais_en_podcast.mp3',
   [SEED_PODCAST_ID_9]: 'audio/republica_checa_un_pais_en_podcast.mp3',
-  [SEED_PODCAST_ID_10]: 'audio/ricitos_de_oro_radio_forte.mp3'
+  [SEED_PODCAST_ID_10]: 'audio/ricitos_de_oro_radio_forte.mp3',
+  [SEED_PODCAST_ID_11]: 'audio/samain_radio_forte.mp3'
 };
 function resolveAudioSource(podcast){
   if(SEED_AUDIO_FILES[podcast.id]) return { url: SEED_AUDIO_FILES[podcast.id] };
@@ -10138,7 +11115,8 @@ const SEED_CATEGORIES = {
   [SEED_PODCAST_ID_7]: ['cultura'],
   [SEED_PODCAST_ID_8]: ['pais'],
   [SEED_PODCAST_ID_9]: ['pais'],
-  [SEED_PODCAST_ID_10]: ['contos','infantil']
+  [SEED_PODCAST_ID_10]: ['contos','infantil'],
+  [SEED_PODCAST_ID_11]: ['datas','cultura']
 };
 async function upgradeSeedCategories(){
   initFirebase();
@@ -10444,7 +11422,7 @@ async function upgradeSeedCountry(){
   if(doc.exists && doc.data().country === undefined) await ref.update({ country: 'CU' });
 }
 
-Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast(), seedNinthPodcast(), seedTenthPodcast()])
+Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast(), seedNinthPodcast(), seedTenthPodcast(), seedEleventhPodcast()])
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
   .then(()=>upgradeSeedInference())

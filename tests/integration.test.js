@@ -54,7 +54,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const activeView = ()=>$('.view.active').id;
 
   // ---------- 1. Arranque y semillas ----------
-  ok('arranque: la app carga y crea los 10 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 10 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
+  ok('arranque: la app carga y crea los 11 podcasts precargados', await waitFor(()=>Object.keys(store.podcasts).length === 11 && Object.values(store.podcasts).every(p=>p.schemaVersion===2)));
   const cuba = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   const cres = cuba.reserveQuestions || [];
@@ -296,7 +296,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
 
   // ---------- 8. Regresión de funciones docentes ----------
   await E(`renderTeacherList()`);
-  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 12, String($$('#teacherPodcastList .podcast-card').length));
+  ok('lista docente: muestra todos los podcasts', $$('#teacherPodcastList .podcast-card').length === 13, String($$('#teacherPodcastList .podcast-card').length));
   await E(`cloudSoftDeletePodcast('legacy1')`); ok('papelera: eliminar suave', store.podcasts['legacy1'].deleted === true);
   await E(`cloudRestorePodcast('legacy1')`); ok('papelera: restaurar', store.podcasts['legacy1'].deleted === false);
   await E(`printWorksheet('${newId}', true)`); ok('ficha imprimible con respuestas', $('#printSheet').textContent.includes('Clave de respostas'));
@@ -340,7 +340,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     const p = store.podcasts[id];
     const inf = p.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id) || q.difficulty === 'inferencia');
     ok(`inferencia ${id}: polo menos un terzo das 12 preguntas son de inferir (${inf.length}/12)`, inf.length * 3 >= p.questions.length);
-    const mine = p.questions.filter(q=>/^[in]\d+$/.test(q.id) || /^q\d+$/.test(q.id) && /republica-checa|ricitos/.test(id));
+    const mine = p.questions.filter(q=>/^[in]\d+$/.test(q.id) || /^q\d+$/.test(q.id) && /republica-checa|ricitos|samain/.test(id));
     ok(`escritas ${id}: con evidencia, xustificación e nota por distractor (${mine.length})`, mine.length >= 5 && mine.every(q=>q.classReviewed === true && q.competency && q.evidence && q.explanation && q.distractors.filter(Boolean).length === 3 && q.distractors[q.correct] === ''));
     const transcript = p.transcript.join(' ').replace(/[«»"“”]/g,'').replace(/\s+/g,' ').toLowerCase();
     const lit = mine.every(q=>q.evidence.split(' / ').every(part=>part.split('...').every(fr=>{ const f = fr.replace(/[«»"“”]/g,'').replace(/\s+/g,' ').trim().replace(/\.$/,'').toLowerCase(); return f.length < 4 || transcript.includes(f); })));
@@ -460,7 +460,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
       const pool = [...p.questions, ...(p.reserveQuestions || [])].map(q=>E(`normalizeQuestion(${JSON.stringify(q)})`)).filter(q=>E(`reserveEligible(${JSON.stringify(q)})`));
       const cnt = {}; ['C1','C2','C3','C4','C5','C6'].forEach(c=>cnt[c] = pool.filter(q=>q.competency === c).length);
       ok(`banco ${id}: 6 preguntas revisadas por competencia`, ['C1','C2','C3','C4','C5','C6'].every(c=>cnt[c] === 6), JSON.stringify(cnt));
-      const nuevas = [...p.questions, ...(p.reserveQuestions || [])].filter(q=>/^r\d+$/.test(q.id)); const NN = /republica-checa|ricitos/.test(id) ? 24 : 18;
+      const nuevas = [...p.questions, ...(p.reserveQuestions || [])].filter(q=>/^r\d+$/.test(q.id)); const NN = /republica-checa|ricitos|samain/.test(id) ? 24 : 18;
       ok(`banco ${id}: 18 preguntas nuevas (3 por competencia), ids únicos, 4 opciones, sin verdadero/falso`, nuevas.length === NN && new Set(nuevas.map(q=>q.id)).size === NN && (NN === 24 || ['C1','C2','C3','C4','C5','C6'].every(c=>nuevas.filter(q=>q.competency === c).length === 3)) && nuevas.every(q=>q.options.length === 4 && new Set(q.options).size === 4 && q.options[q.correct] && q.distractors.length === 4 && q.distractors[q.correct] === '' && q.explanation && q.evidence && q.format === 'multiple_choice' && q.classReviewed === true));
       const tr = nrm(p.transcript.join(' '));
       ok(`banco ${id}: cada cita de evidencia sale literal de la transcripción`, nuevas.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>m.slice(1,-1).split('...').every(part=>{ const z = nrm(part.trim().replace(/\.$/,'').trim()); return !z || tr.includes(z); }))));
@@ -493,6 +493,10 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('categorías: Contos incluye O Vello dos Contos y Ricitos (un podcast en varias categorías)', cards().length === 2);
     E(`setCategory('ingles')`);
     ok('categorías: En inglés muestra Filipinas', cards().length === 1 && cards()[0].textContent.includes('Filipinas'));
+    E(`setCategory('datas')`);
+    ok('categorías: Datas sinaladas muestra o Samaín', cards().length === 1 && cards()[0].textContent.includes('Samaín'));
+    E(`setCategory('cultura')`);
+    ok('categorías: Cultura e tradicións inclúe Samaín, Ramadán e O Vello dos Contos', cards().length === 3 && cards().some(c=>c.textContent.includes('Samaín')));
     E(`setCategory('todos')`);
     ok('categorías: Todos vuelve a mostrar todo', cards().length === nAll && nAll >= 10);
     ok('categorías: los podcasts precargados quedan clasificados al actualizar', Object.entries(store.podcasts).filter(([id])=>id.startsWith('seed-')).every(([,p])=>Array.isArray(p.categories) && p.categories.length >= 1));
@@ -500,7 +504,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     store.podcasts['seed-radio-libre-libros'].categories = ['cultura']; await E(`upgradeSeedCategories()`);
     ok('categorías: la actualización no pisa lo que el docente cambió', JSON.stringify(store.podcasts['seed-radio-libre-libros'].categories) === '["cultura"]');
     E(`goTeacherEditor()`);
-    ok('categorías: el editor ofrece una casilla por categoría', $$('#pCategories .pCat').length === 7);
+    ok('categorías: el editor ofrece una casilla por categoría', $$('#pCategories .pCat').length === 8);
     E(`goHome()`);
   }
 
