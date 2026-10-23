@@ -5650,7 +5650,7 @@ async function seedTenthPodcast(){
 }
 
 const SEED_PODCAST_ID_11 = 'seed-radio-forte-samain';
-/* Podcast sobre o Samaín (5.º B). Audio cortado no 2:11, xusto antes dos créditos (conserva a despedida). Test de 12 preguntas
+/* Podcast sobre o Samaín (5.º B). Audio cortado no 1:59, xusto antes dos créditos (conserva a despedida). Test de 12 preguntas
    (C1 2 · C2 3 · C3 2 · C4 1 · C5 2 · C6 2) e 24 de reserva (6 por competencia en total). Transcrición literal sen as marcas de son
    e sen os créditos con nome e apelidos do alumnado; só se corrixiu «abundancia da cabazas» → «de cabazas». */
 function samainSeedRecord(){
@@ -6640,6 +6640,987 @@ async function upgradeSeedSamainCut(){
   const fresh = samainSeedRecord();
   const swap = list => (list || []).map(q=>{ const n = [...fresh.questions, ...fresh.reserveQuestions].find(f=>f.id === q.id); return n && SAMAIN_CUT_IDS.includes(q.id) ? n : q; });
   await ref.update({ transcript: fresh.transcript, questions: swap(data.questions), reserveQuestions: swap(data.reserveQuestions), seedSamainCutVersion: 2 });
+}
+
+const SEED_PODCAST_ID_12 = 'seed-radio-forte-toponimos-camino-inverno';
+/* Topónimos do Camiño de Inverno en Monforte (5.º A). Audio resultado de unir dous programas curtos (parte I + parte II, sen a cabeceira
+   musical da segunda). Test de 12 preguntas (C1 2 · C2 3 · C3 2 · C4 1 · C5 2 · C6 2) e 24 de reserva (6 por competencia en total).
+   Transcrición literal sen as marcas de son; só se limaron tartamudeos evidentes («Ago-agardamos», «do di-- de o, da»). */
+function toponimosSeedRecord(){
+  return {
+    id: SEED_PODCAST_ID_12,
+    createdAt: Date.now() - 10,
+    title: 'Radio Forte: os topónimos do Camiño de Inverno',
+    cycle: '3º ciclo',
+    categories: ['galego','cultura'],
+    desc: 'Alumnado de 5.º A explica a orixe de nomes de lugares do Camiño de Inverno en Monforte: Os Campos, Rigada, Cruces, Moreda, Pazos, A Vide e A Lagoa.',
+    audioEmbedded: true,
+    mimeType: 'audio/mpeg',
+    fileName: 'toponimos_camino_inverno_radio_forte.mp3',
+    country: '',
+    transcript: [
+      "Queremos saber. Bos días a todas e a todos. Con vostedes: Julia. Hola. Sofía. Hola. Ainhoa. Hola. E eu, Irene. Un grupo de alumnos de quinto A que vimos á radio a falar dalgúns topónimos do Camiño de Inverno, en Monforte.",
+      "En primeiro lugar, Sofía, no Camiño encontramos o topónimo Os Campos. Por que? Empréase o topónimo Os Campos para referirse a un terreo cultivade a paso, espazo de terra fóra das poboacións.",
+      "Outro topónimo moi coñecido é Rigada. Ainhoa, por que este nome? Rigada pode significar botar raíces, pero neste caso fai referencia aos rega-regadíos deste, de esta zona.",
+      "Continuamos con Julia, que nos falará do topónimo que dá nome a un coñecido barrio, o barrio das Cruces. O topónimo Cruces fai referencia a que xente de Monforte cando saía para Castela santiguábase. Fórmula común cristiá ao saír de casa. Agardamos que este programa fose do voso interese. Até a próxima. Bo día. Chao.",
+      "Queremos saber. Bos días a todos e a todas. Con todos vostedes, Michael. Ola. David. Ola. Pablo. Ola. Luís. Ola. E eu, Sergio. Un grupo de alumnos de quinto A que vimos á radio a falar dalgúns topónimos do Camiño de Inverno en Monforte.",
+      "Comezamos por Pablo, que nos falará de Moreda. Moreda. Moreira, lat mouro. Árbore da familia das moredas, familia das plantas dicoteledóneas que dan como froito as amoras. Que ricas as amoras.",
+      "Tamén no Camiño atopamos un lugar chamado Pazos. Por que, Luís? Porque neste lugar hai un pazo, unha vivenda nobre.",
+      "Continuamos con David, que nos dirá, dir-dirá de onde ven o topónimo A Vide. Pois A Vide, sinónimo de bacelo e de terreo, lugar onde se dan as vides, planta que produce uvas.",
+      "E para rematar, Michael falará da orixe do topónimo A Lagoa. A Lagoa ven do latín lacum, lago pequeno, lameiro, braña, gándara, terreo no que hai humidade dabondo.",
+      "Agardamos que este programa fose do voso interese. Ata a próxima. Bon día!"
+    ],
+    questions: [
+      {
+        "id": "q1",
+        "text": "Que significa o topónimo A Vide, segundo David?",
+        "options": [
+          "Lugar con moita auga",
+          "Lugar con pazos",
+          "Terreo con amoras",
+          "Lugar onde se dan as vides"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "David explica que A Vide é o lugar onde se dan as vides.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«lugar onde se dan as vides»",
+        "hint": "",
+        "distractors": [
+          "Mestura: iso é A Lagoa",
+          "Mestura: iso é Pazos",
+          "Mestura: iso é Moreda",
+          ""
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Que froito dan as moredas?",
+        "options": [
+          "Amoras",
+          "Uvas",
+          "Mazás",
+          "Castañas"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "As moredas dan como froito as amoras.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«dan como froito as amoras»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Mestura: as uvas son da vide",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Que se pode deducir de que o topónimo Cruces faga referencia a cando a xente saía para Castela?",
+        "options": [
+          "Que o barrio ten moita auga",
+          "Que o nome vén dun costume dos viaxeiros",
+          "Que ninguén saía de Monforte",
+          "Que o barrio ten moitas moreiras"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "A xente santiguábase ao saír de viaxe, e de aí vén o nome do barrio.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«cando saía para Castela santiguábase»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Contraria: a xente saía cara a Castela",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Que se pode deducir de que Rigada faga referencia aos regadíos?",
+        "options": [
+          "Que é un lugar sen auga",
+          "Que ninguén cultivaba nada",
+          "Que na zona había terreos regados con auga",
+          "Que na zona só hai pazos"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Os regadíos son terreos regados, así que había auga para cultivar.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«neste caso fai referencia aos rega-regadíos»",
+        "hint": "",
+        "distractors": [
+          "Contraria: regar precisa auga",
+          "Contraria: os regadíos serven para cultivar",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Que se pode deducir de que A Lagoa veña do latín «lacum»?",
+        "options": [
+          "Que o nome é recente",
+          "Que o nome non significa nada",
+          "Que o nome vén de América",
+          "Que o nome ten unha orixe moi antiga"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "O latín é unha lingua moi antiga, así que o nome vén de moi atrás.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«A Lagoa ven do latín lacum»",
+        "hint": "",
+        "distractors": [
+          "Contraria: o latín é unha lingua antiga",
+          "Contraria: explícase o seu significado",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Cal é a mellor idea principal do podcast?",
+        "options": [
+          "Explicar de onde vén o nome de lugares do Camiño de Inverno en Monforte",
+          "Contar a historia do Camiño de Santiago",
+          "Ensinar a cultivar vides",
+          "Falar das comidas de Monforte"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "O alumnado explica a orixe dalgúns topónimos do Camiño de Inverno.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«falar dalgúns topónimos do Camiño de Inverno»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Mestura: o Camiño é o de Inverno",
+          "Mestura: a vide é só un exemplo",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "Que idea resume mellor o que explican sobre os nomes de lugares?",
+        "options": [
+          "Que os nomes se escollen ao chou",
+          "Que cada nome ten un significado e unha orixe",
+          "Que todos os nomes veñen de América",
+          "Que os nomes non significan nada"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Para cada topónimo explican o que significa e de onde vén.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«de onde ven o topónimo A Vide» / «A Lagoa ven do latín lacum»",
+        "hint": "",
+        "distractors": [
+          "Contraria: todos teñen explicación",
+          "",
+          "Inventada: non se di nada diso",
+          "Contraria: explícase o significado de cada un"
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "Que topónimo explica Michael, que é quen fala o último?",
+        "options": [
+          "A Vide",
+          "Moreda",
+          "A Lagoa",
+          "Pazos"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Michael remata o programa co topónimo A Lagoa.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«E para rematar, Michael falará da orixe do topónimo A Lagoa»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: vén antes, con David",
+          "Tentadora: vén ao principio, con Pablo",
+          "",
+          "Tentadora: vén antes, con Luís"
+        ]
+      },
+      {
+        "id": "q9",
+        "text": "Que significa «vivenda nobre» en «un pazo, unha vivenda nobre»?",
+        "options": [
+          "Unha casa pequena de campo",
+          "Unha tenda de roupa",
+          "Unha igrexa",
+          "Unha casa grande e importante"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Unha vivenda nobre é a casa dunha familia importante.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«un pazo, unha vivenda nobre»",
+        "hint": "",
+        "distractors": [
+          "Contraria",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "q10",
+        "text": "Que significa «santiguábase» en «cando saía para Castela santiguábase»?",
+        "options": [
+          "Facía o signo da cruz",
+          "Bailaba",
+          "Cantaba unha canción",
+          "Comía algo"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Santiguarse é facer o signo da cruz.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«santiguábase»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q11",
+        "text": "Para que explican os alumnos de onde vén cada topónimo?",
+        "options": [
+          "Para vender terreos",
+          "Para que entendamos o significado dos nomes dos lugares",
+          "Para pedir que cambien os nomes",
+          "Para falar da súa escola"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Explican a orixe dos nomes para que se saiba o que significan.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«falar dalgúns topónimos do Camiño de Inverno»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q12",
+        "text": "Que intención ten o comentario «Que ricas as amoras»?",
+        "options": [
+          "Pedir amoras a un compañeiro",
+          "Criticar o froito",
+          "Dar unha opinión persoal sobre o froito",
+          "Cambiar de tema"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "É un comentario persoal: dicir que lle gustan as amoras.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Que ricas as amoras»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Contraria: di que son ricas",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      }
+    ],
+    reserveQuestions: [
+      {
+        "id": "r1",
+        "text": "Que topónimo explica Ainhoa?",
+        "options": [
+          "Os Campos",
+          "Rigada",
+          "Cruces",
+          "A Vide"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "Ainhoa explica o nome de Rigada.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Outro topónimo moi coñecido é Rigada. Ainhoa, por que este nome?»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: é o de Sofía",
+          "",
+          "Tentadora: é o de Julia",
+          "Mestura: sae noutro programa"
+        ]
+      },
+      {
+        "id": "r2",
+        "text": "De que curso é o alumnado que presenta os programas?",
+        "options": [
+          "Terceiro B",
+          "Sexto A",
+          "Quinto A",
+          "Cuarto C"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Din que son un grupo de alumnos de quinto A.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Un grupo de alumnos de quinto A»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r3",
+        "text": "Que é Os Campos, segundo Sofía?",
+        "options": [
+          "Un barrio no centro de Monforte",
+          "Unha casa nobre",
+          "Un lago pequeno",
+          "Un espazo de terra fóra das poboacións"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "Os Campos é un terreo, un espazo de terra fóra das poboacións.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«espazo de terra fóra das poboacións»",
+        "hint": "",
+        "distractors": [
+          "Contraria: está fóra das poboacións",
+          "Mestura: iso é Pazos",
+          "Mestura: iso é A Lagoa",
+          ""
+        ]
+      },
+      {
+        "id": "r4",
+        "text": "De que lingua vén a palabra «lacum»?",
+        "options": [
+          "Do latín",
+          "Do inglés",
+          "Do galego",
+          "Do árabe"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "A Lagoa ven do latín lacum.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«A Lagoa ven do latín lacum»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Inventada: non se di nada diso",
+          "Contraria: ven do latín",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r5",
+        "text": "Que se pode deducir de que A Vide sexa o lugar onde se dan as vides?",
+        "options": [
+          "Que había moitos lagos",
+          "Que nese lugar se cultivaban uvas",
+          "Que non se cultivaba nada",
+          "Que había un pazo"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "As vides producen uvas, así que se cultivaban nese lugar.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«lugar onde se dan as vides, planta que produce uvas»",
+        "hint": "",
+        "distractors": [
+          "Mestura: iso é A Lagoa",
+          "",
+          "Contraria",
+          "Mestura: iso é Pazos"
+        ]
+      },
+      {
+        "id": "r6",
+        "text": "Que se pode deducir de que A Lagoa sexa un terreo con humidade dabondo?",
+        "options": [
+          "Que é un lugar moi seco",
+          "Que ten moitas montañas",
+          "Que é un lugar con moita auga",
+          "Que non hai plantas"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Moita humidade quere dicir que hai moita auga.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«terreo no que hai humidade dabondo»",
+        "hint": "",
+        "distractors": [
+          "Contraria",
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r7",
+        "text": "Se un lugar se chama Pazos, que é probable que haxa nel?",
+        "options": [
+          "Un lago",
+          "Moitas amoras",
+          "Ningunha casa",
+          "Un pazo"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Chámase Pazos porque neste lugar hai un pazo.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«neste lugar hai un pazo»",
+        "hint": "",
+        "distractors": [
+          "Mestura: iso é A Lagoa",
+          "Mestura: iso é Moreda",
+          "Contraria",
+          ""
+        ]
+      },
+      {
+        "id": "r8",
+        "text": "Que resume mellor a parte de Sofía?",
+        "options": [
+          "Que Os Campos é un terreo fóra das poboacións",
+          "Que Os Campos é un barrio céntrico",
+          "Que Os Campos vén de regar",
+          "Que Os Campos é un pazo"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Sofía explica que Os Campos é un espazo de terra fóra das poboacións.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«espazo de terra fóra das poboacións»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria",
+          "Mestura: iso é Rigada",
+          "Mestura: iso é Pazos"
+        ]
+      },
+      {
+        "id": "r9",
+        "text": "Que resume mellor a parte de Julia?",
+        "options": [
+          "Que Cruces vén das amoras",
+          "Que Cruces lembra un costume de cando a xente saía de Monforte",
+          "Que Cruces é un lago",
+          "Que Cruces é un pazo"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Julia explica que Cruces fai referencia a santiguarse ao saír para Castela.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«cando saía para Castela santiguábase»",
+        "hint": "",
+        "distractors": [
+          "Mestura: iso é Moreda",
+          "",
+          "Mestura: iso é A Lagoa",
+          "Mestura: iso é Pazos"
+        ]
+      },
+      {
+        "id": "r10",
+        "text": "Que resume mellor a parte de David?",
+        "options": [
+          "Que A Vide é un lugar con moita auga",
+          "Que A Vide é unha casa nobre",
+          "Que A Vide é un lugar de vides e de uvas",
+          "Que A Vide ten moitas amoras"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "David explica que A Vide é onde se dan as vides.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«lugar onde se dan as vides, planta que produce uvas»",
+        "hint": "",
+        "distractors": [
+          "Mestura: iso é A Lagoa",
+          "Mestura: iso é Pazos",
+          "",
+          "Mestura: iso é Moreda"
+        ]
+      },
+      {
+        "id": "r11",
+        "text": "Cal sería un bo título para o podcast?",
+        "options": [
+          "Receitas de Monforte",
+          "A historia dos pazos",
+          "Unha viaxe a Castela",
+          "Os nomes dos lugares do Camiño de Inverno"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "O programa explica a orixe de topónimos do Camiño de Inverno.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«topónimos do Camiño de Inverno»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Mestura: Pazos é só un exemplo",
+          "Mestura: Castela só sae en Cruces",
+          ""
+        ]
+      },
+      {
+        "id": "r12",
+        "text": "Cal é o primeiro topónimo que explica o grupo de Pablo, David, Luís e Michael?",
+        "options": [
+          "Moreda",
+          "Pazos",
+          "A Vide",
+          "A Lagoa"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Comezan por Pablo, que fala de Moreda.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Comezamos por Pablo, que nos falará de Moreda»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Tentadora: vén despois",
+          "Tentadora: vén despois",
+          "Tentadora: vén ao final"
+        ]
+      },
+      {
+        "id": "r13",
+        "text": "Que topónimo se explica despois de Moreda?",
+        "options": [
+          "A Vide",
+          "Pazos",
+          "A Lagoa",
+          "Os Campos"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "Despois de Moreda explícase Pazos, con Luís.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Tamén no Camiño atopamos un lugar chamado Pazos»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: vén despois de Pazos",
+          "",
+          "Tentadora: vén ao final",
+          "Mestura: é do outro grupo"
+        ]
+      },
+      {
+        "id": "r14",
+        "text": "Que vén primeiro, A Vide ou A Lagoa?",
+        "options": [
+          "A Lagoa",
+          "As dúas á vez",
+          "A Vide",
+          "Ningunha das dúas"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Primeiro fala David de A Vide e para rematar Michael de A Lagoa.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Continuamos con David» / «E para rematar, Michael»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: vén despois",
+          "Inventada: non se di nada diso",
+          "",
+          "Contraria: as dúas saen"
+        ]
+      },
+      {
+        "id": "r15",
+        "text": "Que topónimo explica primeiro o grupo de Julia, Sofía, Ainhoa e Irene?",
+        "options": [
+          "Rigada",
+          "Cruces",
+          "A Vide",
+          "Os Campos"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "Empezan por Os Campos, con Sofía.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«En primeiro lugar, Sofía, no Camiño encontramos o topónimo Os Campos»",
+        "hint": "",
+        "distractors": [
+          "Tentadora: vén despois",
+          "Tentadora: vén ao final",
+          "Mestura: é do outro grupo",
+          ""
+        ]
+      },
+      {
+        "id": "r16",
+        "text": "Que topónimo explica Julia, que fala a última do seu grupo?",
+        "options": [
+          "Cruces",
+          "Os Campos",
+          "Rigada",
+          "A Lagoa"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Julia remata o seu programa co barrio das Cruces.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Continuamos con Julia»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Tentadora: vén ao principio",
+          "Tentadora: vén no medio",
+          "Mestura: é do outro grupo"
+        ]
+      },
+      {
+        "id": "r17",
+        "text": "Que quere dicir «humidade dabondo»?",
+        "options": [
+          "Pouca humidade",
+          "Moita humidade",
+          "Ningunha humidade",
+          "Moito frío"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Dabondo quere dicir que hai de sobra.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«humidade dabondo»",
+        "hint": "",
+        "distractors": [
+          "Contraria",
+          "",
+          "Contraria",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r18",
+        "text": "Que son os «regadíos»?",
+        "options": [
+          "Casas nobres",
+          "Camiños de pedra",
+          "Terreos que se regan con auga",
+          "Árbores de froito"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Un regadío é un terreo que se rega para cultivalo.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«fai referencia aos rega-regadíos»",
+        "hint": "",
+        "distractors": [
+          "Mestura: iso son os pazos",
+          "Inventada: non se di nada diso",
+          "",
+          "Mestura: iso é Moreda"
+        ]
+      },
+      {
+        "id": "r19",
+        "text": "Que é un «topónimo»?",
+        "options": [
+          "O nome dunha persoa",
+          "O nome dun animal",
+          "O nome dunha planta",
+          "O nome dun lugar"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Un topónimo é o nome propio dun lugar.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«topónimos do Camiño de Inverno»",
+        "hint": "",
+        "distractors": [
+          "Contraria",
+          "Inventada: non se di nada diso",
+          "Mestura: Moreda ten que ver cunha planta",
+          ""
+        ]
+      },
+      {
+        "id": "r20",
+        "text": "Que significa «froito» en «dan como froito as amoras»?",
+        "options": [
+          "O que producen as plantas",
+          "A raíz da planta",
+          "A folla da planta",
+          "O tronco da árbore"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "O froito é o que dá a planta, como as amoras.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«dan como froito as amoras»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r21",
+        "text": "Con que intención se di «Agardamos que este programa fose do voso interese»?",
+        "options": [
+          "Pedir axuda",
+          "Despedirse desexando que gustase",
+          "Comezar o programa",
+          "Explicar un topónimo"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "É unha forma de despedirse dos oíntes.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Agardamos que este programa fose do voso interese»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Contraria: dise ao final",
+          "Contraria"
+        ]
+      },
+      {
+        "id": "r22",
+        "text": "Con que intención se pregunta «Ainhoa, por que este nome?»?",
+        "options": [
+          "Corrixir a Ainhoa",
+          "Cambiar de tema",
+          "Dar a palabra a Ainhoa para que explique Rigada",
+          "Pedir un exemplo de pazo"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "A pregunta serve para que Ainhoa explique o nome.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Ainhoa, por que este nome?»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r23",
+        "text": "Para que se explica que A Lagoa vén do latín «lacum»?",
+        "options": [
+          "Para ensinar latín na aula",
+          "Para criticar o nome",
+          "Para pedir que o cambien",
+          "Para explicar de onde vén o nome"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Explican a orixe da palabra para entender o nome.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«A Lagoa ven do latín lacum»",
+        "hint": "",
+        "distractors": [
+          "Contraria: só explica o nome",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "r24",
+        "text": "Con que intención dín que van falar de topónimos do Camiño de Inverno?",
+        "options": [
+          "Anunciar o tema do programa",
+          "Despedirse dos oíntes",
+          "Pedir permiso para entrar",
+          "Criticar o Camiño"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "No comezo anuncian de que vai o programa.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«vimos á radio a falar dalgúns topónimos do Camiño de Inverno»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria: dise ao principio",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      }
+    ],
+    config: { modality: 'revision', showPre: true, showReview: true, showCompetencyLabels: true,
+      context: 'Vas escoitar dous programas curtos sobre a orixe dos nomes de lugares do Camiño de Inverno en Monforte, contados por alumnado de quinto A.',
+      anticipation: 'Que significa «topónimo»? Coñeces algún lugar de Monforte co seu nome curioso? De onde cres que vén?' },
+    seedTestVersion: 1, seedTest12Version: 1, seedPoolVersion: 1,
+    schemaVersion: 2
+  };
+}
+async function seedTwelfthPodcast(){
+  const existing = await cloudGetPodcast(SEED_PODCAST_ID_12);
+  if(existing && existing.transcript) return;
+  await cloudSavePodcast(toponimosSeedRecord());
 }
 
 const SEED_PODCAST_ID_4 = 'seed-un-pais-en-podcast-cuba';
@@ -8653,7 +9634,8 @@ const SEED_AUDIO_FILES = {
   [SEED_PODCAST_ID_8]: 'audio/venezuela_un_pais_en_podcast.mp3',
   [SEED_PODCAST_ID_9]: 'audio/republica_checa_un_pais_en_podcast.mp3',
   [SEED_PODCAST_ID_10]: 'audio/ricitos_de_oro_radio_forte.mp3',
-  [SEED_PODCAST_ID_11]: 'audio/samain_radio_forte.mp3'
+  [SEED_PODCAST_ID_11]: 'audio/samain_radio_forte.mp3',
+  [SEED_PODCAST_ID_12]: 'audio/toponimos_camino_inverno_radio_forte.mp3'
 };
 function resolveAudioSource(podcast){
   if(SEED_AUDIO_FILES[podcast.id]) return { url: SEED_AUDIO_FILES[podcast.id] };
@@ -11134,7 +12116,8 @@ const SEED_CATEGORIES = {
   [SEED_PODCAST_ID_8]: ['pais'],
   [SEED_PODCAST_ID_9]: ['pais'],
   [SEED_PODCAST_ID_10]: ['contos','infantil'],
-  [SEED_PODCAST_ID_11]: ['datas','cultura']
+  [SEED_PODCAST_ID_11]: ['datas','cultura'],
+  [SEED_PODCAST_ID_12]: ['galego','cultura']
 };
 async function upgradeSeedCategories(){
   initFirebase();
@@ -11440,7 +12423,7 @@ async function upgradeSeedCountry(){
   if(doc.exists && doc.data().country === undefined) await ref.update({ country: 'CU' });
 }
 
-Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast(), seedNinthPodcast(), seedTenthPodcast(), seedEleventhPodcast()])
+Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast(), seedNinthPodcast(), seedTenthPodcast(), seedEleventhPodcast(), seedTwelfthPodcast()])
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
   .then(()=>upgradeSeedInference())
