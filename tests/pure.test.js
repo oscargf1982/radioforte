@@ -6,7 +6,7 @@ const src = html.split('/*PURE-START*/')[1].split('/*PURE-END*/')[0];
 const api = new Function(src + `
 return { COMP_IDS, COMPETENCIES, normalizeQuestion, normalizePodcast, validateQuestion, competencyDistribution,
   resolveDetailMeta, firstAttempts, computeCompetencyStats, competencyStatus, reliabilityOf, recommendPractice,
-  attemptCompetencyRows, attemptModality, attemptKind, levelsAreMixed, legacyLevel, testBalance, TEST_TOTAL };`)();
+  attemptCompetencyRows, attemptModality, attemptKind, levelsAreMixed, legacyLevel, testBalance, TEST_TOTAL, pickTestQuestions, reserveEligible, TEST_PLAN };`)();
 const A = require('assert');
 let pass = 0, fail = 0;
 function t(name, fn){ try{ fn(); pass++; console.log('  ok  ', name); }catch(e){ fail++; console.log('  FALLA', name, '\n       ', e.message); } }
@@ -157,6 +157,30 @@ t('testBalance: solo es correcto con 12 preguntas (C1 2, C2 3, C3 2, C4 1, C5 2,
   A.strictEqual(api.testBalance(ok.concat([{competency:'C4'}])).ok, false);   // 13 preguntas
   A.strictEqual(api.testBalance(ok.concat([{competency:null}])).ok, false);   // 13 y una sin competencia
   A.strictEqual(api.testBalance([]).ok, false);
+});
+
+t('pickTestQuestions: baraja por competencia entre test y reserva revisada, respetando la estructura', ()=>{
+  const mkq = (id,c,rev=true)=>({ id, text:'T'+id, options:['a','b','c','d'], correct:0, explanation:'x', competency:c, classReviewed:rev });
+  const plan = { C1:2, C2:3, C3:2, C4:1, C5:2, C6:2 };
+  const fixed = []; Object.keys(plan).forEach(c=>{ for(let i=0;i<plan[c];i++) fixed.push(mkq(c+'f'+i, c)); });
+  const reserve = [mkq('rC1a','C1'), mkq('rC1b','C1'), mkq('rC3a','C3'), mkq('rC4a','C4'), mkq('sin',null), mkq('norev','C2',false), { id:'rota', text:'x', options:['a','b'], correct:0, explanation:'y', competency:'C5', classReviewed:true }];
+  A.strictEqual(api.testBalance(fixed).ok, true);
+  const seen = new Set(); let allOk = true;
+  for(let n=0;n<60;n++){
+    const r = api.pickTestQuestions(fixed, reserve);
+    if(!api.testBalance(r).ok) allOk = false;
+    if(r.some(x=>['sin','norev','rota'].includes(x.id))) allOk = false;
+    if(new Set(r.map(x=>x.id)).size !== 12) allOk = false;
+    r.forEach(x=>seen.add(x.id));
+  }
+  A.strictEqual(allOk, true);
+  ['rC1a','rC1b','rC3a','rC4a'].forEach(id=>A.ok(seen.has(id), id + ' sale alguna vez'));
+  A.ok(!seen.has('sin') && !seen.has('norev') && !seen.has('rota'));
+  A.deepStrictEqual(api.pickTestQuestions(fixed, []).map(x=>x.id), fixed.map(x=>x.id));            // sin reserva: igual
+  const short = fixed.slice(0,8); A.deepStrictEqual(api.pickTestQuestions(short, reserve).map(x=>x.id), short.map(x=>x.id));   // test fuera de estructura: no se toca
+  const r0 = api.pickTestQuestions(fixed, reserve, ()=>0), r1 = api.pickTestQuestions(fixed, reserve, ()=>0);
+  A.deepStrictEqual(r0.map(x=>x.id), r1.map(x=>x.id));                                              // determinista con el mismo azar
+  A.strictEqual(r0.map(x=>x.competency).join(''), 'C1C1C2C2C2C3C3C4C5C5C6C6');                       // orden C1→C6
 });
 
 console.log(`\n${pass} superadas, ${fail} falladas`);

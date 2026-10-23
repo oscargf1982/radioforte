@@ -58,7 +58,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const cuba = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   const cres = cuba.reserveQuestions || [];
-  ok('semilla: las preguntas de reserva conservan las originales ambiguas (sin competencia) y no se pierden', cres.length === 13 && cres.filter(q=>q.id==='q7' || q.id==='q8').every(q=>q.competency === null));
+  ok('semilla: las preguntas de reserva conservan las originales ambiguas (sin competencia) y no se pierden', cres.length === 31 && cres.filter(q=>q.id==='q7' || q.id==='q8').every(q=>q.competency === null));
   ok('semilla: no se guardan campos derivados (nivel/suggested) en las originales', [...cuba.questions, ...cres].filter(q=>/^q\d+$/.test(q.id)).every(q=>q.levelDerived===undefined && q.suggestedCompetency===undefined && q.level===undefined));
 
   // Cada podcast precargado: test de 12 preguntas (C1 2, C2 3, C3 2, C4 1, C5 2, C6 2), ordenadas C1→C6, revisadas y bien formadas
@@ -88,6 +88,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     const cu = store.podcasts['seed-un-pais-en-podcast-cuba'];
     ok('podcast existente: queda en 18 (3 por competencia), la edición del docente se conserva y lo demás va a reserva', cu.questions.length === 18 && cu.questions.find(q=>q.id==='q2').text === 'EDITADA POR EL DOCENTE' && cu.reserveQuestions.length === 7);
     delete store.podcasts['seed-un-pais-en-podcast-cuba'].seedTest12Version; await E(`upgradeSeedTest12()`);
+    delete store.podcasts['seed-un-pais-en-podcast-cuba'].seedPoolVersion; await E(`upgradeSeedPool()`);
     const c12 = store.podcasts['seed-un-pais-en-podcast-cuba'];
     ok('podcast existente: tras recortar a 12 queda equilibrado y la edición del docente (q2) pasa a reserva sin perderse', c12.questions.length === 12 && E(`testBalance(${JSON.stringify(c12.questions)})`).ok && c12.reserveQuestions.some(q=>q.id==='q2' && q.text === 'EDITADA POR EL DOCENTE')); }
 
@@ -398,6 +399,57 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     E(`goHome()`);
     w.__saved.length = 0; await E(`downloadBooklet('seed-un-pais-en-podcast-venezuela', true)`);
     ok('Venezuela: el cuadernillo PDF se genera', w.__saved.length === 1 && w.__saved[0].includes('venezuela')); }
+
+
+  // ---------- 16. Test barallado con la reserva ----------
+  { const id = 'seed-un-pais-en-podcast-venezuela';
+    await E(`openPlayer('${id}')`); await waitFor(()=>activeView()==='view-student-player');
+    const sets = new Set(); let structOk = true, fromReserve = false;
+    const reserveIds = new Set((store.podcasts[id].reserveQuestions || []).map(q=>q.id));
+    for(let n=0;n<40;n++){
+      E(`sessionQuestions = buildSessionQuestions(false)`);
+      const qs = E(`sessionQuestions.map(q=>({ id:q.id, competency:q.competency, classReviewed:q.classReviewed }))`);
+      if(!E(`testBalance(${JSON.stringify(qs)})`).ok || qs.length !== 12) structOk = false;
+      if(qs.some(q=>reserveIds.has(q.id))) fromReserve = true;
+      sets.add(qs.map(q=>q.id).join(','));
+    }
+    ok('baraja: cada sesión tiene 12 preguntas con la estructura C1 2, C2 3, C3 2, C4 1, C5 2, C6 2', structOk);
+    ok('baraja: salen preguntas de la reserva y los tests cambian entre sesiones', fromReserve && sets.size > 1);
+    // desactivar la opción: salen siempre las mismas
+    store.podcasts[id].config.randomizeReserve = false;
+    await E(`openPlayer('${id}')`); await waitFor(()=>activeView()==='view-student-player');
+    const fixedSets = new Set();
+    for(let n=0;n<15;n++){ E(`sessionQuestions = buildSessionQuestions(false)`); fixedSets.add(E(`sessionQuestions.map(q=>q.id).join(',')`)); }
+    ok('baraja: con la opción desactivada salen siempre las mismas 12', fixedSets.size === 1 && [...fixedSets][0] === store.podcasts[id].questions.map(q=>q.id).join(','));
+    store.podcasts[id].config.randomizeReserve = true;
+    E(`goHome()`); }
+
+
+  // ---------- 17. Banco de 6 preguntas por competencia en cada podcast ----------
+  { const nrm = x => x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[¿¡?!]/g,'').toLowerCase();
+    for(const id of seedIds){
+      const p = store.podcasts[id];
+      const pool = [...p.questions, ...(p.reserveQuestions || [])].map(q=>E(`normalizeQuestion(${JSON.stringify(q)})`)).filter(q=>E(`reserveEligible(${JSON.stringify(q)})`));
+      const cnt = {}; ['C1','C2','C3','C4','C5','C6'].forEach(c=>cnt[c] = pool.filter(q=>q.competency === c).length);
+      ok(`banco ${id}: 6 preguntas revisadas por competencia`, ['C1','C2','C3','C4','C5','C6'].every(c=>cnt[c] === 6), JSON.stringify(cnt));
+      const nuevas = [...p.questions, ...(p.reserveQuestions || [])].filter(q=>/^r\d+$/.test(q.id));
+      ok(`banco ${id}: 18 preguntas nuevas (3 por competencia), ids únicos, 4 opciones, sin verdadero/falso`, nuevas.length === 18 && new Set(nuevas.map(q=>q.id)).size === 18 && ['C1','C2','C3','C4','C5','C6'].every(c=>nuevas.filter(q=>q.competency === c).length === 3) && nuevas.every(q=>q.options.length === 4 && new Set(q.options).size === 4 && q.options[q.correct] && q.distractors.length === 4 && q.distractors[q.correct] === '' && q.explanation && q.evidence && q.format === 'multiple_choice' && q.classReviewed === true));
+      const tr = nrm(p.transcript.join(' '));
+      ok(`banco ${id}: cada cita de evidencia sale literal de la transcripción`, nuevas.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>m.slice(1,-1).split('...').every(part=>{ const z = nrm(part.trim().replace(/\.$/,'').trim()); return !z || tr.includes(z); }))));
+      ok(`banco ${id}: las respuestas correctas no se repiten entre preguntas nuevas del mismo enunciado`, new Set(nuevas.map(q=>q.text)).size === 18);
+    }
+    ok('banco: ninguna pregunta nueva de Cuba ni de Senegal menciona al padre', ['seed-un-pais-en-podcast-cuba','seed-un-pais-en-podcast-senegal'].every(id=>!(store.podcasts[id].reserveQuestions || []).filter(q=>/^r\d+$/.test(q.id)).some(q=>/\b(padre|papá|papa|pai)\b/i.test(JSON.stringify(q)))));
+    // muchas sesiones: salen más de 12 preguntas distintas, siempre 12 y con la estructura
+    const id = 'seed-un-pais-en-podcast-venezuela';
+    await E(`openPlayer('${id}')`); await waitFor(()=>activeView()==='view-student-player');
+    const seen = new Set(); let allOk = true;
+    for(let n=0;n<80;n++){ E(`sessionQuestions = buildSessionQuestions(false)`); const qs = E(`sessionQuestions.map(q=>({ id:q.id, competency:q.competency }))`); if(qs.length !== 12 || !E(`testBalance(${JSON.stringify(qs)})`).ok) allOk = false; qs.forEach(q=>seen.add(q.id)); }
+    ok('banco: 80 sesiones seguidas con 12 preguntas bien repartidas', allOk);
+    ok('banco: con 6 por competencia salen preguntas muy variadas (más de 30 distintas en 80 sesiones)', seen.size > 30, String(seen.size));
+    // idempotencia
+    const snapPool = JSON.stringify(store.podcasts[id]); await E(`upgradeSeedPool()`);
+    ok('banco: upgradeSeedPool es idempotente', JSON.stringify(store.podcasts[id]) === snapPool);
+    E(`goHome()`); }
 
   const bad = results.filter(r=>!r[1]).length;
   console.log(`\n${results.length - bad} superadas, ${bad} falladas`);
