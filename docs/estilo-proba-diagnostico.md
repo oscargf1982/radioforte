@@ -11,7 +11,7 @@ partes de comprensión oral e escrita. Só se tomou **o estilo**; ningunha pregu
 - **Opcións:** de lonxitude e estrutura parecidas; os distractores son verosímiles (usan palabras do texto ou ideas veciñas), non absurdos.
 - **Presentación:** cada pregunta numerada e separada visualmente; espazo para rodear a letra; sen cor imprescindible.
 
-## Como se aplica en En Antena
+## Como se aplica en Radio Forte Escoita Activa
 1. **Sempre 4 opcións (A–D)**, unha correcta, de lonxitude e estrutura parecidas (xa validado no editor).
 2. **Enunciado directo e curto**; vocabulario en contexto con «Que quere dicir «…» en…?»; finalidade con «Para que…?»; tema con «De que trata…?».
 3. **Cada pregunta, unha competencia (C1–C6) e polo menos 2 por competencia e podcast.** Mapa orientativo co estilo da proba:
@@ -30,13 +30,13 @@ La proba **si** pide inferir; aproximadamente un tercio das preguntas non se res
 7. **Integrar información** de varias partes ou fontes (detectar o que non coincide, comparar).
 As opcións incorrectas inclúen sempre unha ou dúas **lecturas tentadoras pero non xustificadas polo texto** (a que repite unha palabra do audio, a que esaxera, a contraria).
 
-Regra para En Antena: unha pregunta inferencial só é válida se un adulto pode **sinalar no audio os indicios** que levan á resposta (campo «evidencia»), e o distractor tentador debe estar anotado.
+Regra para Radio Forte Escoita Activa: unha pregunta inferencial só é válida se un adulto pode **sinalar no audio os indicios** que levan á resposta (campo «evidencia»), e o distractor tentador debe estar anotado.
 
 ## O caderniño en PDF (botón «📄 Caderniño PDF»)
 - Xérase no navegador (jsPDF) para calquera podcast, tamén os creados polo profesorado, e baixa como PDF A4 **monocromo**.
 - Portada con recadro de **nome, curso e data** → instrucións con exemplos → páxina de tarefa (esquema de escoita + «Antes de escoitar») → preguntas en recadros con A–D → fin.
 - O **profesorado** ten un segundo botón («Con notas docentes») que engade, en páxinas aparte e marcadas «Só profesorado»: clave de respostas, competencia e nivel, resumo por competencia e xustificación de cada resposta. A versión do alumnado **nunca leva a clave**.
-- O audio non vai no PDF: o docente reprodúceo desde En Antena na aula.
+- O audio non vai no PDF: o docente reprodúceo desde Radio Forte Escoita Activa na aula.
 
 ## Límites actuais
 - Só elección múltiple (A–D): **non** hai aínda táboas verdadeiro/falso nin ordenación como tipos de pregunta propios (a ordenación exprésase con opcións «En que orde…?»).
