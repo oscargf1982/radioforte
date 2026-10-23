@@ -320,6 +320,14 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
       ok(`caderniño ${id}: o do docente ten máis páxinas (notas aparte)`, pages(s1) > pages(s0) && pages(s0) >= 4, pages(s0)+' vs '+pages(s1));
       ok(`caderniño ${id}: o do alumnado non contén a clave`, !s0.includes('NOTAS PARA O DOCENTE') && s1.includes('NOTAS PARA O DOCENTE'));
     }
+    // caderniño visual de Infantil e 1.º ciclo (só ese podcast) e o resto sen cambios
+    { w.__saved.length = 0; w.__pdfs.length = 0;
+      await E(`downloadBooklet('seed-radio-forte-ricitos-de-oro', false)`); await E(`downloadBooklet('seed-radio-forte-ricitos-de-oro', true)`);
+      const k0 = w.__pdfs[0].toString('latin1'), k1 = w.__pdfs[1].toString('latin1');
+      const pg = s => (s.match(/\/Type \/Page\b/g) || []).length;
+      ok('caderniño infantil: versión visual (7 páxinas, 12 preguntas) sen a clave no do alumnado', pg(k0) === 7 && !k0.includes('NOTAS PARA O DOCENTE') && k1.includes('NOTAS PARA O DOCENTE') && pg(k1) > pg(k0));
+      ok('caderniño infantil: só se aplica a Infantil/1.º ciclo', E(`isKidsCycle('Infantil e 1º ciclo') && isKidsCycle('1º ciclo') && !isKidsCycle('2º ciclo') && !isKidsCycle('3º ciclo')`));
+    }
     w.__saved.length = 0;
     const jsp = w.jspdf; w.jspdf = undefined;
     await E(`downloadBooklet('${seedIds[0]}', false)`);

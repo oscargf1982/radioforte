@@ -870,6 +870,247 @@ function bookletFileName(podcast, withNotes){
     .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,50) || 'podcast';
   return 'cadernino-' + base + (withNotes ? '-docente' : '') + '.pdf';
 }
+/* ---------- Caderniño infantil: portada, instrucións, esquema, preguntas e remate (Infantil e 1.º ciclo) ---------- */
+function isKidsCycle(c){ return /^(Infantil|1º ciclo)/.test(String(c || '')); }
+function kidsStudentPages(doc, podcast, pageKinds){
+  const W = 210, H = 297, M = 16, CW = W - 2*M, TOP = 22, FOOT = H - 18;
+  const qs = podcast.questions || [];
+  const cfg = podcast.config || {};
+  const LET = ['A','B','C','D','E','F'];
+  const COL = { coral:[255,107,107], sun:[255,190,40], teal:[38,186,170], sky:[70,160,220], purple:[150,110,205], ink:[35,35,60] };
+  const ORDER = [COL.coral, COL.sky, COL.sun, COL.teal, COL.purple];
+  const tint = (c, t)=>c.map(v=>Math.round(v + (255 - v)*t));
+  const fill = c=>doc.setFillColor(c[0], c[1], c[2]);
+  const stroke = c=>doc.setDrawColor(c[0], c[1], c[2]);
+  const ink = ()=>doc.setTextColor(COL.ink[0], COL.ink[1], COL.ink[2]);
+  const setF = (size, style)=>{ doc.setFont('helvetica', style || 'normal'); doc.setFontSize(size); };
+  const lh = size => size * 0.3528 * 1.3;
+  const wrap = (txt, size, width, style)=>{ setF(size, style); return doc.splitTextToSize(String(txt == null ? '' : txt), width); };
+  let y = TOP, kind = 'kids';
+  const newPage = ()=>{ doc.addPage(); pageKinds[doc.getNumberOfPages()-1] = 'kids'; y = TOP; frame(); };
+  pageKinds[0] = 'kids-cover';
+
+  /* --- debuxos con primitivas --- */
+  const star = (cx, cy, r, col, lw)=>{
+    const pts = [];
+    for(let i=0;i<10;i++){ const a = -Math.PI/2 + i*Math.PI/5, rr = i%2 ? r*0.45 : r; pts.push([cx + rr*Math.cos(a), cy + rr*Math.sin(a)]); }
+    const rel = pts.slice(1).map((p,i)=>[p[0]-pts[i][0], p[1]-pts[i][1]]);
+    fill(col); stroke(COL.ink); doc.setLineWidth(lw || 0.5); doc.setLineJoin && doc.setLineJoin('round');
+    doc.lines(rel, pts[0][0], pts[0][1], [1,1], 'FD', true);
+  };
+  const smile = (cx, cy, r)=>{
+    const pts = []; for(let i=0;i<=8;i++){ const a = Math.PI*0.15 + i*(Math.PI*0.7/8); pts.push([cx + r*Math.cos(a), cy + r*0.75*Math.sin(a)]); }
+    doc.setLineWidth(0.7); stroke(COL.ink);
+    for(let i=0;i<8;i++) doc.line(pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1]);
+  };
+  const sun = (cx, cy, r)=>{
+    stroke(COL.sun); doc.setLineWidth(1.4);
+    for(let i=0;i<12;i++){ const a = i*Math.PI/6; doc.line(cx + (r+1.5)*Math.cos(a), cy + (r+1.5)*Math.sin(a), cx + (r+5)*Math.cos(a), cy + (r+5)*Math.sin(a)); }
+    fill(COL.sun); stroke(COL.ink); doc.setLineWidth(0.7); doc.circle(cx, cy, r, 'FD');
+    fill(COL.ink); doc.circle(cx - r*0.35, cy - r*0.2, r*0.1, 'F'); doc.circle(cx + r*0.35, cy - r*0.2, r*0.1, 'F');
+    fill(COL.coral); doc.circle(cx - r*0.62, cy + r*0.15, r*0.14, 'F'); doc.circle(cx + r*0.62, cy + r*0.15, r*0.14, 'F');
+    smile(cx, cy + r*0.05, r*0.5);
+  };
+  const cloud = (cx, cy, s, col)=>{
+    fill(col); stroke(COL.sky); doc.setLineWidth(0.6);
+    doc.circle(cx - 4*s, cy + 1*s, 3.4*s, 'FD'); doc.circle(cx + 4*s, cy + 1*s, 3.4*s, 'FD'); doc.circle(cx, cy - 1.5*s, 4.6*s, 'FD');
+    fill(col); doc.setDrawColor(col[0], col[1], col[2]); doc.rect(cx - 4.2*s, cy - 1*s, 8.4*s, 5.2*s, 'F');
+    stroke(COL.sky); doc.line(cx - 4*s, cy + 4.4*s, cx + 4*s, cy + 4.4*s);
+  };
+  const note = (x, y0, s, col)=>{
+    fill(col); stroke(COL.ink); doc.setLineWidth(0.5);
+    doc.ellipse(x, y0, 2.4*s, 1.8*s, 'FD'); doc.setLineWidth(0.7); doc.line(x + 2.2*s, y0, x + 2.2*s, y0 - 7*s); doc.line(x + 2.2*s, y0 - 7*s, x + 5*s, y0 - 5*s);
+  };
+  const headphones = (cx, cy, s)=>{
+    // arco
+    stroke(COL.ink); doc.setLineWidth(2.2*s);
+    const pts = []; for(let i=0;i<=16;i++){ const a = Math.PI + i*Math.PI/16; pts.push([cx + 12*s*Math.cos(a), cy + 12*s*Math.sin(a)]); }
+    for(let i=0;i<16;i++) doc.line(pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1]);
+    fill(COL.coral); stroke(COL.ink); doc.setLineWidth(0.7*s);
+    doc.roundedRect(cx - 15.5*s, cy - 3*s, 6*s, 11*s, 2.2*s, 2.2*s, 'FD');
+    doc.roundedRect(cx + 9.5*s, cy - 3*s, 6*s, 11*s, 2.2*s, 2.2*s, 'FD');
+  };
+  const waves = (x, y0, dir, n)=>{
+    stroke(COL.teal); doc.setLineWidth(1.1);
+    for(let k=1;k<=n;k++){
+      const r = 4 + k*3.2, pts = [];
+      for(let i=0;i<=6;i++){ const a = (-0.8 + i*1.6/6); pts.push([x + dir*r*Math.cos(a), y0 + r*Math.sin(a)]); }
+      for(let i=0;i<6;i++) doc.line(pts[i][0], pts[i][1], pts[i+1][0], pts[i+1][1]);
+    }
+  };
+  const bubble = (cx, cy, r, col, label, size)=>{
+    fill(col); stroke(COL.ink); doc.setLineWidth(0.6); doc.circle(cx, cy, r, 'FD');
+    if(label != null){ setF(size || r*3, 'bold'); const lum = 0.299*col[0] + 0.587*col[1] + 0.114*col[2]; if(lum > 150) ink(); else doc.setTextColor(255); doc.text(String(label), cx, cy + (size || r*3)*0.125, { align:'center' }); ink(); }
+  };
+  const roundBox = (x, yy, w, h, col, lw, fillCol, dash)=>{
+    stroke(col); doc.setLineWidth(lw || 0.8);
+    if(dash){ doc.setLineDashPattern && doc.setLineDashPattern([2,1.6], 0); }
+    if(fillCol){ fill(fillCol); doc.roundedRect(x, yy, w, h, 4, 4, 'FD'); } else doc.roundedRect(x, yy, w, h, 4, 4, 'S');
+    if(dash){ doc.setLineDashPattern && doc.setLineDashPattern([], 0); }
+  };
+  const banner = (txt, yy, col, size)=>{
+    const h = 15; fill(col); stroke(COL.ink); doc.setLineWidth(0.8);
+    doc.roundedRect(M + 8, yy, CW - 16, h, 7, 7, 'FD');
+    setF(size || 21, 'bold'); doc.setTextColor(255); doc.text(txt, W/2, yy + h/2 + (size || 21)*0.125 + 0.2, { align:'center' }); ink();
+  };
+  const frame = ()=>{
+    stroke(COL.teal); doc.setLineWidth(1.4); doc.roundedRect(7, 7, W - 14, H - 14, 8, 8, 'S');
+    stroke(COL.sun); doc.setLineWidth(0.6); doc.setLineDashPattern && doc.setLineDashPattern([1.2,1.8], 0); doc.roundedRect(10, 10, W - 20, H - 20, 6, 6, 'S'); doc.setLineDashPattern && doc.setLineDashPattern([], 0);
+    stroke(COL.ink); ink();
+  };
+  const stopSign = (cx, cy, r)=>{
+    const pts = []; for(let i=0;i<8;i++){ const a = Math.PI/8 + i*Math.PI/4; pts.push([cx + r*Math.cos(a), cy + r*Math.sin(a)]); }
+    const rel = pts.slice(1).map((p,i)=>[p[0]-pts[i][0], p[1]-pts[i][1]]);
+    fill(COL.coral); stroke(COL.ink); doc.setLineWidth(0.7); doc.lines(rel, pts[0][0], pts[0][1], [1,1], 'FD', true);
+    setF(r*1.15, 'bold'); doc.setTextColor(255); doc.text('STOP', cx, cy + r*0.15, { align:'center' }); ink();
+  };
+  const waitBanner = ()=>{
+    const h = 20; roundBox(M, y, CW, h, COL.coral, 1, tint(COL.coral, 0.88));
+    stopSign(M + 12, y + h/2, 7.5);
+    setF(14, 'bold'); ink(); doc.text('Espera! Non pases á páxina seguinte', M + 24, y + 8.5); doc.text('ata que o profe ou a profe che diga.', M + 24, y + 14.5);
+    y += h + 6;
+  };
+
+  /* ===== PORTADA ===== */
+  frame();
+  setF(11, 'bold'); doc.setTextColor(90, 90, 110); doc.text('CEIP Plurilingüe de Monforte de Lemos · Radio Forte', W/2, 20, { align:'center' }); ink();
+  cloud(36, 40, 1.5, tint(COL.sky, 0.82)); cloud(170, 36, 1.2, tint(COL.sky, 0.82));
+  star(24, 62, 4.5, COL.sun); star(186, 64, 5.5, COL.sun); star(160, 52, 3, COL.coral);
+  setF(15, 'bold'); doc.setTextColor(COL.teal[0] - 20, COL.teal[1] - 40, COL.teal[2] - 40); doc.text('O MEU CADERNIÑO DE ESCOITA', W/2, 58, { align:'center' }); ink();
+  // título do podcast
+  const title = String(podcast.title || '').replace(/^Radio Forte:\s*/i, '');
+  const tl = wrap(title, 30, CW - 24, 'bold');
+  const th = tl.length*lh(30) + 14;
+  roundBox(M + 4, 68, CW - 8, th, COL.ink, 1.2, tint(COL.sun, 0.7));
+  setF(30, 'bold'); ink(); doc.text(tl, W/2, 68 + 14 + 3, { align:'center' });
+  // debuxo central
+  const cyHead = 68 + th + 42;
+  waves(W/2 - 44, cyHead - 2, -1, 3); waves(W/2 + 44, cyHead - 2, 1, 3);
+  sun(W/2, cyHead, 22);
+  headphones(W/2, cyHead - 1, 2);
+  note(38, cyHead + 22, 1.4, COL.purple); note(168, cyHead - 14, 1.3, COL.coral); note(52, cyHead - 26, 1, COL.teal);
+  star(30, cyHead + 4, 4, COL.coral); star(180, cyHead + 20, 4.6, COL.teal);
+  // nome
+  const nameY = Math.max(cyHead + 42, 198);
+  setF(15, 'bold'); ink(); doc.text('O meu nome:', M + 4, nameY);
+  roundBox(M + 4, nameY + 3, CW - 8, 17, COL.ink, 1);
+  stroke([170,170,190]); doc.setLineWidth(0.4); doc.setLineDashPattern && doc.setLineDashPattern([1.5,1.5], 0); doc.line(M + 10, nameY + 16.5, W - M - 10, nameY + 16.5); doc.setLineDashPattern && doc.setLineDashPattern([], 0);
+  setF(13, 'bold'); doc.text('Curso:', M + 4, nameY + 31); doc.text('Data:', M + 84, nameY + 31);
+  roundBox(M + 24, nameY + 24.5, 52, 10, COL.ink, 0.8); roundBox(M + 102, nameY + 24.5, CW - 106, 10, COL.ink, 0.8);
+  // aviso
+  const noteY = nameY + 44;
+  roundBox(M + 4, noteY, CW - 8, 24, COL.teal, 1, tint(COL.teal, 0.88));
+  setF(13, 'bold'); ink();
+  const cn = wrap('Escoita con moita atención! Non abras o caderniño ata que o profe ou a profe che diga.', 13, CW - 40);
+  doc.text(cn, M + 30, noteY + 9.5);
+  star(M + 17, noteY + 12, 7, COL.sun);
+  setF(11, 'bold'); doc.setTextColor(90, 90, 110); doc.text(qs.length + ' preguntas · Rodea a letra correcta', W/2, 281, { align:'center' }); ink();
+
+  /* ===== COMO SE FAI ===== */
+  newPage();
+  banner('Como se fai?', y, COL.coral); y += 24;
+  const steps = [
+    { col: COL.sky, txt: ['Escoita o audio','con moita atención.'], pic: (cx, cy)=>headphones(cx, cy + 1, 0.9) },
+    { col: COL.sun, txt: ['Le a pregunta. Hai catro','respostas: A, B, C e D.'], pic: (cx, cy)=>{ [0,1,2,3].forEach(i=>bubble(cx - 16 + i*10.6, cy, 4.2, ORDER[i], LET[i], 11)); } },
+    { col: COL.teal, txt: ['Rodea a letra da','resposta correcta.'], pic: (cx, cy)=>{ bubble(cx, cy, 4.8, tint(COL.teal, 0.4), 'C', 12); stroke(COL.coral); doc.setLineWidth(1.3); doc.ellipse(cx, cy, 8.5, 7, 'S'); } }
+  ];
+  steps.forEach((s, i)=>{
+    const h = 27; roundBox(M, y, CW, h, s.col, 1.1, tint(s.col, 0.9));
+    bubble(M + 11, y + h/2, 7, s.col, i + 1, 20);
+    setF(15, 'bold'); ink(); doc.text(s.txt, M + 24, y + 11);
+    s.pic(W - M - 30, y + h/2);
+    y += h + 5;
+  });
+  // exemplo
+  y += 1; setF(16, 'bold'); ink(); doc.text('Mira este exemplo:', M, y + 3); y += 8;
+  const exH = 58; roundBox(M, y, CW, exH, COL.ink, 1);
+  bubble(M + 10, y + 11, 6, COL.purple, 1, 17);
+  setF(15, 'bold'); ink(); doc.text('De que cor é o sol?', M + 21, y + 12.5);
+  ['Azul','Verde','Amarelo','Negro'].forEach((t, i)=>{
+    const oy = y + 18 + i*9.6;
+    roundBox(M + 21, oy, 100, 8, [190,190,205], 0.5);
+    bubble(M + 28, oy + 4, 3.3, ORDER[i], LET[i], 9); setF(14, 'normal'); ink(); doc.text(t, M + 37, oy + 5.7);
+    if(i === 2){ stroke(COL.coral); doc.setLineWidth(1.2); doc.ellipse(M + 28, oy + 4, 5.5, 5, 'S'); }
+  });
+  setF(12.5, 'bold'); ink(); doc.text(['Vale! Rodeamos a C,','porque o sol','é amarelo.'], M + 128, y + 33);
+  sun(M + 146, y + 15, 6);
+  y += exH + 6;
+  roundBox(M, y, CW, 20, COL.sun, 1, tint(COL.sun, 0.88));
+  setF(13, 'bold'); ink(); doc.text('Se te trabucas: pon unha X na primeira letra', M + 6, y + 9); doc.text('e rodea a letra boa.', M + 6, y + 15.5);
+  stroke(COL.coral); doc.setLineWidth(1.2); doc.line(W - M - 38, y + 5, W - M - 29, y + 15); doc.line(W - M - 29, y + 5, W - M - 38, y + 15);
+  bubble(W - M - 33.5, y + 10, 5.5, tint(COL.sun, 0.2), null); // fondo X
+  stroke(COL.coral); doc.setLineWidth(1.2); doc.line(W - M - 37, y + 6.5, W - M - 30, y + 13.5); doc.line(W - M - 30, y + 6.5, W - M - 37, y + 13.5);
+  y += 26;
+  waitBanner();
+
+  /* ===== ANTES DE ESCOITAR ===== */
+  newPage();
+  banner('Preparados para escoitar!', y, COL.sky, 20); y += 24;
+  const plan = [
+    { col: COL.teal, a: 'Escoitamos', b: 'a primeira vez' },
+    { col: COL.sun, a: 'Respondemos', b: 'ás preguntas' },
+    { col: COL.coral, a: 'Escoitamos', b: 'outra vez' },
+    { col: COL.purple, a: 'Miramos', b: 'as respostas' }
+  ];
+  const pw = (CW - 3*6)/4;
+  plan.forEach((s, i)=>{
+    const x0 = M + i*(pw + 6);
+    roundBox(x0, y, pw, 36, s.col, 1.1, tint(s.col, 0.9));
+    bubble(x0 + pw/2, y + 10, 6.5, s.col, i + 1, 19);
+    setF(12.5, 'bold'); ink(); doc.text(s.a, x0 + pw/2, y + 24, { align:'center' }); setF(11, 'normal'); doc.text(s.b, x0 + pw/2, y + 30, { align:'center' });
+    if(i < 3){ stroke(COL.ink); doc.setLineWidth(1); const ax = x0 + pw + 0.8; doc.line(ax, y + 18, ax + 4.4, y + 18); doc.line(ax + 2.6, y + 16, ax + 4.4, y + 18); doc.line(ax + 2.6, y + 20, ax + 4.4, y + 18); }
+  });
+  y += 46;
+  const ctx = (cfg.showPre !== false) ? (cfg.context || '') : '';
+  const ant = (cfg.showPre !== false) ? (cfg.anticipation || '') : '';
+  const cL = ctx ? wrap(ctx, 14, CW - 30) : wrap('Le o título e pensa de que pode tratar o audio.', 14, CW - 30);
+  const aL = ant ? wrap(ant, 14, CW - 30, 'bold') : [];
+  const bh = 16 + cL.length*lh(14) + (aL.length ? aL.length*lh(14) + 12 : 0) + 4;
+  roundBox(M, y, CW, bh, COL.ink, 1.1);
+  setF(16, 'bold'); ink(); doc.text('Antes de escoitar...', M + 8, y + 10);
+  setF(14, 'normal'); doc.text(cL, M + 22, y + 19);
+  let py = y + 19 + cL.length*lh(14) + 5;
+  if(aL.length){ star(M + 12, py + 1.5, 4.5, COL.sun); setF(14, 'bold'); doc.text(aL, M + 22, py + 4); }
+  y += bh + 10;
+  sun(W/2, y + 18, 13); cloud(W/2 - 52, y + 18, 1.3, tint(COL.sky, 0.82)); cloud(W/2 + 52, y + 18, 1.3, tint(COL.sky, 0.82));
+  note(M + 12, y + 38, 1.3, COL.purple); note(W - M - 22, y + 36, 1.3, COL.coral);
+  y += 48;
+  waitBanner();
+
+  /* ===== PREGUNTAS ===== */
+  newPage();
+  const SZ = 16, OSZ = 15;
+  qs.forEach((q, i)=>{
+    const col = ORDER[i % ORDER.length];
+    const stemL = wrap(q.text, SZ, CW - 30, 'bold');
+    const opts = (q.options || []).filter(o=>o != null);
+    const optL = opts.map(o=>wrap(o, OSZ, CW - 54, 'normal'));
+    const optH = optL.map(L=>Math.max(10.5, L.length*lh(OSZ) + 4));
+    const h = 7 + Math.max(stemL.length*lh(SZ), 9) + 4 + optH.reduce((a,b)=>a + b, 0) + optH.length*1.5 + 3;
+    if(y + h > FOOT){ newPage(); }
+    roundBox(M, y, CW, h, col, 1.2, tint(col, 0.93));
+    bubble(M + 10, y + 11, 6.4, col, i + 1, 17);
+    setF(SZ, 'bold'); ink(); doc.text(stemL, M + 21, y + 11.5);
+    let oy = y + 7 + Math.max(stemL.length*lh(SZ), 9) + 4;
+    optL.forEach((L, oi)=>{
+      const oh = optH[oi];
+      roundBox(M + 21, oy, CW - 30, oh, [185,185,205], 0.5, [255,255,255]);
+      bubble(M + 30, oy + oh/2, 4.4, ORDER[oi % ORDER.length], LET[oi], 12);
+      setF(OSZ, 'normal'); ink(); doc.text(L, M + 38.5, oy + oh/2 + 1.9 - (L.length - 1)*lh(OSZ)/2);
+      oy += oh + 1.5;
+    });
+    y += h + 4;
+  });
+  // remate
+  const endH = 25;
+  if(y > FOOT - endH) newPage();
+  roundBox(M, y, CW, endH, COL.sun, 1.2, tint(COL.sun, 0.85));
+  setF(18, 'bold'); ink(); doc.text('Moi ben! Rematamos!', M + 8, y + 10.5);
+  setF(11, 'normal'); doc.text('Repasa as túas respostas antes de entregar.', M + 8, y + 18.5);
+  [0,1,2].forEach(k=>star(W - M - 52 + k*18, y + endH/2, 6.2, k % 2 ? COL.coral : COL.sun));
+  return { pageKinds };
+}
+
 function buildBookletPdf(JsPDF, podcast, opts){
   opts = opts || {};
   const withNotes = !!opts.withNotes;
@@ -892,6 +1133,13 @@ function buildBookletPdf(JsPDF, podcast, opts){
   const box = (x, yy, w, h, lw)=>{ doc.setLineWidth(lw || 0.4); doc.rect(x, yy, w, h); };
   doc.setDrawColor(0); doc.setTextColor(0);
 
+  /* ---------- Infantil e 1.º ciclo: caderniño visual (cores, debuxos, letras grandes) ---------- */
+  const kids = isKidsCycle(podcast.cycle);
+  if(kids){
+    kidsStudentPages(doc, podcast, pageKinds);
+    doc.setDrawColor(0); doc.setTextColor(0); doc.setFillColor(0); doc.setLineWidth(0.3);
+    doc.setLineDashPattern([], 0); kind = 'kids';
+  } else {
   /* ---------- Portada ---------- */
   setF(10, 'normal'); doc.setTextColor(90);
   doc.text('CEIP Plurilingüe de Monforte de Lemos · Radio Forte Escoita Activa', M, 18);
@@ -1041,6 +1289,7 @@ function buildBookletPdf(JsPDF, podcast, opts){
     setF(12,'bold'); box(M, y+2, CW, 11, 0.5);
     doc.text('FIN DAS PREGUNTAS · REPASA AS TÚAS RESPOSTAS', W/2, y+9, { align:'center' });
   }
+  }
 
   /* ---------- Notas para o docente (páxinas aparte) ---------- */
   if(withNotes){
@@ -1113,6 +1362,12 @@ function buildBookletPdf(JsPDF, podcast, opts){
   for(let p=1; p<=total; p++){
     doc.setPage(p);
     const k = pageKinds[p-1] || 'student';
+    if(k === 'kids-cover') continue;
+    if(k === 'kids'){
+      doc.setFillColor(255,255,255); doc.setDrawColor(38,186,170); doc.setLineWidth(0.8); doc.circle(W/2, H-12.5, 4, 'FD');
+      doc.setTextColor(35,35,60); setF(10,'bold'); doc.text(String(p), W/2, H-11, { align:'center' });
+      doc.setTextColor(0); doc.setDrawColor(0); continue;
+    }
     doc.setTextColor(110); setF(8.5,'normal');
     if(k !== 'cover'){
       doc.text('Radio Forte Escoita Activa · Comprensión oral', M, 12);
