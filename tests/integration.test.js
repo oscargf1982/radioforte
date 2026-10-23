@@ -508,17 +508,16 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     E(`goHome()`);
   }
 
-  // ---------- Samaín: audio cortado no 1:59 (sen despedida nin créditos) ----------
+  // ---------- Samaín: audio cortado no 2:11 (conserva a despedida, sen créditos) ----------
   { const sm = () => store.podcasts['seed-radio-forte-samain'];
     const txt = () => sm().transcript.join(' ');
-    ok('samaín: a transcrición remata no truco e trato (sen despedida nin créditos)', txt().endsWith('as bromas dos pequenos.') && !/Cantas cousas|Gracias a todos|Créditos|Rodríguez/.test(txt()));
-    ok('samaín: ningunha pregunta cita a despedida', ![...sm().questions, ...sm().reserveQuestions].some(q=>/Cantas cousas|Gracias a todos|Un saúdo/.test(q.evidence) || /final do podcast|agradecen/.test(q.text)));
-    // documento antigo (con despedida) => a actualización corríxeo sen tocar as preguntas editadas polo docente
-    const old = sm(); old.transcript.push('Cantas cousas hemos aprendido sobre o Samaín. Gracias a todos os nosos oíntes.');
-    old.reserveQuestions.find(q=>q.id==='r15').text = 'Como remata o programa?';
-    old.questions.find(q=>q.id==='q1').text = 'Pregunta editada polo docente';
-    delete old.seedSamainCutVersion; await E(`upgradeSeedSamainCut()`);
-    ok('samaín: upgradeSeedSamainCut quita a despedida, repón as preguntas e respecta as edicións', !/Cantas cousas/.test(txt()) && sm().reserveQuestions.find(q=>q.id==='r15').text.includes('último tema') && sm().questions.find(q=>q.id==='q1').text === 'Pregunta editada polo docente' && sm().seedSamainCutVersion === 1);
+    ok('samaín: a transcrición conserva a despedida e remata antes dos créditos', txt().endsWith('Un saúdo dende Monforte.') && txt().includes('Gracias a todos os nosos oíntes') && !/Créditos|Guión escrito|Rodríguez/.test(txt()));
+    // documento cortado nunha versión intermedia (sen despedida) => a actualización restitúeo sen tocar as preguntas editadas
+    const cut = sm(); cut.transcript = cut.transcript.map(l=>l.replace(/ Cantas cousas hemos aprendido.*$/, ''));
+    cut.reserveQuestions.find(q=>q.id==='r15').text = 'Texto da versión intermedia';
+    cut.questions.find(q=>q.id==='q1').text = 'Pregunta editada polo docente';
+    cut.seedSamainCutVersion = 1; await E(`upgradeSeedSamainCut()`);
+    ok('samaín: upgradeSeedSamainCut restitúe a despedida e as preguntas orixinais e respecta as edicións', txt().endsWith('Un saúdo dende Monforte.') && sm().reserveQuestions.find(q=>q.id==='r15').text === 'Como remata o programa?' && sm().questions.find(q=>q.id==='q1').text === 'Pregunta editada polo docente' && sm().seedSamainCutVersion === 2);
   }
 
   // ---------- Nomes propios corrixidos (Awa, Janni, Erick) ----------

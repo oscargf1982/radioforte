@@ -5650,9 +5650,9 @@ async function seedTenthPodcast(){
 }
 
 const SEED_PODCAST_ID_11 = 'seed-radio-forte-samain';
-/* Podcast sobre o Samaín (5.º B). Audio cortado no minuto 1:59 (sen despedida nin créditos). Test de 12 preguntas
-   (C1 2 · C2 3 · C3 2 · C4 1 · C5 2 · C6 2) e 24 de reserva (6 por competencia en total). Transcrición literal sen as marcas de son,
-   sen a despedida e sen os créditos con nome e apelidos do alumnado; só se corrixiu «abundancia da cabazas» → «de cabazas». */
+/* Podcast sobre o Samaín (5.º B). Audio cortado no 2:11, xusto antes dos créditos (conserva a despedida). Test de 12 preguntas
+   (C1 2 · C2 3 · C3 2 · C4 1 · C5 2 · C6 2) e 24 de reserva (6 por competencia en total). Transcrición literal sen as marcas de son
+   e sen os créditos con nome e apelidos do alumnado; só se corrixiu «abundancia da cabazas» → «de cabazas». */
 function samainSeedRecord(){
   return {
     id: SEED_PODCAST_ID_11,
@@ -5671,7 +5671,8 @@ function samainSeedRecord(){
       "Que nos podes decir sobre o Samaín, Diego? Antes, en vez de pedir dulces, pedíanse chourizos e tamén decían que Galicia era terra meiga xa que había un ser mitolóxico chamado Hércules e o Samaín é galego, non americano.",
       "E ti que nos contas, Juan? A xente pensa que a tradición de facer cabazas no día des-- do Samaín é unha tradición galega. Non é unha tradición galega, é americana. En América había gran abundancia de cabazas.",
       "Eles crían que es-- as estas espantaban o demo e as bruxas. E ti que nos contas, Mateo? Diferenzas entre o truco e trato.",
-      "Truco significa que aceptas que os nenos che cavan-- che fagan unha pequena, pequena broma a cambio de non darlles caramelos. En cambio, trato significa darlles caramelo para evitar as bromas dos pequenos."
+      "Truco significa que aceptas que os nenos che cavan-- che fagan unha pequena, pequena broma a cambio de non darlles caramelos. En cambio, trato significa darlles caramelo para evitar as bromas dos pequenos.",
+      "Cantas cousas hemos aprendido sobre o Samaín. E todo isto nos despedimos. Gracias a todos os nosos oíntes. Un saúdo dende Monforte."
     ],
     questions: [
       {
@@ -5821,7 +5822,7 @@ function samainSeedRecord(){
         "level": "intermedia",
         "classReviewed": true,
         "format": "multiple_choice",
-        "evidence": "«vamos a falar do Samaín» / «Diferenzas entre o truco e trato»",
+        "evidence": "«vamos a falar do Samaín» / «Cantas cousas hemos aprendido sobre o Samaín»",
         "hint": "",
         "distractors": [
           "",
@@ -5877,7 +5878,7 @@ function samainSeedRecord(){
         "hint": "",
         "distractors": [
           "Tentadora: fala antes que Juan",
-          "Tentadora: presenta o programa",
+          "Tentadora: presenta ao principio e despide ao final",
           "",
           "Inventada: non se di nada diso"
         ]
@@ -5941,7 +5942,7 @@ function samainSeedRecord(){
           "Para pedir caramelos",
           "Para explicar as dúas opcións que se ofrecen aos nenos",
           "Para criticar a festa",
-          "Para presentar os micros"
+          "Para despedirse do programa"
         ],
         "correct": 1,
         "difficulty": "inferencia",
@@ -5957,7 +5958,7 @@ function samainSeedRecord(){
           "Inventada: non se di nada diso",
           "",
           "Inventada: non se di nada diso",
-          "Contraria: iso é ao principio"
+          "Contraria: a despedida vén despois"
         ]
       },
       {
@@ -6187,7 +6188,7 @@ function samainSeedRecord(){
         "level": "intermedia",
         "classReviewed": true,
         "format": "multiple_choice",
-        "evidence": "«vamos a falar do Samaín» / «Diferenzas entre o truco e trato»",
+        "evidence": "«vamos a falar do Samaín» / «Cantas cousas hemos aprendido sobre o Samaín»",
         "hint": "",
         "distractors": [
           "",
@@ -6229,7 +6230,7 @@ function samainSeedRecord(){
           "A orixe das cabazas",
           "Os chourizos de antes",
           "A diferenza entre truco e trato",
-          "Hércules e a terra meiga"
+          "A despedida do programa"
         ],
         "correct": 2,
         "difficulty": "inferencia",
@@ -6245,32 +6246,32 @@ function samainSeedRecord(){
           "Mestura: iso é de Juan",
           "Mestura: iso é de Diego",
           "",
-          "Mestura: iso é de Diego"
+          "Contraria: vén despois"
         ]
       },
       {
         "id": "r11",
-        "text": "Que temas trata o podcast?",
+        "text": "Que aprenden os compañeiros ao final do podcast?",
         "options": [
-          "Só as cabazas",
-          "Só os chourizos",
-          "A comida e o deporte",
-          "Chourizos e Hércules, as cabazas e o truco e trato"
+          "Que o Samaín non existe",
+          "Que as cabazas son galegas",
+          "Nada novo",
+          "Moitas cousas novas sobre o Samaín"
         ],
         "correct": 3,
         "difficulty": "inferencia",
-        "explanation": "Falan dos chourizos e Hércules, das cabazas e do truco e trato.",
+        "explanation": "Din que aprenderon moitas cousas sobre o Samaín.",
         "competency": "C3",
         "secondary": [],
         "level": "intermedia",
         "classReviewed": true,
         "format": "multiple_choice",
-        "evidence": "«pedíanse chourizos» / «facer cabazas» / «truco e trato»",
+        "evidence": "«Cantas cousas hemos aprendido sobre o Samaín»",
         "hint": "",
         "distractors": [
-          "Contraria: hai máis temas",
-          "Contraria: hai máis temas",
-          "Inventada: non se di nada diso",
+          "Contraria",
+          "Contraria: Juan di que non",
+          "Contraria: din que aprenderon moito",
           ""
         ]
       },
@@ -6280,7 +6281,7 @@ function samainSeedRecord(){
         "options": [
           "Os compañeiros e o tema: o Samaín",
           "O truco e trato",
-          "Os chourizos de antes",
+          "A despedida",
           "As cabazas americanas"
         ],
         "correct": 0,
@@ -6296,7 +6297,7 @@ function samainSeedRecord(){
         "distractors": [
           "",
           "Tentadora: vén despois",
-          "Tentadora: vén despois",
+          "Tentadora: vén ao final",
           "Tentadora: vén despois"
         ]
       },
@@ -6333,7 +6334,7 @@ function samainSeedRecord(){
           "Dos chourizos",
           "De Hércules",
           "Do truco e trato",
-          "Dos micros de cores"
+          "Da despedida"
         ],
         "correct": 2,
         "difficulty": "facil",
@@ -6349,32 +6350,32 @@ function samainSeedRecord(){
           "Tentadora: sae antes",
           "Tentadora: sae antes",
           "",
-          "Tentadora: sae ao principio"
+          "Tentadora: vén despois do truco e trato"
         ]
       },
       {
         "id": "r15",
-        "text": "Que se explica no último tema do programa?",
+        "text": "Como remata o programa?",
         "options": [
-          "Os chourizos de antes",
-          "A orixe das cabazas",
-          "A historia de Hércules",
-          "A diferenza entre truco e trato"
+          "Co truco e trato",
+          "Coa historia de Hércules",
+          "Cunha pregunta a Daniel",
+          "Cos agradecementos e un saúdo dende Monforte"
         ],
         "correct": 3,
         "difficulty": "facil",
-        "explanation": "O último que se explica é a diferenza entre truco e trato.",
+        "explanation": "O final son os agradecementos e un saúdo.",
         "competency": "C4",
         "secondary": [],
         "level": "inicial",
         "classReviewed": true,
         "format": "multiple_choice",
-        "evidence": "«Diferenzas entre o truco e trato»",
+        "evidence": "«Gracias a todos os nosos oíntes. Un saúdo dende Monforte.»",
         "hint": "",
         "distractors": [
-          "Tentadora: sae ao principio",
-          "Tentadora: sae antes",
-          "Tentadora: sae ao principio",
+          "Tentadora: vén antes",
+          "Tentadora: vén antes",
+          "Inventada: non se di nada diso",
           ""
         ]
       },
@@ -6515,7 +6516,7 @@ function samainSeedRecord(){
           "Criticar a América",
           "Aclarar de onde vén o Samaín",
           "Pedir caramelos",
-          "Cambiar de tema"
+          "Despedirse do programa"
         ],
         "correct": 1,
         "difficulty": "inferencia",
@@ -6531,31 +6532,31 @@ function samainSeedRecord(){
           "Inventada: non se di nada diso",
           "",
           "Inventada: non se di nada diso",
-          "Inventada: non se di nada diso"
+          "Contraria: é ao comezo"
         ]
       },
       {
         "id": "r22",
-        "text": "Para que serve dar caramelos no trato?",
+        "text": "Para que agradecen ao final do podcast?",
         "options": [
-          "Para pagar un premio",
-          "Para espantar as bruxas",
-          "Para evitar as bromas dos pequenos",
-          "Para decorar a casa"
+          "Para comezar outro tema",
+          "Para pedir caramelos",
+          "Para despedirse e dar as grazas aos oíntes",
+          "Para corrixir a Juan"
         ],
         "correct": 2,
         "difficulty": "inferencia",
-        "explanation": "No trato dáselles caramelo para que non fagan bromas.",
+        "explanation": "É a despedida: dan as grazas a quen escoitou.",
         "competency": "C6",
         "secondary": [],
         "level": "intermedia",
         "classReviewed": true,
         "format": "multiple_choice",
-        "evidence": "«darlles caramelo para evitar as bromas dos pequenos»",
+        "evidence": "«Gracias a todos os nosos oíntes»",
         "hint": "",
         "distractors": [
+          "Contraria: é o final",
           "Inventada: non se di nada diso",
-          "Mestura: iso é das cabazas",
           "",
           "Inventada: non se di nada diso"
         ]
@@ -6591,7 +6592,7 @@ function samainSeedRecord(){
         "text": "Con que intención pregunta Daniel «E ti que nos contas, Juan?»?",
         "options": [
           "Dar a palabra a Juan",
-          "Cambiar de tema",
+          "Despedirse",
           "Corrixir a Diego",
           "Pedir un caramelo"
         ],
@@ -6607,7 +6608,7 @@ function samainSeedRecord(){
         "hint": "",
         "distractors": [
           "",
-          "Inventada: non se di nada diso",
+          "Contraria",
           "Inventada: non se di nada diso",
           "Inventada: non se di nada diso"
         ]
@@ -6625,8 +6626,9 @@ async function seedEleventhPodcast(){
   if(existing && existing.transcript) return;
   await cloudSavePodcast(samainSeedRecord());
 }
-/* O audio do Samaín córtase no 1:59: quita da transcrición a despedida e substitúe as preguntas que a citaban.
-   Só toca os ids indicados (respecta o resto do que edite o docente). Idempotente (marcador seedSamainCutVersion). */
+/* Corrixe o Samaín nos documentos xa gardados: transcrición ata o final da despedida (sen créditos) e as preguntas orixinais
+   (nunha versión intermedia cortouse a despedida e cambiáronse estas preguntas). Só toca os ids indicados e respecta o resto do que edite
+   o docente. Idempotente (marcador seedSamainCutVersion = 2). */
 const SAMAIN_CUT_IDS = ['q6','q8','q11','r8','r10','r11','r12','r14','r15','r21','r22','r24'];
 async function upgradeSeedSamainCut(){
   initFirebase();
@@ -6634,10 +6636,10 @@ async function upgradeSeedSamainCut(){
   const doc = await ref.get();
   if(!doc.exists) return;
   const data = doc.data();
-  if(data.seedSamainCutVersion >= 1) return;
+  if(data.seedSamainCutVersion >= 2) return;
   const fresh = samainSeedRecord();
   const swap = list => (list || []).map(q=>{ const n = [...fresh.questions, ...fresh.reserveQuestions].find(f=>f.id === q.id); return n && SAMAIN_CUT_IDS.includes(q.id) ? n : q; });
-  await ref.update({ transcript: fresh.transcript, questions: swap(data.questions), reserveQuestions: swap(data.reserveQuestions), seedSamainCutVersion: 1 });
+  await ref.update({ transcript: fresh.transcript, questions: swap(data.questions), reserveQuestions: swap(data.reserveQuestions), seedSamainCutVersion: 2 });
 }
 
 const SEED_PODCAST_ID_4 = 'seed-un-pais-en-podcast-cuba';
