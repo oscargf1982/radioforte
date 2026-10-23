@@ -148,13 +148,14 @@ t('filas por competencia de un intento', ()=>{
   A.deepStrictEqual(r.C1, {n:2,correct:1}); A.deepStrictEqual(r.SEN_CLASIFICAR, {n:1,correct:1});
 });
 
-t('testBalance: solo es correcto con 18 preguntas, 3 de cada competencia', ()=>{
+t('testBalance: solo es correcto con 12 preguntas (C1 2, C2 3, C3 2, C4 1, C5 2, C6 2)', ()=>{
   const mk = (c,n)=>Array.from({length:n},()=>({competency:c}));
-  const ok = [].concat(...['C1','C2','C3','C4','C5','C6'].map(c=>mk(c,3)));
-  A.strictEqual(api.testBalance(ok).ok, true); A.strictEqual(api.TEST_TOTAL, 18);
-  const off = ok.slice(0,17).concat([{competency:'C1'}]);        // C1 x4, C6 x2
+  const ok = [].concat(mk('C1',2), mk('C2',3), mk('C3',2), mk('C4',1), mk('C5',2), mk('C6',2));
+  A.strictEqual(api.testBalance(ok).ok, true); A.strictEqual(api.TEST_TOTAL, 12);
+  const off = ok.slice(0,11).concat([{competency:'C1'}]);        // C1 x3, C6 x1
   const b = api.testBalance(off); A.strictEqual(b.ok, false); A.deepStrictEqual(b.off.sort(), ['C1','C6']);
-  A.strictEqual(api.testBalance(ok.concat([{competency:null}])).ok, false);   // 19 y una sin competencia
+  A.strictEqual(api.testBalance(ok.concat([{competency:'C4'}])).ok, false);   // 13 preguntas
+  A.strictEqual(api.testBalance(ok.concat([{competency:null}])).ok, false);   // 13 y una sin competencia
   A.strictEqual(api.testBalance([]).ok, false);
 });
 

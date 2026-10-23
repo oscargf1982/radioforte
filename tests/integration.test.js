@@ -58,17 +58,17 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const cuba = store.podcasts['seed-un-pais-en-podcast-cuba'];
   ok('semilla Cuba: 55 líneas de transcripción literal conservadas', cuba.transcript.length === 55);
   const cres = cuba.reserveQuestions || [];
-  ok('semilla: las preguntas de reserva conservan las originales ambiguas (sin competencia) y no se pierden', cres.length === 7 && cres.filter(q=>q.id==='q7' || q.id==='q8').every(q=>q.competency === null));
+  ok('semilla: las preguntas de reserva conservan las originales ambiguas (sin competencia) y no se pierden', cres.length === 13 && cres.filter(q=>q.id==='q7' || q.id==='q8').every(q=>q.competency === null));
   ok('semilla: no se guardan campos derivados (nivel/suggested) en las originales', [...cuba.questions, ...cres].filter(q=>/^q\d+$/.test(q.id)).every(q=>q.levelDerived===undefined && q.suggestedCompetency===undefined && q.level===undefined));
 
-  // Cada podcast precargado: test de 18 preguntas, 3 de cada competencia, ordenadas C1→C6, revisadas y bien formadas
+  // Cada podcast precargado: test de 12 preguntas (C1 2, C2 3, C3 2, C4 1, C5 2, C6 2), ordenadas C1→C6, revisadas y bien formadas
   const seedIds = Object.keys(store.podcasts).filter(id=>id.startsWith('seed-'));
   for(const id of seedIds){
     const p = store.podcasts[id];
     const dist = E(`competencyDistribution(${JSON.stringify(p.questions)})`);
-    ok(`test ${id}: 18 preguntas, exactamente 3 de cada competencia C1-C6`, p.questions.length === 18 && ['C1','C2','C3','C4','C5','C6'].every(c=>dist.counts[c] === 3), JSON.stringify(dist.counts));
+    ok(`test ${id}: 12 preguntas (C1 2, C2 3, C3 2, C4 1, C5 2, C6 2)`, p.questions.length === 12 && dist.counts.C1 === 2 && dist.counts.C2 === 3 && dist.counts.C3 === 2 && dist.counts.C4 === 1 && dist.counts.C5 === 2 && dist.counts.C6 === 2, JSON.stringify(dist.counts));
     ok(`test ${id}: testBalance lo da por equilibrado`, E(`testBalance(${JSON.stringify(p.questions)})`).ok === true);
-    ok(`test ${id}: ordenadas por competencia C1→C6 y clasificadas (revisadas)`, p.questions.map(q=>q.competency).join('') === 'C1C1C1C2C2C2C3C3C3C4C4C4C5C5C5C6C6C6' && p.questions.every(q=>q.classReviewed === true));
+    ok(`test ${id}: ordenadas por competencia C1→C6 y clasificadas (revisadas)`, p.questions.map(q=>q.competency).join('') === 'C1C1C2C2C2C3C3C4C5C5C6C6' && p.questions.every(q=>q.classReviewed === true));
     ok(`test ${id}: ids únicos y preguntas válidas`, new Set(p.questions.map(q=>q.id)).size === p.questions.length && p.questions.every(q=>q.options.length === 4 && q.options[q.correct] && q.explanation));
     ok(`test ${id}: las etiquetas de competencia están activadas`, p.config.showCompetencyLabels === true);
     ok(`test ${id}: nada se pierde (las que sobran van a reserva sin duplicar ids)`, Array.isArray(p.reserveQuestions) && !p.reserveQuestions.some(r=>p.questions.some(q=>q.id === r.id)));
@@ -86,7 +86,10 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('podcast existente: +9 propuestas y se respeta la edición del docente', store.podcasts['seed-un-pais-en-podcast-cuba'].questions.length === 17 && store.podcasts['seed-un-pais-en-podcast-cuba'].questions.find(q=>q.id==='q2').text === 'EDITADA POR EL DOCENTE');
     await E(`upgradeSeedInference()`); await E(`upgradeSeedTest18()`);
     const cu = store.podcasts['seed-un-pais-en-podcast-cuba'];
-    ok('podcast existente: queda en 18 (3 por competencia), la edición del docente se conserva y lo demás va a reserva', cu.questions.length === 18 && cu.questions.find(q=>q.id==='q2').text === 'EDITADA POR EL DOCENTE' && cu.reserveQuestions.length === 7); }
+    ok('podcast existente: queda en 18 (3 por competencia), la edición del docente se conserva y lo demás va a reserva', cu.questions.length === 18 && cu.questions.find(q=>q.id==='q2').text === 'EDITADA POR EL DOCENTE' && cu.reserveQuestions.length === 7);
+    delete store.podcasts['seed-un-pais-en-podcast-cuba'].seedTest12Version; await E(`upgradeSeedTest12()`);
+    const c12 = store.podcasts['seed-un-pais-en-podcast-cuba'];
+    ok('podcast existente: tras recortar a 12 queda equilibrado y la edición del docente (q2) pasa a reserva sin perderse', c12.questions.length === 12 && E(`testBalance(${JSON.stringify(c12.questions)})`).ok && c12.reserveQuestions.some(q=>q.id==='q2' && q.text === 'EDITADA POR EL DOCENTE')); }
 
   // Fondo con la bandera del país
   ok('semilla Cuba: lleva país CU', cuba.country === 'CU');
@@ -283,7 +286,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
 
   // ---------- 9. Caderniño PDF ----------
   if(process.env.JSPDF_PATH){
-    ok('radio libre: tildes e signos restaurados nas preguntas orixinais', store.podcasts['seed-radio-libre-libros'].questions[0].text.startsWith('¿Quién'));
+    ok('radio libre: tildes e signos restaurados nas preguntas orixinais', store.podcasts['seed-radio-libre-libros'].questions[0].text.startsWith('¿Qué libro'));
     ok('caderniño: botón na lista do alumnado', $$('#studentPodcastList button').some(b=>b.textContent.includes('Caderniño PDF')));
     await E(`renderTeacherList()`);
     ok('caderniño: botóns na lista docente (con e sen notas)', $$('#teacherPodcastList button').some(b=>b.textContent.includes('Con notas docentes')) && $$('#teacherPodcastList button').some(b=>b.textContent.includes('Caderniño PDF')));
@@ -307,9 +310,9 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   for(const id of seedIds){
     const p = store.podcasts[id];
     const inf = p.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id));
-    ok(`inferencia ${id}: polo menos un terzo das 18 preguntas son de inferir (${inf.length}/18)`, inf.length * 3 >= p.questions.length);
+    ok(`inferencia ${id}: polo menos un terzo das 12 preguntas son de inferir (${inf.length}/12)`, inf.length * 3 >= p.questions.length);
     const mine = p.questions.filter(q=>/^[in]\d+$/.test(q.id));
-    ok(`escritas ${id}: con evidencia, xustificación e nota por distractor (${mine.length})`, mine.length >= 8 && mine.every(q=>q.classReviewed === true && q.competency && q.evidence && q.explanation && q.distractors.filter(Boolean).length === 3 && q.distractors[q.correct] === ''));
+    ok(`escritas ${id}: con evidencia, xustificación e nota por distractor (${mine.length})`, mine.length >= 5 && mine.every(q=>q.classReviewed === true && q.competency && q.evidence && q.explanation && q.distractors.filter(Boolean).length === 3 && q.distractors[q.correct] === ''));
     const transcript = p.transcript.join(' ').replace(/[«»"“”]/g,'').replace(/\s+/g,' ').toLowerCase();
     const lit = mine.every(q=>q.evidence.split(' / ').every(part=>part.split('...').every(fr=>{ const f = fr.replace(/[«»"“”]/g,'').replace(/\s+/g,' ').trim().replace(/\.$/,'').toLowerCase(); return f.length < 4 || transcript.includes(f); })));
     ok(`escritas ${id}: as citas de evidencia son literais da transcrición`, lit);
@@ -332,9 +335,26 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     await E(`upgradeSeedCubaFix()`);
     const fx = store.podcasts['seed-un-pais-en-podcast-cuba'];
     ok('Cuba (doc antiguo): Sahani→Sajani en transcripción, preguntas y reserva', !/sahani/i.test(JSON.stringify(fx)) && fx.transcript.some(l=>l.includes('Sajani')));
-    ok('Cuba (doc antiguo): la pregunta del padre desaparece y se repone otra de C2 (sigue 18, 3 por competencia)', !fx.questions.some(q=>q.id==='k2') && fx.questions.length === 18 && E(`testBalance(${JSON.stringify(fx.questions)})`).ok);
+    ok('Cuba (doc antiguo): la pregunta del padre desaparece y se repone otra de C2 (sigue en 12, equilibradas)', !fx.questions.some(q=>q.id==='k2') && fx.questions.length === 12 && E(`testBalance(${JSON.stringify(fx.questions)})`).ok);
     await E(`upgradeSeedCubaFix()`);
     ok('Cuba: la corrección es idempotente', JSON.stringify(store.podcasts['seed-un-pais-en-podcast-cuba'].questions) === JSON.stringify(fx.questions)); }
+
+
+  // ---------- 11b. Recorte a 12 preguntas en un documento antiguo de 18 ----------
+  { const id = 'seed-un-pais-en-podcast-senegal', cur = store.podcasts[id];
+    const dropIds = E(`SEED_TEST12_DROP['${id}']`);
+    const old = JSON.parse(JSON.stringify(cur));
+    const back = old.reserveQuestions.filter(q=>dropIds.includes(q.id));
+    old.questions = [...old.questions, ...back]; old.reserveQuestions = old.reserveQuestions.filter(q=>!dropIds.includes(q.id));
+    old.questions.push({ id:'custom1', text:'Pregunta creada polo docente', options:['a','b','c','d'], correct:0, explanation:'x', competency:'C1', classReviewed:true });
+    delete old.seedTest12Version; store.podcasts[id] = old;
+    await E(`upgradeSeedTest12()`);
+    const nw = store.podcasts[id];
+    ok('recorte a 12: quita 2 de C4 e unha de C1, C3, C5 e C6; respeta a pregunta do docente', nw.questions.length === 13 && nw.questions.some(q=>q.id==='custom1') && !nw.questions.some(q=>dropIds.includes(q.id)) && nw.seedTest12Version === 1);
+    ok('recorte a 12: nada se perde (as retiradas van a reserva)', dropIds.every(i=>nw.reserveQuestions.some(q=>q.id === i)) && nw.reserveQuestions.length === old.reserveQuestions.length + 6 && nw.questions.length === 13);
+    const snap = JSON.stringify(store.podcasts[id]); await E(`upgradeSeedTest12()`);
+    ok('recorte a 12: idempotente', JSON.stringify(store.podcasts[id]) === snap);
+    store.podcasts[id] = cur; }
 
   // ---------- 12. Podcast en inglés: Filipinas ----------
   { const ph = store.podcasts['seed-un-pais-en-podcast-filipinas'];
@@ -346,13 +366,13 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('Filipinas: la bandera sale de fondo en el reproductor', $('#countryBg').classList.contains('show') && $('#playerCountry').textContent.includes('Filipinas'));
     E(`goHome()`);
     w.__saved.length = 0; await E(`downloadBooklet('seed-un-pais-en-podcast-filipinas', true)`);
-    ok('Filipinas: el cuadernillo PDF se genera con 18 preguntas', w.__saved.length === 1 && w.__saved[0].includes('filipinas')); }
+    ok('Filipinas: el cuadernillo PDF se genera con 12 preguntas', w.__saved.length === 1 && w.__saved[0].includes('filipinas')); }
 
   // ---------- 13. Senegal ----------
   { const sn = store.podcasts['seed-un-pais-en-podcast-senegal'];
     ok('Senegal: país SN, bandera y audio enlazados', sn.country === 'SN' && E(`Object.keys(COUNTRIES).includes('SN')`) && E(`SEED_AUDIO_FILES['seed-un-pais-en-podcast-senegal']`) === 'audio/senegal_un_pais_en_podcast.mp3');
-    ok('Senegal: 18 preguntas, 3 por competencia, sin verdadero/falso', sn.questions.length === 18 && E(`testBalance(${JSON.stringify(sn.questions)})`).ok && sn.questions.every(q=>q.options.length === 4 && q.format === 'multiple_choice'));
-    ok('Senegal: al menos un tercio son de inferir', sn.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id)).length >= 6);
+    ok('Senegal: 12 preguntas equilibradas, sin verdadero/falso', sn.questions.length === 12 && E(`testBalance(${JSON.stringify(sn.questions)})`).ok && sn.questions.every(q=>q.options.length === 4 && q.format === 'multiple_choice'));
+    ok('Senegal: al menos un tercio son de inferir', sn.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id)).length >= 4);
     ok('Senegal: sin anotaciones [..] ni preguntas sobre el padre', !sn.transcript.some(l=>/\[|\]/.test(l)) && !sn.questions.some(q=>/\b(pai|padre)\b/i.test(JSON.stringify(q))));
     ok('Senegal: cada cita de evidencia sale literal de la transcrición', sn.questions.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>sn.transcript.join(' ').includes(m.slice(1,-1).replace(/\.$/,'')))));
     w.__saved.length = 0; await E(`downloadBooklet('seed-un-pais-en-podcast-senegal', true)`);
@@ -361,8 +381,8 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   // ---------- 14. Radio Forte: Ramadán ----------
   { const rm = store.podcasts['seed-radio-forte-ramadan'];
     ok('Ramadán: 3º ciclo, audio enlazado y modalidad con revisión', rm.cycle === '3º ciclo' && rm.config.modality === 'revision' && E(`SEED_AUDIO_FILES['seed-radio-forte-ramadan']`) === 'audio/ramadan_radio_forte.mp3');
-    ok('Ramadán: 18 preguntas, 3 por competencia, sin verdadero/falso', rm.questions.length === 18 && E(`testBalance(${JSON.stringify(rm.questions)})`).ok && rm.questions.every(q=>q.options.length === 4 && q.format === 'multiple_choice'));
-    ok('Ramadán: al menos un tercio son de inferir', rm.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id)).length >= 6);
+    ok('Ramadán: 12 preguntas equilibradas, sin verdadero/falso', rm.questions.length === 12 && E(`testBalance(${JSON.stringify(rm.questions)})`).ok && rm.questions.every(q=>q.options.length === 4 && q.format === 'multiple_choice'));
+    ok('Ramadán: al menos un tercio son de inferir', rm.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id)).length >= 4);
     ok('Ramadán: transcripción sin anotaciones [..] y evidencias literales', !rm.transcript.some(l=>/\[|\]/.test(l)) && rm.questions.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>rm.transcript.join(' ').includes(m.slice(1,-1).replace(/\.$/,'')))));
     w.__saved.length = 0; await E(`downloadBooklet('seed-radio-forte-ramadan', true)`);
     ok('Ramadán: el cuadernillo PDF se genera', w.__saved.length === 1 && w.__saved[0].includes('ramad')); }
@@ -370,8 +390,8 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   // ---------- 15. Venezuela ----------
   { const ve = store.podcasts['seed-un-pais-en-podcast-venezuela'];
     ok('Venezuela: país VE, bandera y audio enlazados', ve.country === 'VE' && E(`Object.keys(COUNTRIES).includes('VE')`) && E(`SEED_AUDIO_FILES['seed-un-pais-en-podcast-venezuela']`) === 'audio/venezuela_un_pais_en_podcast.mp3');
-    ok('Venezuela: 18 preguntas, 3 por competencia, sin verdadero/falso', ve.questions.length === 18 && E(`testBalance(${JSON.stringify(ve.questions)})`).ok && ve.questions.every(q=>q.options.length === 4 && q.format === 'multiple_choice'));
-    ok('Venezuela: al menos un tercio son de inferir', ve.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id)).length >= 6);
+    ok('Venezuela: 12 preguntas equilibradas, sin verdadero/falso', ve.questions.length === 12 && E(`testBalance(${JSON.stringify(ve.questions)})`).ok && ve.questions.every(q=>q.options.length === 4 && q.format === 'multiple_choice'));
+    ok('Venezuela: al menos un tercio son de inferir', ve.questions.filter(q=>q.competency === 'C2' || /^i\d+$/.test(q.id)).length >= 4);
     ok('Venezuela: transcripción sin marcas de tiempo ni [..] y evidencias literales', !ve.transcript.some(l=>/\[|\]|\d\d:\d\d:\d\d/.test(l)) && ve.questions.every(q=>(q.evidence.match(/«([^»]*)»/g)||[]).every(m=>ve.transcript.join(' ').includes(m.slice(1,-1).replace(/\.$/,'')))));
     E(`openPlayer('seed-un-pais-en-podcast-venezuela')`); await waitFor(()=>activeView()==='view-student-player');
     ok('Venezuela: la bandera sale de fondo en el reproductor', $('#countryBg').classList.contains('show') && $('#playerCountry').textContent.includes('Venezuela'));
