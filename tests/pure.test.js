@@ -6,7 +6,7 @@ const src = html.split('/*PURE-START*/')[1].split('/*PURE-END*/')[0];
 const api = new Function(src + `
 return { COMP_IDS, COMPETENCIES, normalizeQuestion, normalizePodcast, validateQuestion, competencyDistribution,
   resolveDetailMeta, firstAttempts, computeCompetencyStats, competencyStatus, reliabilityOf, recommendPractice,
-  attemptCompetencyRows, attemptModality, attemptKind, levelsAreMixed, legacyLevel, testBalance, TEST_TOTAL, pickTestQuestions, reserveEligible, TEST_PLAN };`)();
+  attemptCompetencyRows, attemptModality, attemptKind, levelsAreMixed, legacyLevel, testBalance, TEST_TOTAL, pickTestQuestions, reserveEligible, TEST_PLAN, feedbackKey, feedbackComplete, summarizeFeedback };`)();
 const A = require('assert');
 let pass = 0, fail = 0;
 function t(name, fn){ try{ fn(); pass++; console.log('  ok  ', name); }catch(e){ fail++; console.log('  FALLA', name, '\n       ', e.message); } }
@@ -159,6 +159,18 @@ t('testBalance: solo es correcto con 12 preguntas (C1 2, C2 3, C3 2, C4 1, C5 2,
   A.strictEqual(api.testBalance([]).ok, false);
 });
 
+t('feedback: clave por podcast y clase sin tildes, completitud y resumen', ()=>{
+  A.strictEqual(api.feedbackKey('p1','3º B'), 'p1__3-b');
+  A.strictEqual(api.feedbackKey('p1',' 3º  B '), api.feedbackKey('p1','3º b'));
+  const r = { interese:5, velocidade:4, claridade:3, vocabulario:4, calidade:5, utilidade:4, dificultade:'adecuadas' };
+  A.ok(api.feedbackComplete(r));
+  A.ok(!api.feedbackComplete({ ...r, dificultade:'media' }));
+  A.ok(!api.feedbackComplete({ ...r, claridade:6 }));
+  A.ok(!api.feedbackComplete({ ...r, utilidade:undefined }));
+  const sm = api.summarizeFeedback([{ podcastId:'p1', podcastTitle:'P', ratings:r }, { podcastId:'p1', podcastTitle:'P', ratings:{ ...r, interese:4, dificultade:'dificiles' } }, { podcastId:'p1', ratings:{ interese:1 } }]);
+  A.strictEqual(sm.length, 1); A.strictEqual(sm[0].n, 2); A.strictEqual(sm[0].avg.interese, 4.5);
+  A.deepStrictEqual(sm[0].dificultade, { faciles:0, adecuadas:1, dificiles:1 });
+});
 t('pickTestQuestions: baraja por competencia entre test y reserva revisada, respetando la estructura', ()=>{
   const mkq = (id,c,rev=true)=>({ id, text:'T'+id, options:['a','b','c','d'], correct:0, explanation:'x', competency:c, classReviewed:rev });
   const plan = { C1:2, C2:3, C3:2, C4:1, C5:2, C6:2 };

@@ -5,7 +5,7 @@ const { JSDOM, VirtualConsole } = require(process.env.JSDOM_PATH || 'jsdom');
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 
 const clone = o => JSON.parse(JSON.stringify(o));
-const store = { podcasts:{}, attempts:{} };
+const store = { podcasts:{}, attempts:{}, feedback:{} };
 let failWrites = false;
 const xlsxCalls = [];
 function fakeFirebase(){
@@ -131,7 +131,27 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   ok('intento: guarda modalidad, tipo, grupo y fecha', a1.modality==='apoyo' && a1.mode==='grupo' && a1.studentName==='Grupo 3º B' && a1.className==='3º B' && a1.date > 0);
   ok('intento antiguo: preguntas sin clasificar guardan competencia null (no inventada)', a1.details.every(x=>x.competency === null));
   ok('intento: 1/2 acertos y esquema v2', a1.score === 1 && a1.total === 2 && a1.schemaVersion === 2);
+  // ---------- Valoración del profesorado (obligatoria la primera vez de cada clase con cada podcast) ----------
+  ok('valoración: primera vez del grupo => se muestra el cuestionario antes del resumen', await waitFor(()=>activeView()==='view-student-feedback'));
+  ok('valoración: sin botón de volver y envío bloqueado hasta completar', $('#backBtn').style.display === 'none' && $('#feedbackSubmitBtn').disabled === true);
+  ok('valoración: 5 preguntas, la de audio con 3 subcategorías y la de dificultad con 3 opciones', $$('#feedbackForm .fb-block').length === 5 && $$('#feedbackForm .fb-block')[1].querySelectorAll('.fb-row').length === 3 && $$('#feedbackForm .fb-choice').length === 3 && !$('#feedbackForm textarea') && !$('#feedbackForm input[type=text]'));
+  E(`setFb('interese',5); setFb('velocidade',4); setFb('claridade',3); setFb('vocabulario',4); setFb('calidade',5)`);
+  ok('valoración: sin responder la dificultad sigue bloqueado', $('#feedbackSubmitBtn').disabled === true);
+  E(`setFb('dificultade','adecuadas'); setFb('utilidade',4)`);
+  ok('valoración: completa => se habilita el envío', $('#feedbackSubmitBtn').disabled === false);
+  await E(`submitFeedback()`);
+  const fbDocs = Object.values(store.feedback);
+  ok('valoración: guardada en la base de datos (una por podcast y clase)', fbDocs.length === 1 && fbDocs[0].className === '3º B' && fbDocs[0].ratings.dificultade === 'adecuadas' && fbDocs[0].ratings.velocidade === 4 && fbDocs[0].mode === 'grupo' && fbDocs[0].id === E(`feedbackKey('${fbDocs[0].podcastId}','3º B')`));
   ok('resumen visible tras guardar', await waitFor(()=>activeView()==='view-student-summary'));
+  // segunda vez del mismo grupo con el mismo podcast: ya no se pide
+  E(`retryQuiz()`); E(`selectOption(0,0); selectOption(1,1);`); await E(`submitAnswers()`);
+  ok('valoración: segunda vez del mismo grupo => directo al resumen y sin duplicar', await waitFor(()=>activeView()==='view-student-summary') && Object.keys(store.feedback).length === 1);
+  // vista de administración
+  await E(`goFeedbackView()`);
+  ok('valoración admin: tabla resumen con medias y recuento de dificultad', await waitFor(()=>$('#feedbackSummaryWrap table')) && $('#feedbackSummaryWrap').textContent.includes('Adecuadas: 1') && $('#feedbackDetailWrap').textContent.includes('3º B'));
+  const nx = xlsxCalls.length; E(`exportFeedbackToExcel()`);
+  ok('valoración admin: exporta a Excel resumen y detalle', xlsxCalls.length === nx + 2 && xlsxCalls[nx][0]['Velocidade (1-5)'] === 4);
+  E(`goHome()`);
   ok('fase D: panel de revisión con reproductor', !!$('#reviewPanel .mini-player'));
   ok('fase E: muestra explicación de la respuesta correcta', $('#summaryDetail').innerHTML.includes('Se oye'));
 
@@ -223,7 +243,7 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   const pick = q.options.findIndex(o=>o==='Perro');
   E(`selectOption(${idx}, ${pick}); selectOption(${1-idx}, sessionQuestions[${1-idx}].correct);`);
   await E(`submitAnswers()`);
-  await waitFor(()=>Object.keys(store.attempts).length === 3);
+  await waitFor(()=>Object.keys(store.attempts).length === 4);
   const a3 = Object.values(store.attempts).find(a=>a.attemptNumber===2 && a.studentName==='Noa');
   ok('barajado: la explicación del distractor sigue a su opción ("Perro" => "Es del otro cuento")', a3.details.find(x=>x.text==='¿Qué animal sale?').distractorNote === 'Es del otro cuento');
 
@@ -233,10 +253,10 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
   E(`selectOption(0, sessionQuestions[0].correct); selectOption(1, sessionQuestions[1].correct);`);
   failWrites = true;
   await E(`submitAnswers()`);
-  ok('sin conexión: NO se presenta como guardado y se avisa claramente', await waitFor(()=>!!$('#saveStatus .save-warn')) && Object.keys(store.attempts).length === 3);
+  ok('sin conexión: NO se presenta como guardado y se avisa claramente', await waitFor(()=>!!$('#saveStatus .save-warn')) && Object.keys(store.attempts).length === 4);
   failWrites = false;
   await E(`retrySaveAttempt()`); await E(`retrySaveAttempt()`);
-  ok('reintento de guardado: se guarda y no duplica (mismo id)', Object.keys(store.attempts).length === 4);
+  ok('reintento de guardado: se guarda y no duplica (mismo id)', Object.keys(store.attempts).length === 5);
   failWrites = true;
   const nBefore = Object.keys(store.podcasts).length;
   await E(`editPodcast('${newId}')`); set($('#pTitle'), 'No debería guardarse');

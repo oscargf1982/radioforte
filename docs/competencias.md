@@ -18,6 +18,8 @@
 
 **Podcast**: `schemaVersion: 2` y `config { modality: global|revision|apoyo, context, anticipation, showPre, showReview, showCompetencyLabels }`.
 
+**Valoración del profesorado** (`feedback/{podcastId}__{clase}`): tras el test, el cuestionario de 5 preguntas (interese, comprensión do audio con velocidade/claridade/vocabulario, dificultade das preguntas —fáciles/adecuadas/difíciles—, calidade das preguntas, utilidade) en estrellas de 1 a 5, sin comentario libre. Es obligatorio la primera vez que cada clase hace cada podcast; después no se vuelve a pedir. Se consulta desde «⭐ Valoracións» (medias por podcast, detalle por clase y exportación a Excel). Campos: `podcastId, podcastTitle, className, mode, attemptId, date, ratings{...}, schemaVersion:1`.
+
 **Intento** (`attempts/{id}`): campos antiguos intactos + `schemaVersion:2`, `modality`, `mode` (`alumno`/`grupo`), `hintsUsed`, `competencySummary`, y en cada `details[]`: `qid, competency, secondary, level, levelDerived, evidence, distractorNote, hintUsed`. La clasificación se **copia en el intento** (`null` si estaba sin clasificar o sin revisar), así los informes no cambian si luego se edita la pregunta.
 
 ## Migración (sin escribir nada a ciegas)
@@ -40,7 +42,7 @@ JSPDF_PATH=/ruta/node_modules/jspdf JSDOM_PATH=/ruta/node_modules/jsdom node tes
 ```
 
 ## Limitaciones y cambios externos
-- **Reglas de Firebase**: siguen abiertas (como antes). Los resultados individuales son legibles por cualquiera con la URL de la app. Para protegerlos hay que activar Firebase Authentication y escribir reglas que restrinjan lectura de `attempts` al profesorado; **no se puede resolver solo desde el HTML**. La contraseña de profesor existente sigue siendo solo una barrera de interfaz (no se ha añadido ninguna nueva).
+- **Reglas de Firebase**: siguen abiertas (como antes). Los resultados individuales son legibles por cualquiera con la URL de la app. Para protegerlos hay que activar Firebase Authentication y escribir reglas que restrinjan lectura de `attempts` y `feedback` al profesorado; **no se puede resolver solo desde el HTML**. La contraseña de profesor existente sigue siendo solo una barrera de interfaz (no se ha añadido ninguna nueva).
 - Los saltos a "fragmentos relevantes" no se han implementado: no hay marcas de tiempo reales en las transcripciones. Sí hay repetir/adelantar 10 s, reiniciar y barra de búsqueda.
 - La transcripción se sincroniza por proporción de palabras (aproximado).
 - Formatos de respuesta: solo elección múltiple.

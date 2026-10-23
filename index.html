@@ -440,6 +440,22 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
 .country-badge{display:inline-flex; align-items:center; gap:8px; font-weight:800; font-size:.85rem; margin-bottom:6px;}
 .country-badge svg{width:34px; height:23px; border-radius:4px; box-shadow:0 0 0 1.5px rgba(46,41,58,.35);}
 .player-card .btn-ghost{color:#fff; border-color:rgba(255,255,255,.7); background:rgba(255,255,255,.08);}
+.fb-block{margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid #E7E3F0;}
+.fb-block:last-child{border-bottom:0; margin-bottom:0;}
+.fb-q{font-weight:800; color:var(--navy); margin-bottom:8px;}
+.fb-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:6px 0;}
+.fb-label{min-width:120px; font-weight:700;}
+.fb-label small{display:block; font-weight:500; opacity:.75; font-size:.78rem;}
+.stars{display:inline-flex; gap:4px;}
+.star-btn{background:none; border:0; font-size:2rem; line-height:1; cursor:pointer; color:#C9C4D6; padding:2px 4px; border-radius:8px;}
+.star-btn.on{color:#F5A623;}
+.star-btn:focus-visible{outline:3px solid var(--navy);}
+.fb-scale{font-size:.78rem; opacity:.75;}
+.fb-choices{display:flex; gap:8px; flex-wrap:wrap;}
+.fb-choice{border:2px solid var(--navy); background:#fff; color:var(--navy); border-radius:14px; padding:10px 14px; font:inherit; font-weight:800; cursor:pointer;}
+.fb-choice.active{background:var(--navy); color:#fff;}
+.fb-table td, .fb-table th{text-align:center;}
+.fb-table td:first-child, .fb-table th:first-child{text-align:left;}
 </style>
 </head>
 <body>
@@ -480,6 +496,7 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
       <h2>Os teus podcasts</h2>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <button class="btn btn-teal btn-sm" onclick="goReportView()">📈 Informes por competencia</button>
+        <button class="btn btn-ghost btn-sm" onclick="goFeedbackView()">⭐ Valoracións</button>
         <button class="btn btn-ghost btn-sm" onclick="goStudentSearchView()">👤 Por alumno/a</button>
         <button class="btn btn-ghost btn-sm" onclick="goTrashView()">🗑️ Papeleira</button>
         <button class="btn btn-coral" onclick="goTeacherEditor()">+ Novo podcast</button>
@@ -624,6 +641,18 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
     </div>
   </div>
 
+  <!-- TEACHER: valoracións do profesorado -->
+  <div class="view" id="view-teacher-feedback">
+    <div class="section-head">
+      <h2>Valoracións dos podcasts</h2>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+        <button class="btn btn-teal btn-sm" onclick="exportFeedbackToExcel()">📥 Exportar a Excel</button>
+      </div>
+    </div>
+    <div class="card"><p class="hint">Valoración de 1 a 5 estrelas feita polo profesorado a primeira vez que cada clase fai un podcast.</p><div id="feedbackSummaryWrap"></div></div>
+    <div class="card" style="margin-top:14px;"><h4>Detalle por clase</h4><div id="feedbackDetailWrap"></div></div>
+  </div>
+
   <!-- STUDENT: IDENTIFICACIÓN (só ao responder as preguntas) -->
   <div class="view" id="view-student-name">
     <div class="hero" style="padding-top:10px;">
@@ -684,6 +713,19 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
     <div id="quizSupport"></div>
     <div id="questionsRunner"></div>
     <button class="btn btn-coral btn-block" id="submitAnswersBtn" onclick="submitAnswers()">Comprobar respostas</button>
+  </div>
+
+  <!-- STUDENT: VALORACIÓN DO PROFESORADO (despois do test, obrigatoria a primeira vez de cada clase con cada podcast) -->
+  <div class="view" id="view-student-feedback">
+    <div class="hero" style="padding-top:10px;">
+      <h2>Valoración do profesorado</h2>
+      <p>Antes de ver o resultado: valora o podcast e as preguntas. Só se pide a primeira vez que a clase fai cada podcast.</p>
+    </div>
+    <div class="card" style="max-width:640px; margin:0 auto;" id="feedbackForm"></div>
+    <div style="max-width:640px; margin:14px auto;">
+      <button class="btn btn-coral btn-block" id="feedbackSubmitBtn" disabled onclick="submitFeedback()">Enviar valoración</button>
+      <div id="feedbackStatus"></div>
+    </div>
   </div>
 
   <!-- STUDENT: SUMMARY -->
@@ -1355,6 +1397,44 @@ function attemptCompetencyRows(a, podcastsById){
   });
   return rows;
 }
+
+/* ---- Valoración do profesorado: cuestionario curto despois do test (obrigatorio a primeira vez que cada clase fai un podcast) ---- */
+const FEEDBACK_ITEMS = [
+  { id:'interese', type:'stars', q:'Mantivo o podcast o interese da túa clase?', low:'Nada', high:'Moito' },
+  { id:'audio', type:'group', q:'Foi fácil de entender o audio?', parts:[
+    { id:'velocidade', label:'Velocidade', hint:'Ritmo axeitado: nin moi rápido nin moi lento' },
+    { id:'claridade', label:'Claridade', hint:'Voces e son claros' },
+    { id:'vocabulario', label:'Vocabulario', hint:'Palabras axeitadas ao nivel da clase' } ] },
+  { id:'dificultade', type:'choice', q:'Como foron de difíciles as preguntas?', options:[
+    { id:'faciles', label:'Demasiado fáciles' }, { id:'adecuadas', label:'Adecuadas' }, { id:'dificiles', label:'Demasiado difíciles' } ] },
+  { id:'calidade', type:'stars', q:'Estaban ben formuladas as preguntas, cunha única resposta clara?', low:'Nada', high:'Moito' },
+  { id:'utilidade', type:'stars', q:'Repetirías esta actividade con este podcast na túa aula?', low:'Non', high:'Seguro' }
+];
+const FEEDBACK_STAR_FIELDS = ['interese','velocidade','claridade','vocabulario','calidade','utilidade'];
+const FEEDBACK_DIFFICULTY = ['faciles','adecuadas','dificiles'];
+function feedbackKey(podcastId, className){
+  const slug = String(className || '').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'sen-clase';
+  return `${podcastId}__${slug}`;
+}
+function feedbackComplete(r){
+  r = r || {};
+  return FEEDBACK_STAR_FIELDS.every(f=>Number.isInteger(r[f]) && r[f] >= 1 && r[f] <= 5) && FEEDBACK_DIFFICULTY.includes(r.dificultade);
+}
+function summarizeFeedback(list){
+  const by = new Map();
+  (list || []).forEach(fb=>{
+    if(!fb || !feedbackComplete(fb.ratings)) return;
+    if(!by.has(fb.podcastId)) by.set(fb.podcastId, { podcastId: fb.podcastId, podcastTitle: fb.podcastTitle || fb.podcastId, items: [] });
+    by.get(fb.podcastId).items.push(fb);
+  });
+  return [...by.values()].map(g=>{
+    const avg = {};
+    FEEDBACK_STAR_FIELDS.forEach(f=>{ avg[f] = Math.round(10 * g.items.reduce((n,fb)=>n + fb.ratings[f], 0) / g.items.length) / 10; });
+    const dificultade = { faciles:0, adecuadas:0, dificiles:0 };
+    g.items.forEach(fb=>{ dificultade[fb.ratings.dificultade]++; });
+    return { podcastId: g.podcastId, podcastTitle: g.podcastTitle, n: g.items.length, avg, dificultade };
+  }).sort((a,b)=>a.podcastTitle.localeCompare(b.podcastTitle));
+}
 /*PURE-END*/
 </script>
 
@@ -1461,6 +1541,20 @@ async function uploadAudioToStorage(podcastId, file){
 async function cloudGetAllAttempts(){
   initFirebase();
   const snap = await _fbDb.collection('attempts').orderBy('date','desc').get();
+  return snap.docs.map(d=>({ id:d.id, ...d.data() }));
+}
+async function cloudGetFeedback(id){
+  initFirebase();
+  const doc = await _fbDb.collection('feedback').doc(id).get();
+  return doc.exists ? { id: doc.id, ...doc.data() } : null;
+}
+async function cloudSaveFeedback(fb){
+  initFirebase();
+  await _fbDb.collection('feedback').doc(fb.id).set(fb);
+}
+async function cloudGetAllFeedback(){
+  initFirebase();
+  const snap = await _fbDb.collection('feedback').get();
   return snap.docs.map(d=>({ id:d.id, ...d.data() }));
 }
 async function cloudSaveAttempt(attempt){
@@ -4211,7 +4305,7 @@ function showView(id){
   }
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.getElementById('backBtn').style.display = (id==='view-home') ? 'none' : 'inline-flex';
+  document.getElementById('backBtn').style.display = (id==='view-home' || id==='view-student-feedback') ? 'none' : 'inline-flex';
   applyCountryBg(id);
   document.getElementById('airIndicator').style.display = (id.startsWith('view-student-player') || id==='view-student-questions') ? 'flex' : 'none';
   window.scrollTo({top:0, behavior:'smooth'});
@@ -4225,6 +4319,7 @@ document.getElementById('backBtn').addEventListener('click', ()=>{
     'view-teacher-results':'view-teacher-list',
     'view-teacher-report':'view-teacher-list',
     'view-teacher-trash':'view-teacher-list',
+    'view-teacher-feedback':'view-teacher-list',
     'view-student-search':'view-teacher-list',
     'view-student-name':'view-student-player',
     'view-student-player':'view-home',
@@ -5713,7 +5808,88 @@ async function submitAnswers(){
     console.error(err);
   }
   await renderSummary(attempt, saved);
-  showView('view-student-summary');
+  let needFb = true;
+  try{ needFb = !(await cloudGetFeedback(feedbackKey(attempt.podcastId, attempt.className))); }catch(err){ console.error(err); }
+  if(needFb){ openFeedbackForm(attempt); showView('view-student-feedback'); }
+  else showView('view-student-summary');
+}
+/* ---- Valoración do profesorado (alumnado/profesorado ve o formulario; gárdase en `feedback/{podcast}__{clase}`) ---- */
+let fbState = {}, fbAttempt = null;
+function openFeedbackForm(attempt){
+  fbAttempt = attempt; fbState = {};
+  document.getElementById('feedbackStatus').innerHTML = '';
+  renderFeedbackForm();
+}
+function starsHtml(field){
+  const v = fbState[field] || 0;
+  return `<span class="stars" role="radiogroup" aria-label="Valoración de 1 a 5 estrelas">` +
+    [1,2,3,4,5].map(n=>`<button type="button" class="star-btn ${n<=v?'on':''}" role="radio" aria-checked="${n===v}" aria-label="${n} de 5" onclick="setFb('${field}',${n})">★</button>`).join('') + `</span>`;
+}
+function renderFeedbackForm(){
+  const html = FEEDBACK_ITEMS.map((it,i)=>{
+    let body = '';
+    if(it.type === 'stars') body = `<div class="fb-row">${starsHtml(it.id)}<span class="fb-scale">1 = ${escapeHtml(it.low)} · 5 = ${escapeHtml(it.high)}</span></div>`;
+    else if(it.type === 'group') body = it.parts.map(pt=>`<div class="fb-row"><div class="fb-label">${escapeHtml(pt.label)}<small>${escapeHtml(pt.hint)}</small></div>${starsHtml(pt.id)}</div>`).join('') + `<div class="fb-scale">1 = Nada axeitado · 5 = Moi axeitado</div>`;
+    else body = `<div class="fb-choices" role="radiogroup">` + it.options.map(o=>`<button type="button" class="fb-choice ${fbState[it.id]===o.id?'active':''}" role="radio" aria-checked="${fbState[it.id]===o.id}" onclick="setFb('${it.id}','${o.id}')">${escapeHtml(o.label)}</button>`).join('') + `</div>`;
+    return `<div class="fb-block"><div class="fb-q">${i+1}. ${escapeHtml(it.q)}</div>${body}</div>`;
+  }).join('');
+  document.getElementById('feedbackForm').innerHTML = html;
+  document.getElementById('feedbackSubmitBtn').disabled = !feedbackComplete(fbState);
+}
+function setFb(field, value){ fbState[field] = value; renderFeedbackForm(); }
+async function submitFeedback(){
+  if(!fbAttempt) return;
+  if(!feedbackComplete(fbState)){ toast('Responde a todas as preguntas da valoración'); return; }
+  const btn = document.getElementById('feedbackSubmitBtn'); btn.disabled = true;
+  const fb = {
+    id: feedbackKey(fbAttempt.podcastId, fbAttempt.className), schemaVersion: 1,
+    podcastId: fbAttempt.podcastId, podcastTitle: fbAttempt.podcastTitle,
+    className: fbAttempt.className, mode: fbAttempt.mode || 'grupo', attemptId: fbAttempt.id,
+    ratings: { ...fbState }, date: Date.now()
+  };
+  try{
+    await cloudSaveFeedback(fb);
+    toast('Grazas pola valoración');
+    showView('view-student-summary');
+  }catch(err){
+    console.error(err);
+    btn.disabled = false;
+    document.getElementById('feedbackStatus').innerHTML = `<div class="save-warn" role="alert">⚠️ Non se puido gardar a valoración (sen conexión ou erro). Proba de novo.<br><button class="btn btn-ghost btn-sm" onclick="showView('view-student-summary')">Continuar sen gardar</button></div>`;
+  }
+}
+/* ---- Valoracións: vista da administración ---- */
+let feedbackAll = [];
+async function goFeedbackView(){
+  showView('view-teacher-feedback');
+  document.getElementById('feedbackSummaryWrap').innerHTML = '<p class="hint">Cargando...</p>';
+  try{ feedbackAll = await cloudGetAllFeedback(); }catch(err){ console.error(err); document.getElementById('feedbackSummaryWrap').innerHTML = '<div class="notice warn">Non se puideron cargar as valoracións.</div>'; return; }
+  renderFeedbackAdmin();
+}
+const FB_DIFF_LABEL = { faciles:'Demasiado fáciles', adecuadas:'Adecuadas', dificiles:'Demasiado difíciles' };
+function renderFeedbackAdmin(){
+  const rows = summarizeFeedback(feedbackAll);
+  const sw = document.getElementById('feedbackSummaryWrap');
+  if(!rows.length){ sw.innerHTML = '<p class="hint">Aínda non hai valoracións.</p>'; document.getElementById('feedbackDetailWrap').innerHTML = ''; return; }
+  const f = v => v.toFixed(1).replace('.', ',');
+  sw.innerHTML = `<div style="overflow-x:auto;"><table class="fb-table"><thead><tr><th>Podcast</th><th>Clases</th><th>Interese</th><th>Velocidade</th><th>Claridade</th><th>Vocabulario</th><th>Dificultade</th><th>Calidade preguntas</th><th>Utilidade</th></tr></thead><tbody>` +
+    rows.map(r=>`<tr><td>${escapeHtml(r.podcastTitle)}</td><td>${r.n}</td><td>${f(r.avg.interese)}</td><td>${f(r.avg.velocidade)}</td><td>${f(r.avg.claridade)}</td><td>${f(r.avg.vocabulario)}</td><td>${['faciles','adecuadas','dificiles'].map(k=>`${FB_DIFF_LABEL[k]}: ${r.dificultade[k]}`).join('<br>')}</td><td>${f(r.avg.calidade)}</td><td>${f(r.avg.utilidade)}</td></tr>`).join('') +
+    `</tbody></table></div><p class="hint">Medias de 1 a 5 estrelas.</p>`;
+  const det = feedbackAll.filter(fb=>feedbackComplete(fb.ratings)).sort((a,b)=>(b.date||0)-(a.date||0));
+  document.getElementById('feedbackDetailWrap').innerHTML = `<div style="overflow-x:auto;"><table class="fb-table"><thead><tr><th>Podcast</th><th>Clase</th><th>Data</th><th>Int.</th><th>Vel.</th><th>Clar.</th><th>Voc.</th><th>Dificultade</th><th>Cal.</th><th>Util.</th></tr></thead><tbody>` +
+    det.map(fb=>{ const r = fb.ratings; return `<tr><td>${escapeHtml(fb.podcastTitle || '')}</td><td>${escapeHtml(fb.className || '')}</td><td>${new Date(fb.date).toLocaleDateString('gl-ES')}</td><td>${r.interese}</td><td>${r.velocidade}</td><td>${r.claridade}</td><td>${r.vocabulario}</td><td>${FB_DIFF_LABEL[r.dificultade]}</td><td>${r.calidade}</td><td>${r.utilidade}</td></tr>`; }).join('') + `</tbody></table></div>`;
+}
+function exportFeedbackToExcel(){
+  const det = feedbackAll.filter(fb=>feedbackComplete(fb.ratings));
+  if(!det.length){ toast('Non hai valoracións para exportar'); return; }
+  const f = r => String(r).replace('.', ',');
+  const resumo = summarizeFeedback(feedbackAll).map(r=>({ 'Podcast': r.podcastTitle, 'Clases que valoraron': r.n, 'Interese (1-5)': r.avg.interese, 'Velocidade (1-5)': r.avg.velocidade, 'Claridade (1-5)': r.avg.claridade, 'Vocabulario (1-5)': r.avg.vocabulario,
+    'Preguntas demasiado fáciles': r.dificultade.faciles, 'Preguntas adecuadas': r.dificultade.adecuadas, 'Preguntas demasiado difíciles': r.dificultade.dificiles, 'Calidade das preguntas (1-5)': r.avg.calidade, 'Utilidade (1-5)': r.avg.utilidade }));
+  const detalle = det.sort((a,b)=>(b.date||0)-(a.date||0)).map(fb=>({ 'Podcast': fb.podcastTitle || '', 'Clase': fb.className || '', 'Data': new Date(fb.date).toLocaleString('gl-ES'),
+    'Interese': fb.ratings.interese, 'Velocidade': fb.ratings.velocidade, 'Claridade': fb.ratings.claridade, 'Vocabulario': fb.ratings.vocabulario, 'Dificultade das preguntas': FB_DIFF_LABEL[fb.ratings.dificultade], 'Calidade das preguntas': fb.ratings.calidade, 'Utilidade': fb.ratings.utilidade }));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumo), 'Resumo por podcast');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(detalle), 'Detalle por clase');
+  XLSX.writeFile(wb, `valoracions-en-antena-${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 async function retrySaveAttempt(){
   if(!lastAttempt) return;
