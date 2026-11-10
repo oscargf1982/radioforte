@@ -8602,6 +8602,983 @@ async function seedThirteenthPodcast(){
   await cloudSavePodcast(trenSeedRecord());
 }
 
+const SEED_PODCAST_ID_14 = 'seed-un-pais-en-podcast-casablanca';
+/* Un país en podcast: Casablanca (Marrocos). Salma e Khadija, curmás, contan como viven e lembran a cidade.
+   Test de 12 preguntas (C1 2 · C2 3 · C3 2 · C4 1 · C5 2 · C6 2) e 24 de reserva (6 por competencia en total).
+   Transcrición achegada polo director, sen marcas de son; só se limaron tartamudeos e repeticións evidentes e unificouse o nome Khadija. */
+function casablancaSeedRecord(){
+  return {
+    id: SEED_PODCAST_ID_14,
+    createdAt: Date.now() - 4,
+    title: 'Un país en podcast: Casablanca (Marrocos)',
+    cycle: '2º e 3º ciclo',
+    categories: ['pais'],
+    desc: 'Salma e Khadija, curmás, contan como viven e lembran Casablanca e Marrocos: a familia, a comida, o té, as historias dos pais e o que non se ve nas fotos de Internet.',
+    audioEmbedded: true,
+    mimeType: 'audio/mpeg',
+    fileName: 'casablanca_un_pais_en_podcast.mp3',
+    country: 'MA',
+    transcript: [
+        "Hola, benvidas e benvidos a \"Un país en podcast\". O podcast no que imos descubrir países, culturas, tradicións e historias, pero sobre todo historias que tamén forman parte de nós. Exactamente. E hoxe traemos un país moi especial para as dúas, un lugar que forma parte da nosa familia, das nosas raíces e dalgunha maneira tamén da nosa identidade. Hoxe viaxamos a Marrocos e máis concretamente a unha cidade que seguramente nos vai dar para falar moitísimo. Casablanca. Que por certo, sempre que digo Casablanca penso na película, aínda que seguramente hai xente que coñece a cidade por moitas outras cousas. Pois hoxe imos contar como é para nós, porque non queremos facer unha guía turística típica. Queremos falar do que vivimos alí, do que lembramos, do que nos contan os nosos pais e das cousas que quizais non se ven cando buscas fotos na Internet. E por se non sabíades, somos curmáns, así que tamén pode haber algunha discusión sobre quen lembra mellor as cousas. Iso é seguro. E tamén pode pasar que unha conte unha historia e a outra diga: \"Pero ti de que estás falando? Iso non pasou así\". Así que poñédevos cómodos porque comezamos a nosa viaxe a Casablanca.",
+        "Antes de comezar teño que presentarme. Eu chámome Salma e nacín en Marrocos. Nacín nunha cidade chamada Setat que está moi preto de Casablanca. E a que está falando comigo é a miña curmá, Khadija. Eu, Khadija, non nacín alí, pero aos dous anos fun a Marrocos. Antes de falar de Casablanca, creo que deberiamos explicar unha cousa. Para nós Marrocos non é simplemente un país ao que imos de vacacións, non? Claro, e tamén é o país da nosa familia, das nosas raíces e de moitas historias que escoitamos desde pequenas. Eu cando penso en Marrocos, o primeiro que se me vén á cabeza é a comida moi boa que fan a miña tía, a avoa e coa colaboración da miña nai. Pois no meu caso, o que máis me lembra Marrocos é a felicidade e a miña familia e a diversión. Que curioso, porque ás veces compartimos familia e raíces, pero non necesariamente lembramos as mesmas cousas. Si, e tamén depende moito de cando vas. Non é o mesmo ir sendo pequena que ir agora entendendo mellor as cousas e vendo o país doutra maneira. E vós escoitando isto, seguro que tamén tedes algún lugar ou algunha persoa que vos lembra á vosa familia.",
+        "Que é o que máis botades de menos cando estades fóra? A familia. Sentíste diferentes cando estades alí? Si, porque alí é máis divertida. Falamos en outro idioma. Vale, imos entrar xa en materia. Casablanca. Salma, se alguén che pregunta como é Casablanca, que lle dirías? Uf, depende, porque unha cousa é explicar como é unha cidade e outra explicar como vives ti. Eu diría que Casablanca é unha cidade moi grande e hai moitísimo tráfico, sempre está concurrida. As praias teñen augas moi frías e a min gústame que sea así. Si, e hai cousas que cando estás alí parecen completamente normais, pero cando volves aquí decátaste de que as botas de menos. Totalmente. E tamén hai cousas que ao principio poden sorprender a alguén que non coñece a cidade. Por exemplo, cando vas por primeira vez ou despois de pasar moito tempo sen ir, que é o que máis te chama a atención? A comida. E agora unha pregunta importante. Se tivésemos que levar a alguén que nunca estivo en Casablanca, a que lugar levaríamos primeiro? Eu levaríao a escala e ás praias. Eu levaríao a Vos e a Mesquita Hassan Segundo. Xa temos a ruta turística preparada. Pero unha cousa é visitar os sitios máis coñecidos e outra é coñecer a cidade de verdade a través das persoas que viven nela.",
+        "Khadija, como son as rúas e o ambiente da cidade? En Casablanca as rúas son moi concorridas. Lugares aos que ides coa familia? Coa miña familia case sempre vou á praia. Eu sempre vou visitar a familia ao sitio que me trae bos recordos. É a mesquita da miña tía, porque está moi cerca da casa e ten unha praza enorme donde podo xogar. Eu creo que unha das cousas máis interesantes de coñecer outro país é descubrir como é a vida cotiá, porque vemos fotos das cidades, dos monumentos e das praias, pero a vida real está nas pequenas cousas. Si, nos almorzos, nas conversas coa familia, en saír á rúa, en visitar a alguén sen ter que organizar unha cita con tres semanas de antelación Khadija, cal é esa pequena cousa de Casablanca que para ti significa sentirse como na casa? Eu fun coa miña familia á mesquita de Hassan II. E ti, que fas alí que aquí non fas igual? Que en Galicia non hai tanto tráfico como en Casablanca. E tamén están os sons, os cheiros e todas esas cousas que non podes explicar moi ben, pero que recoñeces inmediatamente cando volves. Exacto. Cando escoitas unha palabra, sentes un cheiro ou probas algo e de súpeto lembras unha chea de cousas. Por iso quero facerche unha pregunta. Se mañá puideses escoller un avión a Casablanca, que sería o primeiro que farías ao chegar? Pois eu iría na miña tía, que vive alí. No meu caso, o primeiro sería ir á casa da miña outra curmá. Khadija, xogamos a un xogo? Vale, que xogo é? Ti me preguntas. Preguntas e eu teño que responderche moi rapidamente. Vale. O primeiro que fas cando chegas é... Saudar a familia. Unha cousa que sempre queres comer... O cuscús e o tagine. Un lugar ao que sempre queres volver... A Setát. Algo que te sorprende cada vez. Os gatos, que hai cada vez máis. Se puidese traer unha cousa de alí, sería... Unha gatiña. A persoa que máis ganas tes de ver... É a miña avoa. Vale, agora xa nos entraron ganas de ir. Non? Si? Totalmente. E aínda non chegamos á comida. Sabía eu que íamos acabar falando da comida, porque sinceramente podemos falar de cidades, de cultura e de mil cousas. Pero cando falas de Marrocos, a comida ten que aparecer. É que a comida tamén é unha forma de compartir tempo coa familia e hai pratos que só con velos xa che lembran unha persoa ou un momento. Salma, imos facer unha pregunta. Sería: cal é o teu prato marroquí favorito? Para min, sen dúbida, o cuscús. Eu creo que o, o meu sería o tagine. Pero unha cousa é a comida que che gusta e outra a que che prepara a familia, porque aí xa xoga a nostalxia. E tamén depende de quen cociñe, porque seguro que cada casa ten a súa maneira de preparar as cousas. Na miña, por exemplo, a miña tía faime a comida favorita: o cuscús. A miña avoa sempre fainos un delicioso pastel de framboesa. E agora temos que falar do té, porque unha cousa que me parece bonita é todo o que pode pasar arredor dunha mesa. Falar, rir, contar historias e pasar tempo xuntos. Exacto. Ás veces o importante non é nin o que comes, senón con quen o compartes.",
+        "Hai outra parte de Marrocos que me parece moi interesante e é a que coñecemos a través dos nosos pais, porque non todo o que sabemos dun país vén de ter vivido alí. Moitas veces tamén o coñecemos polas historias que nos contan na casa. Si, e ás veces os nosos pais falan de como era a vida antes, das cousas que facían cando eran pequenos ou de como cambiaban as cidades do paso do tempo. Khadija, os teus pais contáronche algunha historia de cando vivían alí ou de como era a súa vida antes? A min non me contaron nada. E na túa familia hai algunha historia que che quedase especialmente gravada? Non, non especialmente. Creo que escoitar esas historias tamén nos axuda a entender mellor por que a nosa familia é como é, por que temos certos costumes ou por que algunhas cousas non son tan importantes na casa. Si, porque ás veces fas algo simplemente porque o aprendiches así. Pero cando preguntas de onde vén, descubres que hai toda unha historia detrás. E tamén esta cuestión de sentir que formas parte de dous lugares. Podes vivir aquí, ter aquí as túas amizades e a túa vida e ao mesmo tempo sentir unha conexión moi forte con Marrocos. Si, e cada persoa vive iso á súa maneira. Non hai unha única forma de sentirte conectada coas túas raíces. Eu creo que coñecer a historia da nosa familia é tamén unha maneira de coñecernos mellor a nós mesmas. Que che gustaría preguntarlles aos teus pais ou avós sobre a túa vida alí? Que se sempre traballan co ganado. Hai algunha tradición que che gustaría conservar no futuro? Si, a nosa relixión. Despois de todo o que falamos, creo que tamén estaría ben falar das diferenzas que notamos entre vivir alí e estar en Casablanca. Si, pero con coidado, porque unha cidade non representa todo un país e cada familia ten os seus costumes. Totalmente. Eu, por exemplo, noto que en Casablanca sempre vexo gatos por todas partes. Aquí non. Pois eu hai unha cousa que vexo diferente, que é a xente. E tamén hai cousas que descubrimos que temos en común, aínda que ás veces non o pareza. Claro, ao final hai cousas moi universais. Pasar tempo coa familia, rir coas amigas, comer algo rico ou ter ganas de volver a un sitio te, no que tes bos recordos. E penso que falar destas experiencias axuda a coñecer outras realidades sen quedar cos estereotipos que ás veces vemos. Exactamente, porque unha cousa é o que se conta nun país e outra moi distinta é coñecelo a través das persoas, das súas vivencias e as súas historias.",
+        "E ata aquí a nosa viaxe de Casablanca. A min fíxome ilusión falar destas cousas porque ás veces tes moitos recordos na cabeza, pero non te paras a contalos. Sí, e ademais falar disto entre nós é tamén unha maneira de descubrir que aínda sendo curmás, cada vez ten a súa propia relación con Marrocos. Antes de despedirnos, quero facerte unha pregunta. Se tiveses que describir o que significa Casablanca para ti nunha soa palabra, cal sería? Uf, que difícil. Eu diría divertida porque ten as praias e é moi bonita. Pois eu escollería que é xennial. A miña familia vive alí e hai cousas que todavía debo aprender. Grazas por acompañarnos nesta viaxe. E lembrade que isto é Un país en podcast, un espazo para descubrir o mundo a través das nosas historias. Ata a próxima, viquiños."
+      ],
+    questions: [
+        {
+          "id": "q1",
+          "text": "Como se chama a cidade onde naceu Salma, moi preto de Casablanca?",
+          "options": [
+            "Marrakech",
+            "Tánxer",
+            "Setat",
+            "Rabat"
+          ],
+          "correct": 2,
+          "difficulty": "facil",
+          "explanation": "Salma di que naceu nunha cidade chamada Setat, moi preto de Casablanca.",
+          "competency": "C1",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Nacín nunha cidade chamada Setat que está moi preto de Casablanca»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            "",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "q2",
+          "text": "Con que idade foi Khadija a Marrocos?",
+          "options": [
+            "Aos dez anos",
+            "Aos dous anos",
+            "Aos cinco anos",
+            "Aos oito anos"
+          ],
+          "correct": 1,
+          "difficulty": "facil",
+          "explanation": "Khadija non naceu en Marrocos, pero foi alí aos dous anos.",
+          "competency": "C1",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Eu, Khadija, non nacín alí, pero aos dous anos fun a Marrocos»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "q3",
+          "text": "Que se pode deducir de que digan que non queren facer «unha guía turística típica»?",
+          "options": [
+            "Que queren contar a súa experiencia persoal e familiar de Casablanca",
+            "Que non coñecen ningún monumento",
+            "Que non lles gusta Casablanca",
+            "Que só van falar de hoteis e restaurantes"
+          ],
+          "correct": 0,
+          "difficulty": "inferencia",
+          "explanation": "Din que queren falar do que viven e lembran, non repetir os datos dunha guía turística.",
+          "competency": "C2",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«non queremos facer unha guía turística típica. Queremos falar do que vivimos alí, do que lembramos»",
+          "hint": "",
+          "distractors": [
+            "",
+            "Contraria: din que queren falar do que viviron alí",
+            "Contraria: falan da cidade con cariño",
+            "Contraria: non queren facer unha guía turística"
+          ]
+        },
+        {
+          "id": "q4",
+          "text": "Que se pode deducir de que unha curmá lembre sobre todo a comida e a outra a felicidade e a diversión da familia?",
+          "options": [
+            "Que só unha das dúas foi a Marrocos",
+            "Que non lles gusta a comida marroquí",
+            "Que non teñen familia en Marrocos",
+            "Que cada unha ten recordos distintos de Marrocos"
+          ],
+          "correct": 3,
+          "difficulty": "inferencia",
+          "explanation": "Din que, aínda que comparten familia e raíces, non lembran necesariamente as mesmas cousas.",
+          "competency": "C2",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«ás veces compartimos familia e raíces, pero non necesariamente lembramos as mesmas cousas»",
+          "hint": "",
+          "distractors": [
+            "Contraria: as dúas foron a Marrocos",
+            "Contraria: gústalles moito a comida",
+            "Contraria: a familia é parte central do relato",
+            ""
+          ]
+        },
+        {
+          "id": "q5",
+          "text": "Que se pode deducir de que coñecer un país a través das persoas é «moi distinto» do que se conta del?",
+          "options": [
+            "Que non fai falta viaxar nunca",
+            "Que os países non cambian co tempo",
+            "Que as persoas dan unha visión máis real ca o que se conta de fóra",
+            "Que as persoas nunca din a verdade"
+          ],
+          "correct": 2,
+          "difficulty": "inferencia",
+          "explanation": "Segundo elas, as vivencias e historias das persoas dan unha imaxe máis real ca a que se conta dun país.",
+          "competency": "C2",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«unha cousa é o que se conta nun país e outra moi distinta é coñecelo a través das persoas, das súas vivencias e as súas historias»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Mestura: falan de como cambian as cidades noutra parte, pero non é a idea",
+            "",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "q6",
+          "text": "Cal é a mellor idea principal do podcast?",
+          "options": [
+            "Unha clase sobre o clima de Marrocos",
+            "Dúas curmás contan como viven e lembran Casablanca e Marrocos a través da familia, a comida e as historias",
+            "Unha guía turística con prezos de hoteis",
+            "A historia da película Casablanca"
+          ],
+          "correct": 1,
+          "difficulty": "facil",
+          "explanation": "Durante todo o programa falan de recordos, familia, comida e vivencias en Casablanca.",
+          "competency": "C3",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Queremos falar do que vivimos alí, do que lembramos, do que nos contan os nosos pais»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "",
+            "Contraria: din que non queren facer unha guía turística",
+            "Mestura: a película só se menciona de pasada"
+          ]
+        },
+        {
+          "id": "q7",
+          "text": "Cal sería o mellor título para o programa?",
+          "options": [
+            "Casablanca nos recordos de dúas curmás",
+            "Un hotel en Casablanca",
+            "A cociña dun restaurante",
+            "A historia do cine"
+          ],
+          "correct": 0,
+          "difficulty": "inferencia",
+          "explanation": "O programa recolle os recordos, as persoas e as historias familiares ligadas a Casablanca.",
+          "competency": "C3",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«hoxe viaxamos a Marrocos e máis concretamente a unha cidade que seguramente nos vai dar para falar moitísimo. Casablanca»",
+          "hint": "",
+          "distractors": [
+            "",
+            "Inventada: non se di nada diso",
+            "Mestura: a comida é só unha parte",
+            "Mestura: a película só se menciona de pasada"
+          ]
+        },
+        {
+          "id": "q8",
+          "text": "Que parte vén despois do xogo de preguntas rápidas?",
+          "options": [
+            "Despídense do programa",
+            "Presentan por primeira vez a Salma",
+            "Falan da película Casablanca",
+            "Falan da comida e do prato favorito de cada unha"
+          ],
+          "correct": 3,
+          "difficulty": "facil",
+          "explanation": "Despois do xogo comentan que aínda non chegaron á comida e preguntan polo prato marroquí favorito.",
+          "competency": "C4",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«E aínda non chegamos á comida» / «cal é o teu prato marroquí favorito»",
+          "hint": "",
+          "distractors": [
+            "Contraria: a despedida vén ao final de todo",
+            "Contraria: a presentación está ao principio",
+            "Mestura: a película só se menciona ao comezo",
+            ""
+          ]
+        },
+        {
+          "id": "q9",
+          "text": "Que quere dicir «botar de menos» en «decátaste de que as botas de menos»?",
+          "options": [
+            "Ter moito medo",
+            "Esquecer algo",
+            "Sentir falta de algo",
+            "Tirar algo ao lixo"
+          ],
+          "correct": 2,
+          "difficulty": "facil",
+          "explanation": "Botar de menos significa sentir falta de algo ou de alguén que non está.",
+          "competency": "C5",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«cando volves aquí decátaste de que as botas de menos»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Contraria: botar de menos é lembrar",
+            "",
+            "Mestura: «botar» tamén significa tirar, pero aquí non"
+          ]
+        },
+        {
+          "id": "q10",
+          "text": "Que quere dicir «concorridas» en «as rúas son moi concorridas»?",
+          "options": [
+            "Moi tranquilas",
+            "Con moita xente",
+            "Moi sucias",
+            "Moi escuras"
+          ],
+          "correct": 1,
+          "difficulty": "facil",
+          "explanation": "Unha rúa concorrida é unha rúa con moita xente.",
+          "competency": "C5",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«En Casablanca as rúas son moi concorridas»",
+          "hint": "",
+          "distractors": [
+            "Contraria: unha rúa concorrida non é tranquila",
+            "",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "q11",
+          "text": "Con que intención din que falar destas experiencias axuda a coñecer outras realidades?",
+          "options": [
+            "Para non quedar cos estereotipos",
+            "Para vender viaxes a Marrocos",
+            "Para ensinar un idioma",
+            "Para comparar prezos"
+          ],
+          "correct": 0,
+          "difficulty": "inferencia",
+          "explanation": "Din que contar vivencias axuda a coñecer outras realidades sen quedar cos estereotipos.",
+          "competency": "C6",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«falar destas experiencias axuda a coñecer outras realidades sen quedar cos estereotipos»",
+          "hint": "",
+          "distractors": [
+            "",
+            "Inventada: non se di nada diso",
+            "Mestura: só din que falan outro idioma alí",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "q12",
+          "text": "Para que explican ao comezo que Marrocos non é só un país de vacacións?",
+          "options": [
+            "Para dicir que non lles gusta viaxar",
+            "Para recomendar hoteis",
+            "Para falar do tempo",
+            "Para amosar que é o país da súa familia e das súas raíces"
+          ],
+          "correct": 3,
+          "difficulty": "facil",
+          "explanation": "Din que Marrocos tamén é o país da súa familia, das súas raíces e de moitas historias.",
+          "competency": "C6",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Para nós Marrocos non é simplemente un país ao que imos de vacacións, non?» / «tamén é o país da nosa familia, das nosas raíces»",
+          "hint": "",
+          "distractors": [
+            "Contraria: gústalles moito ir",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            ""
+          ]
+        }
+      ],
+    reserveQuestions: [
+        {
+          "id": "r1",
+          "text": "Como son as augas das praias de Casablanca, segundo o podcast?",
+          "options": [
+            "Moi sucias",
+            "Moi tranquilas",
+            "Moi frías",
+            "Moi quentes"
+          ],
+          "correct": 2,
+          "difficulty": "facil",
+          "explanation": "Din que as praias teñen augas moi frías.",
+          "competency": "C1",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«As praias teñen augas moi frías»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            "",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r2",
+          "text": "Que prato lles prepara a avoa?",
+          "options": [
+            "Un flan",
+            "Un pastel de framboesa",
+            "Un tagine de polo",
+            "Unha empanada"
+          ],
+          "correct": 1,
+          "difficulty": "facil",
+          "explanation": "Din que a avoa sempre lles fai un delicioso pastel de framboesa.",
+          "competency": "C1",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«A miña avoa sempre fainos un delicioso pastel de framboesa»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r3",
+          "text": "Que lles sorprende cada vez en Casablanca, no xogo de preguntas rápidas?",
+          "options": [
+            "Os gatos, que hai cada vez máis",
+            "Os coches",
+            "As praias",
+            "As tendas"
+          ],
+          "correct": 0,
+          "difficulty": "facil",
+          "explanation": "No xogo, a resposta é: os gatos, que hai cada vez máis.",
+          "competency": "C1",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Os gatos, que hai cada vez máis»",
+          "hint": "",
+          "distractors": [
+            "",
+            "Mestura: o tráfico sae noutra parte",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r4",
+          "text": "Que mesquita se nomea entre os lugares para levar a alguén a Casablanca?",
+          "options": [
+            "A Mesquita de Madrid",
+            "A Mesquita de Córdoba",
+            "A Mesquita de París",
+            "A Mesquita Hassan Segundo"
+          ],
+          "correct": 3,
+          "difficulty": "facil",
+          "explanation": "Unha delas levaría a alguén á Mesquita Hassan Segundo.",
+          "competency": "C1",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«a Mesquita Hassan Segundo»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            ""
+          ]
+        },
+        {
+          "id": "r5",
+          "text": "Que se pode deducir de que as dúas queiran ir primeiro á casa dunha tía ou dunha curmá?",
+          "options": [
+            "Que queren evitar a praia",
+            "Que non teñen onde durmir",
+            "Que ver á familia é o máis importante para elas ao chegar",
+            "Que non lles gusta Casablanca"
+          ],
+          "correct": 2,
+          "difficulty": "inferencia",
+          "explanation": "Ao chegar, o primeiro que farían sería visitar á súa familia.",
+          "competency": "C2",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Pois eu iría na miña tía, que vive alí» / «o primeiro sería ir á casa da miña outra curmá»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            "",
+            "Contraria: din que lles encanta"
+          ]
+        },
+        {
+          "id": "r6",
+          "text": "Que se pode deducir de que unha mesquita lle traia bos recordos porque ten unha praza enorme onde pode xogar?",
+          "options": [
+            "Que non lle gusta a praza",
+            "Que é un lugar ligado a momentos felices coa súa familia",
+            "Que a mesquita está lonxe da casa",
+            "Que alí non hai ninguén"
+          ],
+          "correct": 1,
+          "difficulty": "inferencia",
+          "explanation": "A mesquita está cerca da casa da súa tía e ten unha praza para xogar, polo que lle lembra momentos felices.",
+          "competency": "C2",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«É a mesquita da miña tía, porque está moi cerca da casa e ten unha praza enorme donde podo xogar»",
+          "hint": "",
+          "distractors": [
+            "Contraria: di que é un sitio que lle trae bos recordos",
+            "",
+            "Contraria: di que está moi cerca da casa",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r7",
+          "text": "Que se pode deducir de «Ás veces o importante non é nin o que comes, senón con quen o compartes»?",
+          "options": [
+            "Que estar coa familia importa máis ca a propia comida",
+            "Que a comida non é importante nunca",
+            "Que non hai que comer en familia",
+            "Que só se pode comer con estraños"
+          ],
+          "correct": 0,
+          "difficulty": "inferencia",
+          "explanation": "A frase di que o importante é con quen se comparte a mesa.",
+          "competency": "C2",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Ás veces o importante non é nin o que comes, senón con quen o compartes»",
+          "hint": "",
+          "distractors": [
+            "",
+            "Contraria: a comida si é importante para elas",
+            "Contraria: valoran comer en familia",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r8",
+          "text": "De que trata a primeira parte do podcast?",
+          "options": [
+            "Dun partido de fútbol",
+            "Da historia dun museo",
+            "De como se fai un tagine paso a paso",
+            "Da relación das dúas curmás con Marrocos, o país da súa familia"
+          ],
+          "correct": 3,
+          "difficulty": "facil",
+          "explanation": "Ao principio presentan o programa e explican que Marrocos é o país da súa familia e das súas raíces.",
+          "competency": "C3",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«tamén é o país da nosa familia, das nosas raíces e de moitas historias que escoitamos desde pequenas»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            "Mestura: o tagine só se menciona como prato favorito",
+            ""
+          ]
+        },
+        {
+          "id": "r9",
+          "text": "De que trata a parte da comida e do té?",
+          "options": [
+            "Dun xogo de preguntas",
+            "Das diferenzas entre cidades",
+            "Da comida marroquí e de compartir tempo arredor dunha mesa",
+            "Da historia de Casablanca"
+          ],
+          "correct": 2,
+          "difficulty": "facil",
+          "explanation": "Falan do prato favorito, da comida da familia e de compartir tempo arredor da mesa.",
+          "competency": "C3",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«todo o que pode pasar arredor dunha mesa. Falar, rir, contar historias e pasar tempo xuntos»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Mestura: iso é do final",
+            "",
+            "Mestura: iso é doutra parte"
+          ]
+        },
+        {
+          "id": "r10",
+          "text": "De que trata a parte sobre os pais?",
+          "options": [
+            "Dunha viaxe en avión",
+            "De como as historias que contan os pais axudan a coñecer o país e as raíces",
+            "De como se fan as receitas",
+            "Dun concurso de gatos"
+          ],
+          "correct": 1,
+          "difficulty": "facil",
+          "explanation": "Falan do que saben de Marrocos polas historias que lles contan na casa.",
+          "competency": "C3",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Moitas veces tamén o coñecemos polas historias que nos contan na casa»",
+          "hint": "",
+          "distractors": [
+            "Mestura: o avión só se menciona nunha pregunta",
+            "",
+            "Mestura: a comida está noutra parte",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r11",
+          "text": "Cal sería o mellor título para o xogo de preguntas rápidas?",
+          "options": [
+            "Preguntas rápidas sobre Marrocos",
+            "Unha receita de cuscús",
+            "Unha viaxe en tren",
+            "O día do colexio"
+          ],
+          "correct": 0,
+          "difficulty": "facil",
+          "explanation": "No xogo unha pregunta e a outra responde moi rápido sobre cousas de Marrocos.",
+          "competency": "C3",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Preguntas e eu teño que responderche moi rapidamente»",
+          "hint": "",
+          "distractors": [
+            "",
+            "Mestura: o cuscús é só unha resposta",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r12",
+          "text": "Que explican antes de falar de Casablanca?",
+          "options": [
+            "Que van falar da película",
+            "Que se despiden do programa",
+            "Que van falar do tempo",
+            "Que Marrocos non é só un país de vacacións, senón o da súa familia"
+          ],
+          "correct": 3,
+          "difficulty": "facil",
+          "explanation": "Antes de falar de Casablanca din que Marrocos é o país da súa familia e das súas raíces.",
+          "competency": "C4",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Antes de falar de Casablanca» / «Para nós Marrocos non é simplemente un país ao que imos de vacacións, non?»",
+          "hint": "",
+          "distractors": [
+            "Contraria: a película só se nomea ao comezo",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            ""
+          ]
+        },
+        {
+          "id": "r13",
+          "text": "De que falan despois da parte da comida e do té?",
+          "options": [
+            "Da despedida do programa",
+            "Dunha receita",
+            "Do que coñecen de Marrocos a través dos seus pais",
+            "Dun xogo de preguntas"
+          ],
+          "correct": 2,
+          "difficulty": "facil",
+          "explanation": "Despois da comida pasan a falar do que saben de Marrocos polas historias dos pais.",
+          "competency": "C4",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Hai outra parte de Marrocos que me parece moi interesante e é a que coñecemos a través dos nosos pais»",
+          "hint": "",
+          "distractors": [
+            "Contraria: a despedida é ao final de todo",
+            "Contraria: a receita non se explica",
+            "",
+            "Contraria: o xogo foi antes da comida"
+          ]
+        },
+        {
+          "id": "r14",
+          "text": "Que pregunta fan xusto antes de despedirse?",
+          "options": [
+            "Cantos anos teñen",
+            "Que palabra describiría o que significa Casablanca para cada unha",
+            "Cal é o seu prato favorito",
+            "Quen naceu en Setat"
+          ],
+          "correct": 1,
+          "difficulty": "facil",
+          "explanation": "Antes de despedirse preguntan por unha soa palabra para describir Casablanca.",
+          "competency": "C4",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Se tiveses que describir o que significa Casablanca para ti nunha soa palabra, cal sería?»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "",
+            "Contraria: iso é da parte da comida",
+            "Contraria: iso é da presentación inicial"
+          ]
+        },
+        {
+          "id": "r15",
+          "text": "Que din cando remata a parte das diferenzas e do que teñen en común?",
+          "options": [
+            "Que ata aquí chega a súa viaxe a Casablanca",
+            "Que comezan outra viaxe a París",
+            "Que empeza o xogo",
+            "Que se presentan por primeira vez"
+          ],
+          "correct": 0,
+          "difficulty": "facil",
+          "explanation": "Despois da parte final comentan que ata aquí chega a viaxe a Casablanca.",
+          "competency": "C4",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«E ata aquí a nosa viaxe de Casablanca»",
+          "hint": "",
+          "distractors": [
+            "",
+            "Inventada: non se di nada diso",
+            "Contraria: o xogo foi antes",
+            "Contraria: a presentación foi ao principio"
+          ]
+        },
+        {
+          "id": "r16",
+          "text": "Que pasa antes de que comece o xogo de preguntas rápidas?",
+          "options": [
+            "Despídense do programa",
+            "Falan dos pais",
+            "Preguntan o prato favorito",
+            "Falan dos sons e dos cheiros que lembran cando volven"
+          ],
+          "correct": 3,
+          "difficulty": "facil",
+          "explanation": "Antes do xogo falan de sons, cheiros e palabras que lles fan lembrar.",
+          "competency": "C4",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Cando escoitas unha palabra, sentes un cheiro ou probas algo e de súpeto lembras unha chea de cousas»",
+          "hint": "",
+          "distractors": [
+            "Contraria: a despedida é ao final",
+            "Mestura: iso vén despois do xogo",
+            "Mestura: iso vén despois do xogo",
+            ""
+          ]
+        },
+        {
+          "id": "r17",
+          "text": "Que quere dicir «curmás»?",
+          "options": [
+            "Compañeiras de clase",
+            "Amigas",
+            "Primas",
+            "Veciñas"
+          ],
+          "correct": 2,
+          "difficulty": "facil",
+          "explanation": "Curmás son as fillas dos tíos: primas.",
+          "competency": "C5",
+          "secondary": [],
+          "level": "inicial",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«somos curmáns»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            "",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r18",
+          "text": "Que quere dicir «raíces» en «a nosa familia, as nosas raíces»?",
+          "options": [
+            "O nome dunha cidade",
+            "A orixe familiar e cultural",
+            "As raíces das árbores",
+            "As plantas do xardín"
+          ],
+          "correct": 1,
+          "difficulty": "facil",
+          "explanation": "Falar das raíces é falar da orixe da familia e da cultura.",
+          "competency": "C5",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«das nosas raíces e de moitas historias que escoitamos desde pequenas»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "",
+            "Mestura: raíz tamén é parte dunha planta, pero aquí non",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r19",
+          "text": "Que quere dicir «nostalxia» en «aí xa xoga a nostalxia»?",
+          "options": [
+            "Sentimento de lembranza e de botar de menos",
+            "Medo á escuridade",
+            "Moita fame",
+            "Ganas de durmir"
+          ],
+          "correct": 0,
+          "difficulty": "facil",
+          "explanation": "A nostalxia é o sentimento de lembrar con cariño e botar de menos.",
+          "competency": "C5",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«aí xa xoga a nostalxia»",
+          "hint": "",
+          "distractors": [
+            "",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r20",
+          "text": "Que quere dicir «estereotipos» en «sen quedar cos estereotipos»?",
+          "options": [
+            "Receitas de cociña",
+            "Fotos de familia",
+            "Mapas de cidades",
+            "Ideas feitas e simplificadas sobre un grupo ou un lugar"
+          ],
+          "correct": 3,
+          "difficulty": "facil",
+          "explanation": "Un estereotipo é unha idea simplificada que se repite sobre unha persoa ou un lugar.",
+          "competency": "C5",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«sen quedar cos estereotipos que ás veces vemos»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            ""
+          ]
+        },
+        {
+          "id": "r21",
+          "text": "Por que din que «unha cidade non representa todo un país»?",
+          "options": [
+            "Para dicir que non hai praias",
+            "Para pedir que viaxemos máis",
+            "Para avisar de que non hai que xeneralizar a partir dunha soa cidade",
+            "Para dicir que Casablanca é pequena"
+          ],
+          "correct": 2,
+          "difficulty": "inferencia",
+          "explanation": "Din que unha soa cidade non mostra todo o país e que cada familia ten os seus costumes.",
+          "competency": "C6",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«unha cidade non representa todo un país e cada familia ten os seus costumes»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso",
+            "",
+            "Contraria: din que é unha cidade moi grande"
+          ]
+        },
+        {
+          "id": "r22",
+          "text": "Con que intención presentan o programa como «un espazo para descubrir o mundo a través das nosas historias»?",
+          "options": [
+            "Ensinar matemáticas",
+            "Amosar que se coñece o mundo a través das historias das persoas",
+            "Anunciar un concurso",
+            "Pedir diñeiro"
+          ],
+          "correct": 1,
+          "difficulty": "inferencia",
+          "explanation": "Defínense como un espazo para coñecer o mundo a través de historias persoais.",
+          "competency": "C6",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«Un país en podcast, un espazo para descubrir o mundo a través das nosas historias»",
+          "hint": "",
+          "distractors": [
+            "Inventada: non se di nada diso",
+            "",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r23",
+          "text": "Para que din que algunhas cousas «non se ven cando buscas fotos na Internet»?",
+          "options": [
+            "Para amosar que a vida real é máis ca o que se ve nas fotos",
+            "Para pedir que non usemos Internet",
+            "Para anunciar unha viaxe",
+            "Para vender fotos"
+          ],
+          "correct": 0,
+          "difficulty": "inferencia",
+          "explanation": "Din que queren contar cousas que non aparecen nas fotos, como o que viven e lembran.",
+          "competency": "C6",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«das cousas que quizais non se ven cando buscas fotos na Internet»",
+          "hint": "",
+          "distractors": [
+            "",
+            "Contraria: non din que non se use Internet",
+            "Inventada: non se di nada diso",
+            "Inventada: non se di nada diso"
+          ]
+        },
+        {
+          "id": "r24",
+          "text": "Que actitude amosan as dúas cando falan de Marrocos e da súa familia?",
+          "options": [
+            "Medo",
+            "Enfado",
+            "Aburrimento",
+            "Cariño e ilusión"
+          ],
+          "correct": 3,
+          "difficulty": "inferencia",
+          "explanation": "Falan con cariño da familia e din que lles fixo ilusión falar destas cousas.",
+          "competency": "C6",
+          "secondary": [],
+          "level": "intermedia",
+          "classReviewed": true,
+          "format": "multiple_choice",
+          "evidence": "«A min fíxome ilusión falar destas cousas»",
+          "hint": "",
+          "distractors": [
+            "Contraria: falan con cariño",
+            "Contraria: non se mostran enfadadas",
+            "Contraria: mostran interese",
+            ""
+          ]
+        }
+      ],
+    config: { modality: 'revision', showPre: true, showReview: true, showCompetencyLabels: true,
+      context: 'Vas escoitar un programa de Un país en podcast: dúas curmás falan de Casablanca, en Marrocos, e do que lembran dela.',
+      anticipation: 'Coñeces algún lugar que che lembre á túa familia? Que cousas botas de menos cando estás lonxe?' },
+    seedTestVersion: 1, seedTest12Version: 1, seedPoolVersion: 1,
+    schemaVersion: 2
+  };
+}
+async function seedFourteenthPodcast(){
+  const existing = await cloudGetPodcast(SEED_PODCAST_ID_14);
+  if(existing && existing.transcript) return;
+  await cloudSavePodcast(casablancaSeedRecord());
+}
+
 const SEED_PODCAST_ID_4 = 'seed-un-pais-en-podcast-cuba';
 
 const SEED_PODCAST_ID_5 = 'seed-un-pais-en-podcast-filipinas';
@@ -10617,7 +11594,8 @@ const SEED_AUDIO_FILES = {
   [SEED_PODCAST_ID_10]: 'audio/ricitos_de_oro_radio_forte.mp3',
   [SEED_PODCAST_ID_11]: 'audio/samain_radio_forte.mp3',
   [SEED_PODCAST_ID_12]: 'audio/toponimos_camino_inverno_radio_forte.mp3',
-  [SEED_PODCAST_ID_13]: 'audio/novas_monfortinas_tren_radio_forte.mp3'
+  [SEED_PODCAST_ID_13]: 'audio/novas_monfortinas_tren_radio_forte.mp3',
+  [SEED_PODCAST_ID_14]: 'audio/casablanca_un_pais_en_podcast.mp3'
 };
 /* Duración (en segundos) dos audios precargados, para mostrala nas tarxetas sen cargar o audio. Se engades un podcast precargado,
    engade aquí a súa duración (ffprobe -show_entries format=duration). Os podcasts do profesorado len a duración do propio audio. */
@@ -10634,7 +11612,8 @@ const SEED_AUDIO_DURATIONS = {
   [SEED_PODCAST_ID_10]: 241,
   [SEED_PODCAST_ID_11]: 119,
   [SEED_PODCAST_ID_12]: 176,
-  [SEED_PODCAST_ID_13]: 526
+  [SEED_PODCAST_ID_13]: 526,
+  [SEED_PODCAST_ID_14]: 876
 };
 const _durCache = {};
 function podcastDurationSec(p){
@@ -13141,7 +14120,8 @@ const SEED_CATEGORIES = {
   [SEED_PODCAST_ID_10]: ['contos','infantil'],
   [SEED_PODCAST_ID_11]: ['datas','cultura'],
   [SEED_PODCAST_ID_12]: ['galego','cultura'],
-  [SEED_PODCAST_ID_13]: ['novas']
+  [SEED_PODCAST_ID_13]: ['novas'],
+  [SEED_PODCAST_ID_14]: ['pais']
 };
 async function upgradeSeedCategories(){
   initFirebase();
@@ -13447,7 +14427,7 @@ async function upgradeSeedCountry(){
   if(doc.exists && doc.data().country === undefined) await ref.update({ country: 'CU' });
 }
 
-Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast(), seedNinthPodcast(), seedTenthPodcast(), seedEleventhPodcast(), seedTwelfthPodcast(), seedThirteenthPodcast()])
+Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast(), seedNinthPodcast(), seedTenthPodcast(), seedEleventhPodcast(), seedTwelfthPodcast(), seedThirteenthPodcast(), seedFourteenthPodcast()])
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
   .then(()=>upgradeSeedInference())
