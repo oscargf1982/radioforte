@@ -198,6 +198,7 @@
   .podcast-card .meta{ color:var(--muted); font-size:0.85rem; margin-top:2px; }
   .podcast-card p.desc{ margin:8px 0 0; font-size:0.92rem; color:#4b5170; }
   .podcast-card .actions{ display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+  .pill.pill-long{ color:#B3261E !important; border-color:#B3261E !important; font-weight:800; }
   .pill{
     display:inline-block; background:#F1EEE4; color:var(--navy);
     font-size:0.72rem; font-weight:700; padding:3px 10px; border-radius:999px;
@@ -11628,10 +11629,12 @@ const _durCache = {};
 function podcastDurationSec(p){
   return p.duration || SEED_AUDIO_DURATIONS[p.id] || _durCache[p.id] || 0;
 }
+const LONG_AUDIO_SEC = 420; /* máis de 7 min => etiqueta en vermello */
+function longClass(sec){ return sec > LONG_AUDIO_SEC ? ' pill-long' : ''; }
 function durationPill(p){
   const d = podcastDurationSec(p);
   const url = SEED_AUDIO_FILES[p.id] || p.audioURL || '';
-  if(d) return `<span class="pill" data-dur-id="${escapeHtml(p.id)}" title="Duración do audio">⏱ ${fmtTime(Math.round(d))} min</span>`;
+  if(d) return `<span class="pill${longClass(d)}" data-dur-id="${escapeHtml(p.id)}" title="Duración do audio">⏱ ${fmtTime(Math.round(d))} min</span>`;
   return url ? `<span class="pill" data-dur-id="${escapeHtml(p.id)}" data-dur-url="${escapeHtml(url)}" title="Duración do audio" hidden></span>` : '';
 }
 /* Para podcasts sen duración coñecida (creados polo profesorado) le os metadatos do audio e enche a etiqueta. */
@@ -11642,7 +11645,7 @@ function fillMissingDurations(){
     try{
       const a = new Audio(); a.preload = 'metadata';
       a.addEventListener('loadedmetadata', ()=>{
-        if(isFinite(a.duration) && a.duration > 0){ _durCache[id] = a.duration; el.textContent = '⏱ ' + fmtTime(Math.round(a.duration)) + ' min'; el.hidden = false; }
+        if(isFinite(a.duration) && a.duration > 0){ _durCache[id] = a.duration; el.textContent = '⏱ ' + fmtTime(Math.round(a.duration)) + ' min'; el.classList.toggle('pill-long', a.duration > LONG_AUDIO_SEC); el.hidden = false; }
       });
       a.src = url;
     }catch(e){}

@@ -534,6 +534,11 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('novas monfortinas: 12 preguntas equilibradas, 4 opcións, sen verdadeiro/falso e audio asignado', tr.questions.length === 12 && E(`testBalance(${JSON.stringify(tr.questions)})`).ok && tr.questions.every(q=>q.options.length === 4 && q.classReviewed === true) && tr.reserveQuestions.length === 24);
   }
 
+  // ---------- Duración en vermello (> 7 min) ----------
+  { const pills = $$('#studentPodcastList .podcast-card .pill[data-dur-id]').filter(e=>!e.hidden);
+    const red = id => { const e = pills.find(x=>x.getAttribute('data-dur-id') === id); return e && e.classList.contains('pill-long'); };
+    ok('duración en vermello: Casablanca (14:36) e o tren (8:46) en vermello; Samaín (1:59) non', red('seed-un-pais-en-podcast-casablanca') && red('seed-novas-monfortinas-tren') && !red('seed-radio-forte-samain'), pills.filter(e=>e.classList.contains('pill-long')).length + ' en vermello'); }
+
   // ---------- Aviso de duración para o profesorado ----------
   { const adv = $('#durationAdvice');
     ok('aviso de duración: a páxina principal recomenda duración por idade', adv && /3 minutos/.test(adv.textContent) && /6 minutos/.test(adv.textContent) && /9 minutos/.test(adv.textContent) && /profesorado/i.test(adv.textContent)); }
