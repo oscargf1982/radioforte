@@ -520,6 +520,14 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('samaín: upgradeSeedSamainCut restitúe a despedida e as preguntas orixinais e respecta as edicións', txt().endsWith('Un saúdo dende Monforte.') && sm().reserveQuestions.find(q=>q.id==='r15').text === 'Como remata o programa?' && sm().questions.find(q=>q.id==='q1').text === 'Pregunta editada polo docente' && sm().seedSamainCutVersion === 2);
   }
 
+  // ---------- Duración nas tarxetas ----------
+  { E(`goHome()`); await E(`renderStudentList()`);
+    const pills = $$('#studentPodcastList .podcast-card .pill[data-dur-id]').filter(x=>!x.hidden); // os creados polo profesorado sen duración gardada quedan ocultos ata ler os metadatos do audio
+    ok('duración: cada tarxeta da páxina principal mostra a duración do audio', pills.length >= 13 && pills.every(x=>/^⏱ \d+:\d\d min$/.test(x.textContent.trim())), String(pills.length));
+    const tr = $$('#studentPodcastList .podcast-card').find(c=>c.textContent.includes('o tren de Monforte'));
+    ok('duración: o podcast do tren mostra 8:46 min', tr && tr.textContent.includes('⏱ 8:46 min'));
+  }
+
   // ---------- Novas Monfortinas: o tren de Monforte ----------
   { const tr = store.podcasts['seed-novas-monfortinas-tren'];
     ok('novas monfortinas: categoría propia, ciclo 2º e 3º e transcrición sen marcas [..]', tr && JSON.stringify(tr.categories) === '["novas"]' && tr.cycle === '2º e 3º ciclo' && !tr.transcript.some(l=>/\[|\]/.test(l)));
