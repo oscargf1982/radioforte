@@ -529,6 +529,7 @@ table.rep th{font-size:.74rem; text-transform:uppercase; letter-spacing:.04em; c
             <option value="1º ciclo">1º ciclo (6-8 anos)</option>
             <option value="2º ciclo" selected>2º ciclo (8-10 anos)</option>
             <option value="3º ciclo">3º ciclo (10-12 anos)</option>
+            <option value="2º e 3º ciclo">2º e 3º ciclo (8-12 anos)</option>
           </select>
         </div>
       </div>
@@ -1711,7 +1712,8 @@ const PODCAST_CATEGORIES = [
   { id:'libros',    label:'Libros e lectura',      emoji:'📚' },
   { id:'cultura',   label:'Cultura e tradicións',  emoji:'🎉' },
   { id:'galego',    label:'Lingua galega',         emoji:'🗣️' },
-  { id:'datas',     label:'Datas sinaladas',       emoji:'📅' }
+  { id:'datas',     label:'Datas sinaladas',       emoji:'📅' },
+  { id:'novas',     label:'Novas Monfortinas',     emoji:'📰' }
 ];
 const CATEGORY_IDS = PODCAST_CATEGORIES.map(c=>c.id);
 function normalizeCategories(list){
@@ -7623,6 +7625,983 @@ async function seedTwelfthPodcast(){
   await cloudSavePodcast(toponimosSeedRecord());
 }
 
+const SEED_PODCAST_ID_13 = 'seed-novas-monfortinas-tren';
+/* Novas Monfortinas: o tren de Monforte (curso 2022-2023, proxecto documental do tren). Audio completo, sen cortar.
+   Test de 12 preguntas (C1 2 · C2 3 · C3 2 · C4 1 · C5 2 · C6 2) e 24 de reserva (6 por competencia en total).
+   Transcrición achegada polo director, sen as marcas de son; só se limaron tartamudeos evidentes («ferrocali-- ferrocarril»,
+   «a un con-, a un concurso», «que fora a, que fora», «aínda houbo un, unha proba»). Conserva os nomes de pila do alumnado. */
+function trenSeedRecord(){
+  return {
+    id: SEED_PODCAST_ID_13,
+    createdAt: Date.now() - 5,
+    title: 'Novas Monfortinas: o tren de Monforte',
+    cycle: '2º e 3º ciclo',
+    categories: ['novas'],
+    desc: 'Alumnado de 4.º e 5.º conta a historia da chegada do tren a Monforte (1882-1883) e a traxectoria de Sabela Fondo Quiroga, enxeñeira con raíces monfortinas que leva o tren a A Meca.',
+    audioEmbedded: true,
+    mimeType: 'audio/mpeg',
+    fileName: 'novas_monfortinas_tren_radio_forte.mp3',
+    country: '',
+    transcript: [
+      "Boas tardes. Benvidos a Radioforte, a emisora do CEIP Monforte. Este curso académico 2022-2023 temos como proxecto documental na escola o tren, posto que este medio de transporte foi tamén un medio de vida de moitas familias aquí na nosa vila. Moitas das actividades que se realizaron desde a biblioteca escolar tiveron o ferrocarril como temática. E como aínda non lle adicaremos ningún programa de radio, aproveitamos hoxe coa visita de Antía e Sonia de Radio Voz para facelo. Radioforte, a nova emisora de radio do CEIP Plurilingüe Monforte. Colexio novo para todos e todas. Sintonízanos para aprender moitas cousas connosco. Comezamos? Comezamos.",
+      "Ángela presenta Novas Monfortinas en Radioforte. Contámosvos un pouco máis sobre o día de hoxe. Varios alumnos e alumnas de cuarto e quinto curso recibimos información sobre a radio de man de Antía e Sonia, dentro da actividade Radio na Biblio, no contexto do plan Liga de Bibliotecas Escolares.",
+      "Pois o que nos leva a este programa de hoxe son dous aspectos relacionados co tren. Un deles, o aspecto histórico, e outro, a vida laboral dunha muller con raíces monfortinas. Lembrade que acabamos de celebrar o 8 de marzo, Día da Muller Traballadora, e non podían faltar alusións a este tema. O tren de Monforte ten un longo percorrido histórico. Como ben sabedes, vainos contar Diego, o que investigou sobre este tema. Bos días, Diego. Bos días, Ángela. O primeiro percorrido cunha máquina de vapor na capital de Lemos fíxose en xuño de 1882, entre Ribas Altas e As Cruces. Sabemos isto por unha carta manuscrita dun médico monfortino chamado Evaristo Rodríguez, alcalde alá polo 1909, que narra a chegada da caldeira a vapor nun carro tirado por bois, entre outras cousas. En cambio, a inauguración oficial da liña Palencia-A Coruña tivo lugar un ano despois coa presenza de Alfonso XII e a raíña doa María Cristina. Tivo que ser todo un espectáculo para os monfortinos daquela época. Foi a primeira vez que se viu funcionar un tren nestes lares e o arranque do que sería a sede de identidade da cidade como núcleo ferroviario en Galicia. Pero entre estes dous eventos, o primeiro narrado por Evaristo Rodríguez, e o segundo, a chegada oficial do tren a Monforte, aínda houbo unha proba preestreno para asegurar que todo saíse segundo o previsto. Traínos información sobre isto, Julia. Bos días. Con anterioridade ao estreno oficial da liña de ferrocarril polos monarcas españois, o 4 de agosto de 1883 chegaba á estación de Monforte de Lemos o primeiro tren procedente de Castela, con destino á capital coruñesa. Viaxaban o duque de Sesto, que ostentaba o cargo de xefe superior de palacio, enxeñeiros e directivos da Compañía Ferroviaria do Noroeste para comprobar o estado do tendido. Seguindo as crónicas daqueles tempos, o convoi de probas saíra de Madrid o día 3 de agosto ás doce da mañá. Efectuou unha parada en Palencia ás oito da tarde. A viaxe proseguíu ata San Clodio, Quiroga, en donde permaneceu parado durante unha hora para o descanso dos paxaxeiros e a revisión da locomotora dos vagóns. Arribou á estación monfortina ás dez e corenta e cinco horas da mañá do 4 de agosto. En Monforte, a comitiva encabezada polo Duque de Sesto estivo detida un par de horas para xantar e reemprendeu a viaxe. Ás dezaoito corenta e cinco horas do mesmo día, 4 de agosto de 1883, chegaba o convoi á capital coruñesa. Así pois, esa primeira viaxe entre a capital de España e a cidade portuaria da Coruña durou nada máis de nada menos que trinta horas. O tren estaba composto por tres vagóns salóns, un bric, un primeira clase e un de segunda, un coche cociña e varios furgóns. Da súa tracción encargáronse nun principio as locomotoras de vapor Vallejo e Ayala, que foron substituídas en Monforte polas máquinas bautizadas cos nomes de Hercilia e Moreno Nieto.",
+      "Imos agora coa nosa segunda parte ferroviaria. Desta volta nomeando a Sabela Fondo Quiroga, quen tamén ten as súas raíces en Monforte de Lemos, tal e como conta nunha entrevista de Destino, o blog de Renfe onde se fan recomendacións de viaxes ou se comparten entrevistas como a desta enxeñeira electrónica. Cóntanos, Amaia, a traxectoria desta muller. Ola. Pois despois de ler un par de entrevistas, podo dicir que ten moito mérito o que vai conseguindo, porque é moi nova. Debe ter sobre trinta anos e xa forma parte dun proxecto internacional, o proxecto Haramain, que se encarga de levar o tren á cidade de A Meca, en pleno deserto. Creo que hai unha película sobre este tren de alta velocidade, non? Sí, é un documental onde se explica este desafío tecnolóxico, o de levar o tren polo deserto entre as dúas cidades de peregrinación de Arabia Saudí e tamén nel aparecen entrevistas a investigadores técnicos, enxeñeiros, conductores e outras persoas chave neste proxecto. Sabela Fondo Quiroga aparece noutra entrevista, na que Ferroviarios por el Mundo lles realizou. E nela conta aspectos da súa orixe académica e a súa experiencia actual en Arabia Saudí. Estudou enxeñería electrónica en Galiza e logo foi facer o traballo fin de grao á República Checa. A experiencia resultoulle tan enriquecedora que quixo seguir formándose no estranxeiro e que lle daba igual o continente que fora. Apuntouse a un concurso en Suráfrica, país no que estivo un ano vivindo cunha familia musulmá. Entre medias, tamén traballou en Londres na área logística de Inditex. Fala galego, castelán, inglés e saica domina un pouco de portugués e francés. Tamén sabe algunhas palabras en árabe, aínda que comenta que lle resulta moi complicado. Despois de sacar a carreira, entrou a traballar nunha consultoría, pero non lle gustou. Como a súa familia tiña relación co barrio da estación e co mundo do tren, animouse a opositar a Renfe. Estivo en varios traballos dentro de Renfe. Como tiña moi claro que o que quería era traballar en destinos que Renfe tivera polo mundo, non deixou de solicitar este tipo de traballos ata que finalmente o conseguiu. Agora planifica recursos empresariais, realiza trámites legais, apoio técnico, etcétera. Habita nun complexo especial para persoas estranxeiras e disfruta das vantaxes dese lugar e do seu traballo. Grazas, Alfredo. Será interesante seguir a continuidade deste proxecto e a carreira da Sabela Fondo Quiroga, que ven seguro a seguir noutros traballos igual de interesantes. Tes razón. Haberá que seguirlla a pista.",
+      "Queridos e queridas radioíntes, despedimos este programa de Novas Monfortinas despois de coñecer máis sobre a historia do ferrocarril de Monforte e sobre a importancia de ser perseverante e valente no mundo laboral, coñecendo o exemplo de Sabela Fondo Quiroga. Ata outra!"
+    ],
+    questions: [
+      {
+        "id": "q1",
+        "text": "Que tema ten como proxecto documental o colexio neste curso?",
+        "options": [
+          "Os pazos",
+          "O tren",
+          "A radio",
+          "A muller traballadora"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "O programa comeza dicindo que o proxecto documental da escola é o tren.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«temos como proxecto documental na escola o tren»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Mestura: a radio é o medio, non o tema do proxecto",
+          "Mestura: o 8 de marzo só se menciona máis adiante"
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Canto durou a primeira viaxe en tren entre Madrid e A Coruña?",
+        "options": [
+          "Trinta horas",
+          "Dez horas",
+          "Vinte horas",
+          "Dúas horas"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Julia di que durou nada máis e nada menos que trinta horas.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«esa primeira viaxe entre a capital de España e a cidade portuaria da Coruña durou nada máis de nada menos que trinta horas»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "Mestura: as paradas en Monforte durarían un par de horas"
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Que se pode deducir de que a caldeira a vapor chegase nun carro tirado por bois?",
+        "options": [
+          "Que os bois eran moito máis rápidos ca o tren",
+          "Que a caldeira era un xoguete para nenos",
+          "Que o tren xa chegaba a todas as vilas",
+          "Que daquela os carros de bois aínda se empregaban para transportar cousas pesadas"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Se a caldeira se levou con bois, aínda non había tren que a transportase e os carros de bois seguían a ser un medio habitual.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«a chegada da caldeira a vapor nun carro tirado por bois»",
+        "hint": "",
+        "distractors": [
+          "Contraria: os bois eran un transporte lento",
+          "Inventada: non se di nada diso",
+          "Contraria: aínda non había tren en Monforte",
+          ""
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Que se pode deducir de que o primeiro tren que se viu funcionar en Monforte fose «todo un espectáculo»?",
+        "options": [
+          "Que ninguén quería ver o tren",
+          "Que o tren xa era moi coñecido na vila",
+          "Que os monfortinos nunca antes viran un tren e era unha gran novidade",
+          "Que o tren estaba cheo de actores"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Se foi a primeira vez que se viu un tren, para a xente era algo novo e impresionante.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Foi a primeira vez que se viu funcionar un tren nestes lares» / «Tivo que ser todo un espectáculo para os monfortinos daquela época»",
+        "hint": "",
+        "distractors": [
+          "Contraria: o programa di que foi un espectáculo",
+          "Contraria: di que era a primeira vez",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Que se pode deducir de que Sabela non deixase de solicitar traballos no estranxeiro ata conseguilo?",
+        "options": [
+          "Que lle daba igual o seu traballo",
+          "Que era perseverante e tiña claro o que quería",
+          "Que non lle gustaba Renfe",
+          "Que quería traballar só en Galicia"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Insistir ata conseguilo amosa perseveranza e obxectivos claros.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«tiña moi claro que o que quería era traballar en destinos que Renfe tivera polo mundo» / «non deixou de solicitar este tipo de traballos ata que finalmente o conseguiu»",
+        "hint": "",
+        "distractors": [
+          "Contraria: tiña moi claro o que quería",
+          "",
+          "Contraria: ela quería traballar en Renfe, aínda que noutros destinos",
+          "Contraria: quería destinos polo mundo"
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Cal é a mellor idea principal do programa?",
+        "options": [
+          "Contar a historia do tren en Monforte e o traballo dunha enxeñeira con raíces monfortinas",
+          "Explicar como se fai un programa de radio",
+          "Contar a vida do rei Alfonso XII",
+          "Falar das comidas do tren"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "O programa ten dúas partes: a historia do tren en Monforte e a vida laboral de Sabela Fondo Quiroga.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«dous aspectos relacionados co tren. Un deles, o aspecto histórico, e outro, a vida laboral dunha muller con raíces monfortinas»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Mestura: a radio é o medio, non o tema",
+          "Mestura: o rei só aparece na inauguración oficial",
+          "Mestura: o coche cociña só se menciona un momento"
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "Cal sería o mellor título para a segunda parte do programa?",
+        "options": [
+          "O primeiro tren a vapor de Monforte",
+          "A visita de Radio Voz ao colexio",
+          "Unha viaxe en tren de Madrid á Coruña",
+          "Unha enxeñeira monfortina que leva o tren ao deserto"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "A segunda parte trata de Sabela Fondo Quiroga e do tren a A Meca.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«o proxecto Haramain, que se encarga de levar o tren á cidade de A Meca, en pleno deserto»",
+        "hint": "",
+        "distractors": [
+          "Mestura: iso é da primeira parte",
+          "Mestura: a visita é só o motivo do programa",
+          "Mestura: iso é da primeira parte",
+          ""
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "Cal é a orde correcta destes feitos?",
+        "options": [
+          "Viaxe de probas, inauguración oficial e caldeira a vapor",
+          "Caldeira a vapor, inauguración oficial e viaxe de probas",
+          "Caldeira a vapor, viaxe de probas e inauguración oficial",
+          "Inauguración oficial, caldeira a vapor e viaxe de probas"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "A caldeira chega en 1882, a viaxe de probas en agosto de 1883, antes da inauguración oficial.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«O primeiro percorrido cunha máquina de vapor na capital de Lemos fíxose en xuño de 1882» / «Con anterioridade ao estreno oficial da liña de ferrocarril polos monarcas españois, o 4 de agosto de 1883»",
+        "hint": "",
+        "distractors": [
+          "Contraria: a viaxe de probas foi antes da inauguración",
+          "Contraria: a viaxe de probas foi antes da inauguración",
+          "",
+          "Contraria: a inauguración non pode ser a primeira"
+        ]
+      },
+      {
+        "id": "q9",
+        "text": "Que quere dicir «tendido» en «comprobar o estado do tendido»?",
+        "options": [
+          "A comida da viaxe",
+          "A vía por onde pasa o tren",
+          "O billete do tren",
+          "A cama dos vagóns"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "Comprobaban a vía do ferrocarril antes da inauguración oficial.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«para comprobar o estado do tendido»",
+        "hint": "",
+        "distractors": [
+          "Mestura: había un coche cociña, pero non é o tendido",
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "q10",
+        "text": "Que quere dicir «convoi» en «o convoi de probas»?",
+        "options": [
+          "O tren completo, con locomotora e vagóns",
+          "A estación de Monforte",
+          "O billete dos viaxeiros",
+          "O maquinista"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "O convoi é o tren, coa súa locomotora e os seus vagóns.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«o convoi de probas saíra de Madrid o día 3 de agosto»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Mestura: a estación é onde para o tren",
+          "Inventada: non se di nada diso",
+          "Mestura: os maquinistas non se nomean"
+        ]
+      },
+      {
+        "id": "q11",
+        "text": "Con que intención se presenta o exemplo de Sabela Fondo Quiroga?",
+        "options": [
+          "Ensinar a falar árabe",
+          "Recomendar viaxar a Arabia Saudí",
+          "Explicar como funciona unha consultoría",
+          "Amosar a importancia de ser perseverante e valente no traballo"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "Ao final, o programa di que coñecer o exemplo de Sabela amosa a importancia de ser perseverante e valente.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«sobre a importancia de ser perseverante e valente no mundo laboral, coñecendo o exemplo de Sabela Fondo Quiroga»",
+        "hint": "",
+        "distractors": [
+          "Mestura: só di que sabe algunhas palabras",
+          "Mestura: só conta onde traballa",
+          "Mestura: só di que non lle gustou",
+          ""
+        ]
+      },
+      {
+        "id": "q12",
+        "text": "Por que fala o programa dunha muller traballadora xusto despois do 8 de marzo?",
+        "options": [
+          "Porque o tren sae o 8 de marzo",
+          "Porque Radio Voz o pediu",
+          "Porque acababan de celebrar o Día da Muller Traballadora",
+          "Porque Sabela naceu un 8 de marzo"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "O programa di que acaban de celebrar o 8 de marzo e non podían faltar alusións a ese tema.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«acabamos de celebrar o 8 de marzo, Día da Muller Traballadora, e non podían faltar alusións a este tema»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      }
+    ],
+    reserveQuestions: [
+      {
+        "id": "r1",
+        "text": "Quen escribiu a carta sobre a chegada da caldeira a vapor?",
+        "options": [
+          "Diego",
+          "Un médico monfortino chamado Evaristo Rodríguez",
+          "O duque de Sesto",
+          "Alfonso XII"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "A carta manuscrita é dun médico monfortino chamado Evaristo Rodríguez.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«unha carta manuscrita dun médico monfortino chamado Evaristo Rodríguez»",
+        "hint": "",
+        "distractors": [
+          "Mestura: Diego investigou e conta o tema",
+          "",
+          "Mestura: o duque viaxaba no tren de probas",
+          "Mestura: o rei vai á inauguración oficial"
+        ]
+      },
+      {
+        "id": "r2",
+        "text": "Entre que lugares se fixo o primeiro percorrido cunha máquina de vapor en Monforte?",
+        "options": [
+          "Entre Ribas Altas e As Cruces",
+          "Entre Palencia e A Coruña",
+          "Entre Madrid e Quiroga",
+          "Entre San Clodio e Monforte"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "O primeiro percorrido foi en xuño de 1882 entre Ribas Altas e As Cruces.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«entre Ribas Altas e As Cruces»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Mestura: Palencia-A Coruña é a liña oficial",
+          "Mestura: o tren de probas saíu de Madrid",
+          "Mestura: San Clodio foi unha parada do tren de probas"
+        ]
+      },
+      {
+        "id": "r3",
+        "text": "A que hora chegou o tren de probas á estación de Monforte?",
+        "options": [
+          "Ás oito da tarde",
+          "Ás doce da mañá",
+          "Ás dezaoito corenta e cinco",
+          "Ás dez e corenta e cinco da mañá"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "Chegou ás dez e corenta e cinco horas da mañá do 4 de agosto.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Arribou á estación monfortina ás dez e corenta e cinco horas da mañá do 4 de agosto»",
+        "hint": "",
+        "distractors": [
+          "Mestura: ás oito da tarde parou en Palencia",
+          "Mestura: ás doce saíu de Madrid",
+          "Mestura: ás dezaoito corenta e cinco chegou á Coruña",
+          ""
+        ]
+      },
+      {
+        "id": "r4",
+        "text": "En que proxecto internacional participa Sabela Fondo Quiroga?",
+        "options": [
+          "No proxecto Destino de Renfe",
+          "Nun proxecto de Inditex en Londres",
+          "No proxecto Haramain, que leva o tren a A Meca",
+          "Nun proxecto de radio"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Forma parte do proxecto Haramain, que leva o tren á cidade de A Meca.",
+        "competency": "C1",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«o proxecto Haramain, que se encarga de levar o tren á cidade de A Meca»",
+        "hint": "",
+        "distractors": [
+          "Mestura: Destino é o blog de Renfe da entrevista",
+          "Mestura: Londres foi un traballo anterior",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r5",
+        "text": "Que se pode deducir de que a primeira viaxe entre Madrid e A Coruña durase trinta horas?",
+        "options": [
+          "Que a viaxe era moi curta",
+          "Que viaxar en tren daquela era moito máis lento ca hoxe",
+          "Que o tren ía moi rápido",
+          "Que non había paradas"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Trinta horas con paradas amosan que aquel tren era lento comparado cos actuais.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«durou nada máis de nada menos que trinta horas» / «estivo detida un par de horas para xantar»",
+        "hint": "",
+        "distractors": [
+          "Contraria: trinta horas é moito tempo",
+          "",
+          "Contraria: trinta horas non é ir rápido",
+          "Contraria: houbo paradas en Palencia, San Clodio e Monforte"
+        ]
+      },
+      {
+        "id": "r6",
+        "text": "Que se pode deducir da frase «lle daba igual o continente que fora»?",
+        "options": [
+          "Que quería formarse e vivir en calquera lugar do mundo",
+          "Que non quería saír de Galicia",
+          "Que non lle gustaban os continentes",
+          "Que só quería ir a Europa"
+        ],
+        "correct": 0,
+        "difficulty": "inferencia",
+        "explanation": "Daballe igual o continente: quería seguir formándose onde fose, aínda que fose lonxe.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«quixo seguir formándose no estranxeiro e que lle daba igual o continente que fora»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria: quería ir ao estranxeiro",
+          "Inventada: non se di nada diso",
+          "Contraria: tamén foi a Suráfrica e a Arabia Saudí"
+        ]
+      },
+      {
+        "id": "r7",
+        "text": "Que se pode deducir de que Sabela deixase a consultoría e opositase a Renfe?",
+        "options": [
+          "Que Renfe pagaba moito menos",
+          "Que odiaba o tren",
+          "Que quería volver estudar",
+          "Que buscaba un traballo que lle gustase máis e unido ao mundo do tren"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "A consultoría non lle gustou, e a súa familia xa estaba unida ao mundo do tren.",
+        "competency": "C2",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«entrou a traballar nunha consultoría, pero non lle gustou» / «a súa familia tiña relación co barrio da estación e co mundo do tren»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Contraria: animouse a opositar a Renfe polo tren",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "r8",
+        "text": "De que trata a primeira parte do programa?",
+        "options": [
+          "Dunha película sobre o deserto",
+          "Das actividades da biblioteca escolar",
+          "Da historia da chegada do tren a Monforte",
+          "Da vida laboral de Sabela"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Diego e Julia contan os primeiros trens de Monforte.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«O tren de Monforte ten un longo percorrido histórico»",
+        "hint": "",
+        "distractors": [
+          "Mestura: o documental é da segunda parte",
+          "Mestura: a biblioteca só aparece na presentación",
+          "",
+          "Mestura: iso é da segunda parte"
+        ]
+      },
+      {
+        "id": "r9",
+        "text": "De que trata a segunda parte do programa?",
+        "options": [
+          "Do coche cociña do tren",
+          "Da traxectoria dunha enxeñeira con raíces monfortinas",
+          "Do viaxe de probas de 1883",
+          "Da inauguración co rei"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "A segunda parte conta a traxectoria de Sabela Fondo Quiroga.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Imos agora coa nosa segunda parte ferroviaria. Desta volta nomeando a Sabela Fondo Quiroga»",
+        "hint": "",
+        "distractors": [
+          "Mestura: só se menciona dentro da primeira parte",
+          "",
+          "Mestura: iso é da primeira parte",
+          "Mestura: iso é da primeira parte"
+        ]
+      },
+      {
+        "id": "r10",
+        "text": "Cal é o mellor resumo do que conta Julia?",
+        "options": [
+          "Como foi a viaxe de probas do tren antes da inauguración oficial",
+          "Como se fai un tren de alta velocidade",
+          "Que fixo Sabela en Arabia Saudí",
+          "Como se celebra o 8 de marzo"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Julia conta a viaxe de probas de Madrid á Coruña, con paradas, tempos e composición do tren.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«o 4 de agosto de 1883 chegaba á estación de Monforte de Lemos o primeiro tren procedente de Castela»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Mestura: iso é da segunda parte",
+          "Mestura: iso é da segunda parte",
+          "Mestura: só se menciona ao principio"
+        ]
+      },
+      {
+        "id": "r11",
+        "text": "Cal sería o mellor título para a parte de Diego e Julia?",
+        "options": [
+          "Unha muller no deserto",
+          "Radio na Biblio",
+          "Un día na Renfe",
+          "Os primeiros trens de Monforte"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "Diego e Julia contan como chegaron os primeiros trens a Monforte.",
+        "competency": "C3",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«O tren de Monforte ten un longo percorrido histórico»",
+        "hint": "",
+        "distractors": [
+          "Mestura: iso é da segunda parte",
+          "Mestura: é só o contexto da visita",
+          "Mestura: Renfe aparece na segunda parte",
+          ""
+        ]
+      },
+      {
+        "id": "r12",
+        "text": "Que ocorreu despois de que o tren de probas parase en Palencia?",
+        "options": [
+          "Volveu a Madrid",
+          "Parou en Monforte para xantar",
+          "Seguiu ata San Clodio, onde parou unha hora",
+          "Chegou directamente á Coruña"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Despois de Palencia seguiu ata San Clodio, onde permaneceu unha hora parado.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Efectuou unha parada en Palencia ás oito da tarde. A viaxe proseguíu ata San Clodio»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Contraria: o xantar en Monforte foi despois",
+          "",
+          "Contraria: aínda faltaban San Clodio e Monforte"
+        ]
+      },
+      {
+        "id": "r13",
+        "text": "Que fixo a comitiva en Monforte antes de seguir cara á Coruña?",
+        "options": [
+          "Visitou unha escola",
+          "Parou un par de horas para xantar",
+          "Dormiu toda a noite",
+          "Cambiou de país"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "A comitiva do duque de Sesto estivo detida un par de horas para xantar.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«estivo detida un par de horas para xantar e reemprendeu a viaxe»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r14",
+        "text": "Que fixo Sabela despois de estudar enxeñería electrónica en Galiza?",
+        "options": [
+          "Foi facer o traballo fin de grao á República Checa",
+          "Foi a Arabia Saudí",
+          "Opositou a Renfe",
+          "Traballou como conductora"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Despois dos estudos foi facer o traballo fin de grao á República Checa.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Estudou enxeñería electrónica en Galiza e logo foi facer o traballo fin de grao á República Checa»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Contraria: Arabia Saudí é a súa experiencia actual",
+          "Contraria: opositou despois de varias experiencias",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r15",
+        "text": "Que pasou entre a chegada da caldeira a vapor e a inauguración oficial da liña?",
+        "options": [
+          "Non pasou nada",
+          "O rei chegou en tren de probas",
+          "Pechouse a estación",
+          "Houbo unha viaxe de proba antes do estreno"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "Antes do estreno oficial fíxose unha proba para asegurar que todo saíse segundo o previsto.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«unha proba preestreno para asegurar que todo saíse segundo o previsto»",
+        "hint": "",
+        "distractors": [
+          "Contraria: houbo unha proba preestreno",
+          "Mestura: o rei foi á inauguración oficial, non á proba",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "r16",
+        "text": "Como remata o programa?",
+        "options": [
+          "Cunha entrevista a Alfonso XII",
+          "Coa película sobre Haramain",
+          "Coa despedida aos radioíntes e a importancia de ser perseverante e valente",
+          "Coa música dun tren"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "A despedida resume o que se aprendeu: historia do tren e perseveranza de Sabela.",
+        "competency": "C4",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«despedimos este programa de Novas Monfortinas despois de coñecer máis sobre a historia do ferrocarril de Monforte»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Mestura: o documental só se menciona na entrevista",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r17",
+        "text": "Que quere dicir «arribou» en «Arribou á estación monfortina»?",
+        "options": [
+          "Se perdeu",
+          "Chegou",
+          "Saíu",
+          "Parou unha hora"
+        ],
+        "correct": 1,
+        "difficulty": "facil",
+        "explanation": "Arribar significa chegar a un lugar.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Arribou á estación monfortina ás dez e corenta e cinco horas da mañá do 4 de agosto»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Contraria: saíu de Madrid, non de Monforte",
+          "Mestura: parou unha hora en San Clodio"
+        ]
+      },
+      {
+        "id": "r18",
+        "text": "Que quere dicir «opositar a Renfe»?",
+        "options": [
+          "Presentarse a unhas probas para conseguir un posto na empresa",
+          "Ir contra a empresa",
+          "Viaxar gratis en tren",
+          "Comprar unha locomotora"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Opositar é presentarse a un proceso de probas para ocupar un posto.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«animouse a opositar a Renfe»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Mestura: oponerse ten outro sentido",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r19",
+        "text": "Que quere dicir «Haberá que seguirlla a pista»?",
+        "options": [
+          "Esquecela",
+          "Dicirlle que pare",
+          "Buscala nunha vía",
+          "Estar atentos ao que fai a partir de agora"
+        ],
+        "correct": 3,
+        "difficulty": "facil",
+        "explanation": "Seguir a pista é estar atentos ao que vai facendo.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Haberá que seguirlla a pista»",
+        "hint": "",
+        "distractors": [
+          "Contraria: o programa quere seguir a súa carreira",
+          "Contraria: non se lle pide que pare",
+          "Mestura: pista aquí non son as vías do tren",
+          ""
+        ]
+      },
+      {
+        "id": "r20",
+        "text": "Que quere dicir «xantar» en «para xantar e reemprendeu a viaxe»?",
+        "options": [
+          "Cambiar de locomotora",
+          "Repostar carbón",
+          "Comer ao mediodía",
+          "Durmir"
+        ],
+        "correct": 2,
+        "difficulty": "facil",
+        "explanation": "Xantar é comer ao mediodía; a comitiva parou para iso en Monforte.",
+        "competency": "C5",
+        "secondary": [],
+        "level": "inicial",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«estivo detida un par de horas para xantar e reemprendeu a viaxe»",
+        "hint": "",
+        "distractors": [
+          "Mestura: as locomotoras cambiáronse en Monforte, pero non é xantar",
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r21",
+        "text": "Para que menciona Diego a carta manuscrita de Evaristo Rodríguez?",
+        "options": [
+          "Para anunciar un concurso",
+          "Para amosar que o que conta ten unha fonte real",
+          "Para ensinar a escribir cartas",
+          "Para falar da súa familia"
+        ],
+        "correct": 1,
+        "difficulty": "inferencia",
+        "explanation": "Diego di «Sabemos isto por unha carta» para dar unha proba do que conta.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«Sabemos isto por unha carta manuscrita dun médico monfortino chamado Evaristo Rodríguez»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r22",
+        "text": "Para que aproveitan a visita de Antía e Sonia de Radio Voz?",
+        "options": [
+          "Para facer un programa de radio sobre o tren",
+          "Para repartir libros",
+          "Para estudar enxeñería",
+          "Para organizar unha viaxe"
+        ],
+        "correct": 0,
+        "difficulty": "facil",
+        "explanation": "Como non tiñan un programa de radio sobre o tren, aproveitan a visita para facelo.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«aproveitamos hoxe coa visita de Antía e Sonia de Radio Voz para facelo»",
+        "hint": "",
+        "distractors": [
+          "",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso",
+          "Inventada: non se di nada diso"
+        ]
+      },
+      {
+        "id": "r23",
+        "text": "Para que presenta o programa dúas partes diferentes?",
+        "options": [
+          "Para comparar dous trens",
+          "Para promover unha película",
+          "Para vender billetes",
+          "Para falar da historia do tren e do traballo actual dunha persoa con raíces monfortinas"
+        ],
+        "correct": 3,
+        "difficulty": "inferencia",
+        "explanation": "Cada parte trata un aspecto: o histórico e a vida laboral dunha muller con raíces monfortinas.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«dous aspectos relacionados co tren. Un deles, o aspecto histórico, e outro, a vida laboral dunha muller con raíces monfortinas»",
+        "hint": "",
+        "distractors": [
+          "Inventada: non se di nada diso",
+          "Mestura: o documental só se menciona dentro da segunda parte",
+          "Inventada: non se di nada diso",
+          ""
+        ]
+      },
+      {
+        "id": "r24",
+        "text": "Que actitude amosa o programa cara a Sabela Fondo Quiroga?",
+        "options": [
+          "Enfado",
+          "Medo",
+          "Admiración polo que consegue sendo tan nova",
+          "Indiferenza"
+        ],
+        "correct": 2,
+        "difficulty": "inferencia",
+        "explanation": "Dise que ten moito mérito o que vai conseguindo, porque é moi nova.",
+        "competency": "C6",
+        "secondary": [],
+        "level": "intermedia",
+        "classReviewed": true,
+        "format": "multiple_choice",
+        "evidence": "«ten moito mérito o que vai conseguindo, porque é moi nova»",
+        "hint": "",
+        "distractors": [
+          "Contraria: nin se menciona enfado",
+          "Contraria: o tono é positivo",
+          "",
+          "Contraria: valóraa moito"
+        ]
+      }
+    ],
+    config: { modality: 'revision', showPre: true, showReview: true, showCompetencyLabels: true,
+      context: 'Vas escoitar un programa de Novas Monfortinas sobre o tren: a súa chegada a Monforte e unha enxeñeira con raíces monfortinas.',
+      anticipation: 'Sabes cando chegou o tren a Monforte? Coñeces a alguén que traballe co tren ou nun lugar lonxe de aquí?' },
+    seedTestVersion: 1, seedTest12Version: 1, seedPoolVersion: 1,
+    schemaVersion: 2
+  };
+}
+async function seedThirteenthPodcast(){
+  const existing = await cloudGetPodcast(SEED_PODCAST_ID_13);
+  if(existing && existing.transcript) return;
+  await cloudSavePodcast(trenSeedRecord());
+}
+
 const SEED_PODCAST_ID_4 = 'seed-un-pais-en-podcast-cuba';
 
 const SEED_PODCAST_ID_5 = 'seed-un-pais-en-podcast-filipinas';
@@ -9635,7 +10614,8 @@ const SEED_AUDIO_FILES = {
   [SEED_PODCAST_ID_9]: 'audio/republica_checa_un_pais_en_podcast.mp3',
   [SEED_PODCAST_ID_10]: 'audio/ricitos_de_oro_radio_forte.mp3',
   [SEED_PODCAST_ID_11]: 'audio/samain_radio_forte.mp3',
-  [SEED_PODCAST_ID_12]: 'audio/toponimos_camino_inverno_radio_forte.mp3'
+  [SEED_PODCAST_ID_12]: 'audio/toponimos_camino_inverno_radio_forte.mp3',
+  [SEED_PODCAST_ID_13]: 'audio/novas_monfortinas_tren_radio_forte.mp3'
 };
 function resolveAudioSource(podcast){
   if(SEED_AUDIO_FILES[podcast.id]) return { url: SEED_AUDIO_FILES[podcast.id] };
@@ -12117,7 +13097,8 @@ const SEED_CATEGORIES = {
   [SEED_PODCAST_ID_9]: ['pais'],
   [SEED_PODCAST_ID_10]: ['contos','infantil'],
   [SEED_PODCAST_ID_11]: ['datas','cultura'],
-  [SEED_PODCAST_ID_12]: ['galego','cultura']
+  [SEED_PODCAST_ID_12]: ['galego','cultura'],
+  [SEED_PODCAST_ID_13]: ['novas']
 };
 async function upgradeSeedCategories(){
   initFirebase();
@@ -12423,7 +13404,7 @@ async function upgradeSeedCountry(){
   if(doc.exists && doc.data().country === undefined) await ref.update({ country: 'CU' });
 }
 
-Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast(), seedNinthPodcast(), seedTenthPodcast(), seedEleventhPodcast(), seedTwelfthPodcast()])
+Promise.all([seedInitialPodcast(), seedSecondPodcast(), seedThirdPodcast(), seedFourthPodcast(), seedFifthPodcast(), seedSixthPodcast(), seedSeventhPodcast(), seedEighthPodcast(), seedNinthPodcast(), seedTenthPodcast(), seedEleventhPodcast(), seedTwelfthPodcast(), seedThirteenthPodcast()])
   .then(()=>upgradeSeedClassifications())
   .then(()=>upgradeSeedExtras())
   .then(()=>upgradeSeedInference())
