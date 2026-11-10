@@ -534,6 +534,10 @@ async function waitFor(fn, ms=4000){ const t0 = Date.now(); while(Date.now()-t0 
     ok('novas monfortinas: 12 preguntas equilibradas, 4 opcións, sen verdadeiro/falso e audio asignado', tr.questions.length === 12 && E(`testBalance(${JSON.stringify(tr.questions)})`).ok && tr.questions.every(q=>q.options.length === 4 && q.classReviewed === true) && tr.reserveQuestions.length === 24);
   }
 
+  // ---------- Aviso de duración para o profesorado ----------
+  { const adv = $('#durationAdvice');
+    ok('aviso de duración: a páxina principal recomenda duración por idade', adv && /3 minutos/.test(adv.textContent) && /6 minutos/.test(adv.textContent) && /9 minutos/.test(adv.textContent) && /profesorado/i.test(adv.textContent)); }
+
   // ---------- Un país en podcast: Casablanca ----------
   { const cb = store.podcasts['seed-un-pais-en-podcast-casablanca'];
     ok('casablanca: país MA, categoría pais, ciclo 2º e 3º e transcrición sen marcas [..]', cb && cb.country === 'MA' && JSON.stringify(cb.categories) === '["pais"]' && cb.cycle === '2º e 3º ciclo' && !cb.transcript.some(l=>/\[|\]/.test(l)) && !/Hadilla|Xadilla/.test(JSON.stringify(cb)));
